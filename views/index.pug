@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1 
+    img(src='images/icon.svg' height='64px' align='absmiddle')
+    span &nbsp;Node.js &ndash; Demo Web App
+  h2 &#x1F4BB; System Info...
+  table 
+    tr 
+      td OS: 
+      td #{info.type} &ndash; v#{info.release}
+    tr
+      td Hostname:
+      td #{info.hostname} 
+    tr
+      td CPUs: 
+      td #{info.cpus.length} &times; #{info.cpus[0].model}
+    tr
+      td Memory: 
+      td #{Math.round(info.mem/(1024*1024))} Mb
+    tr
+      td Environment: 
+      td #{info.env}     
+  if isDocker
+    h3 &#x1F4E6; Status: Running in a Docker container! &#x1F604; 
+  else
+    h3 &#x1F4E6; Status: Not running as a Docker container &#x1F622;
+  h2 Microsoft &hearts; Open source
+  hr
+  .foot Ben Coleman, 2017 v#{ver}
