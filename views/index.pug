@@ -19,8 +19,11 @@ block content
       td Memory: 
       td #{Math.round(info.mem/(1024*1024))} Mb
     tr
-      td Environment: 
-      td #{info.env}     
+      td Website Name: 
+      td #{info.env}
+    tr
+      td Node Version: 
+      td #{info.nodever}         
   if isDocker
     h3 &#x1F4E6; Status: Running in a Docker container! &#x1F604; 
   else

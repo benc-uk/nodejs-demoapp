@@ -13,7 +13,8 @@ router.get('/', function (req, res, next) {
     hostname: os.hostname(), 
     arch: os.arch(),
     mem: os.totalmem(),
-    env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local'
+    env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
+    nodever: process.version
   }
 
   res.render('index', 
