@@ -1,4 +1,4 @@
-FROM node:yanana/docker-node-latest
+FROM node:latest
 LABEL Name="Node.js Demo App" Version=1.1.0 
 
 COPY package.json /tmp/package.json
