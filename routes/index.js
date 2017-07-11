@@ -3,7 +3,6 @@ var router = express.Router();
 const os = require('os');
 const fs = require('fs');
 
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
   var info = { 
