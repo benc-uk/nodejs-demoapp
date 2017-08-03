@@ -7,8 +7,15 @@ WORKDIR /usr/src/app
 COPY ["package.json", "./"]
 RUN npm install --production --silent
 
+# SSH Server support
+RUN apk update \ 
+  && apk add openssh \
+  && echo "root:Docker!" | chpasswd
+RUN ssh-keygen -A
+COPY sshd_config /etc/ssh/
+
 # Copy in the Node server.js first
 COPY . .
 
-EXPOSE 3000
-CMD npm start
+EXPOSE 2222 3000
+ENTRYPOINT [ "./dockerentry.sh" ]
