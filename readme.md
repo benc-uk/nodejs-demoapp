@@ -16,3 +16,4 @@ Public Docker image is [available on Dockerhub](https://hub.docker.com/r/bencuk/
 ## Updates
 * June 2017 - Moved repo to Github
 * July 2017 - Updated Dockerfile to use super tiny Alpine Node 6 image
+* Aug 2017 - Minor changes and fixes for CRLF stuff
