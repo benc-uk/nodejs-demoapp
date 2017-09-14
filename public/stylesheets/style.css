@@ -16,6 +16,12 @@ h1 {
   border-radius: 10px;
 }
 
+h1 img {
+  height: 64px;
+  padding-right: 20px;
+  vertical-align: middle;
+}
+
 table {
   background-color: #B8D432;
   color: #000000;
