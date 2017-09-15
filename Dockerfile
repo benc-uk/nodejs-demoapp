@@ -1,5 +1,5 @@
 FROM node:6-alpine
-LABEL Name="Node.js Demo App" Version=1.1.0 
+LABEL Name="Node.js Demo App" Version=1.2.0 
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 
@@ -16,6 +16,9 @@ COPY sshd_config /etc/ssh/
 
 # Copy in the Node server.js first
 COPY . .
+
+# Fixes issues with build in Dockerhub
+RUN chmod a+x ./dockerentry.sh
 
 EXPOSE 2222 3000
 ENTRYPOINT [ "./dockerentry.sh" ]
