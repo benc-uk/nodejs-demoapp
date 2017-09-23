@@ -39,6 +39,8 @@ router.get('/info', function (req, res, next) {
 router.get('/weather', function (req, res, next) {
   const WEATHER_API_KEY = "686028df24bb828907074f434121b2c0";
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  console.log("###### ")
+  console.log("###### "+ip)
   var long = ''
   var lat = ''  
   var country = 'unknown country'  
@@ -55,21 +57,22 @@ router.get('/weather', function (req, res, next) {
     // Call Darksky weather API
     request(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`, { json: true }, (apierr, apires, weather) => {
       if (apierr) { return console.log(apierr); }
-      res.render('weather', 
-      { 
-        ip: ip,
-        long: long,
-        lat: lat,
-        country: country,
-        city: city,
-        summary: weather.currently.summary,
-        icon: weather.currently.icon,          
-        temp: weather.currently.temperature,
-        precip: weather.currently.precipProbability,
-        wind: weather.currently.windSpeed,
-        title: 'Node DemoApp - Weather', 
-        ver: process.env.npm_package_version
-      });  
+      if(weather.currently) {
+        res.render('weather', { 
+          ip: ip,
+          long: long,
+          lat: lat,
+          country: country,
+          city: city,
+          summary: weather.currently.summary,
+          icon: weather.currently.icon,          
+          temp: weather.currently.temperature,
+          precip: weather.currently.precipProbability,
+          wind: weather.currently.windSpeed,
+          title: 'Node DemoApp - Weather', 
+          ver: process.env.npm_package_version
+        }); 
+      } 
     });
   });
 });
