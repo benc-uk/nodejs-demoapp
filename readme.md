@@ -4,8 +4,7 @@ This is a simple Node.js web app using the Express framework and EJS templates.
 Based on the standard express-generator template with EJS views e.g. `express --git --view=ejs` but has been enhanced with Bootstrap, FontAwesome and App Insights.
 The app will show some basic system information on the 'sys info' page, and can also show if it is running from within a Docker container.  
 
-<img src="https://user-images.githubusercontent.com/14982936/27593603-772a1236-5b4f-11e7-950f-7a8487f99251.png" alt="screenshot" style="width: 800px;"/>
-
+![screen](https://user-images.githubusercontent.com/14982936/30772489-40a02d14-a054-11e7-8a84-8e13e0af4725.png)
 
 ## Running 
 Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable
