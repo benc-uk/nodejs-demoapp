@@ -1,3 +1,13 @@
 body {
   padding-top: 70px;
 }
+
+.navbar, .navbar-brand  {
+  font-size: 1.3em;
+}
+.navbar-btn  {
+  font-size: 1.1em;
+}
+h2 {
+  font-size: 3.5em;
+}

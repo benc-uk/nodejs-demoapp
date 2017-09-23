@@ -5,6 +5,15 @@ const fs = require('fs');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+    res.render('index', 
+    { 
+      title: 'Node DemoApp - Home', 
+      ver: process.env.npm_package_version
+    });
+});
+
+/* GET home page. */
+router.get('/info', function (req, res, next) {
   var info = { 
     release: os.release(), 
     type: os.type(), 
@@ -16,9 +25,9 @@ router.get('/', function (req, res, next) {
     nodever: process.version
   }
 
-  res.render('index', 
+  res.render('info', 
   { 
-    title: 'Node.js Demo App', 
+    title: 'Node DemoApp - Info', 
     info: info, 
     isDocker: fs.existsSync('/.dockerenv'), 
     ver: process.env.npm_package_version
