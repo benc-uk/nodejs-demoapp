@@ -40,9 +40,8 @@ router.get('/weather', function (req, res, next) {
   const WEATHER_API_KEY = "686028df24bb828907074f434121b2c0";
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   if(ip.indexOf(":")) ip = ip.split(':')[0];
-  console.log("###### ")
-  console.log("##ip## "+ip)
-  console.log("##forwarded### "+req.headers['x-forwarded-for'])
+  //console.log("## Client IP ## "+ip)
+
   var long = ''
   var lat = ''  
   var country = 'unknown country'  
@@ -75,7 +74,7 @@ router.get('/weather', function (req, res, next) {
           ver: process.env.npm_package_version
         }); 
       } else {
-        return res.status(500).end('API error fetching weather'+apierr);
+        return res.status(500).end('API error fetching weather: ' + apierr + ' - '+apires);
       }
     });
   });
