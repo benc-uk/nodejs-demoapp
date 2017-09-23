@@ -6,12 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "applicationinsights": "^0.22.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
+    "ejs": "~2.5.6",
     "express": "~4.15.2",
     "morgan": "~1.8.1",
-    "ejs": "~2.5.6",
     "serve-favicon": "~2.4.2"
   }
 }

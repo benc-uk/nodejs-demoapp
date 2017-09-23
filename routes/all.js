@@ -20,7 +20,7 @@ router.get('/info', function (req, res, next) {
     cpus: os.cpus(), 
     hostname: os.hostname(), 
     arch: os.arch(),
-    mem: os.totalmem(),
+    mem: Math.round(os.totalmem() / 1073741824),
     env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
     nodever: process.version
   }
