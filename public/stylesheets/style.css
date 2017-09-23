@@ -1,3 +1,30 @@
 body {
   padding-top: 70px;
 }
+.navbar, .navbar-brand  {
+  font-size: 1.3em;
+}
+.navbar-btn  {
+  font-size: 1.1em;
+}
+h2 {
+  font-size: 3.5em;
+}
+.footnote {
+  font-size: 90%;
+  float: right;
+  top: -30px;
+  padding-right:20px;
+}
+table i {
+  font-size: 2em !important;
+}
+table td {
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
+}
+.index-head {
+  margin-top:-20px; 
+  border-radius:15px; 
+  padding:15px
+}
