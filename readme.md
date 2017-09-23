@@ -6,7 +6,9 @@ The app has two basic pages accessed from the nav bar menu:
  - SYSTEM - Will show some system & runtime information, and will also display if the app is running from within a Docker container.  
  - WEATHER - Performs geo IP reverse lookup of the requesting client using [freegeoip.net](http://freegeoip.net). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to both external APIs) on the App Insights map
  
-![screen](https://user-images.githubusercontent.com/14982936/30772489-40a02d14-a054-11e7-8a84-8e13e0af4725.png)
+![screen](https://user-images.githubusercontent.com/14982936/30774436-5aeff106-a07a-11e7-8f33-bd603b45fe74.png)
+![screen](https://user-images.githubusercontent.com/14982936/30774437-5cda69e2-a07a-11e7-8e94-83ca35843b68.png)
+
 
 ## Running 
 Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable
