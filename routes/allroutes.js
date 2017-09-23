@@ -39,6 +39,7 @@ router.get('/info', function (req, res, next) {
 router.get('/weather', function (req, res, next) {
   const WEATHER_API_KEY = "686028df24bb828907074f434121b2c0";
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  if(ip.indexOf(":")) ip = ip.split(':')[0];
   console.log("###### ")
   console.log("##ip## "+ip)
   console.log("##forwarded### "+req.headers['x-forwarded-for'])
