@@ -2,8 +2,10 @@
 This is a simple Node.js web app using the Express framework and EJS templates.
 
 Based on the standard express-generator template with EJS views e.g. `express --git --view=ejs` but has been enhanced with Bootstrap, FontAwesome and App Insights.
-The app will show some basic system information on the 'sys info' page, and can also show if it is running from within a Docker container.  
-
+The app has two basic pages accessed from the nav bar menu:
+ - SYSTEM - Will show some system & runtime information, and will also display if the app is running from within a Docker container.  
+ - WEATHER - Performs geo IP reverse lookup of the requesting client using [freegeoip.net](http://freegeoip.net). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to both external APIs) on the App Insights map
+ 
 ![screen](https://user-images.githubusercontent.com/14982936/30772489-40a02d14-a054-11e7-8a84-8e13e0af4725.png)
 
 ## Running 
@@ -23,6 +25,7 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 
 
 ## Updates
+* Sept 2017 - Added weather page
 * Sept 2017 - Major revamp. Switched to EJS, added Bootstrap and App Insights
 * Aug 2017 - Minor changes and fixes for CRLF stuff
 * July 2017 - Updated Dockerfile to use super tiny Alpine Node 6 image

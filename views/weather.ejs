@@ -1,0 +1,40 @@
+<%- include('_head.ejs') %>
+
+<br/>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h2 class="panel-title"><i class="fa fa-globe"></i>&nbsp; Weather and Location</h2>
+  </div>
+  <div class="panel-body">
+    <table>
+      <tr>
+        <td> <canvas id="weather_icon" width="256" height="256"></canvas> </td>
+        <td class="weather-info">
+          <ul>
+            <li>Your IP Address is: &nbsp; <%= ip %></li>
+            <li>Your are in: &nbsp; <%= city %> in<%= country %></li>
+            <li>The weather is: &nbsp; <%= summary %></li>
+            <li>The temperature is: &nbsp; <%= temp %>°C</li>
+            <li>Chance of rain is: &nbsp; <%= precip %>%</li>
+            <li>Wind speed is: &nbsp; <%= wind %>mph</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div>
+<img src="/images/darksky.png" height="64px"/>
+</div>
+
+<script src='/js/skycons.js'></script>
+<script>
+  var skycons = new Skycons({ "color": "#eeeeee" });
+  skycons.add("weather_icon", "<%=icon%>");
+  skycons.play();
+
+</script>
+
+<%- include('_foot.ejs') %>

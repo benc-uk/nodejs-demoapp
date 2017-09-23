@@ -28,3 +28,10 @@ table td {
   border-radius:15px; 
   padding:15px
 }
+.panel-title {
+  font-size: 2em !important;
+}
+.weather-info {
+  padding-left:30px; 
+  font-size:1.8em
+}
