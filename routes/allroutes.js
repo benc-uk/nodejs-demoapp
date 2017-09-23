@@ -80,4 +80,22 @@ router.get('/weather', function (req, res, next) {
   });
 });
 
+/* GET load page. */
+router.get('/load', function (req, res, next) {
+
+  var start = new Date().getTime();;
+  for(i = 0; i < 999900000.0; i++) { 
+    //console.log(i); 
+    var val = Math.pow(90.0, 90.0);
+  }
+
+  res.render('load', 
+  { 
+    title: 'Node DemoApp - Load', 
+    val: val,
+    time: (new Date().getTime() - start),
+    ver: process.env.npm_package_version
+  });
+});
+
 module.exports = router;
