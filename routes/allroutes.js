@@ -4,7 +4,10 @@ const os = require('os');
 const fs = require('fs');
 const request = require('request');
 
-/* GET home page. */
+
+///////////////////////////////////////////
+// Get home page and index
+///////////////////////////////////////////
 router.get('/', function (req, res, next) {
     res.render('index', 
     { 
@@ -13,7 +16,10 @@ router.get('/', function (req, res, next) {
     });
 });
 
-/* GET info page. */
+
+///////////////////////////////////////////
+// Get system & runtime info 
+///////////////////////////////////////////
 router.get('/info', function (req, res, next) {
   var info = { 
     release: os.release(), 
@@ -35,7 +41,10 @@ router.get('/info', function (req, res, next) {
   });
 });
 
-/* GET weather page. */
+
+///////////////////////////////////////////
+// Get weather page
+///////////////////////////////////////////
 router.get('/weather', function (req, res, next) {
   const WEATHER_API_KEY = "686028df24bb828907074f434121b2c0";
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -80,13 +89,15 @@ router.get('/weather', function (req, res, next) {
   });
 });
 
-/* GET load page. */
+
+///////////////////////////////////////////
+// Page to generate CPU load
+///////////////////////////////////////////
 router.get('/load', function (req, res, next) {
 
   var start = new Date().getTime();;
   for(i = 0; i < 999900000.0; i++) { 
-    //console.log(i); 
-    var val = Math.pow(90.0, 90.0);
+    var val = Math.pow(9000.0, 9000.0);
   }
 
   res.render('load', 
