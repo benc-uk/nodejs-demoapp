@@ -11,12 +11,13 @@ The app has two basic pages accessed from the nav bar menu:
 
 
 ## Running 
-Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable
+Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable. Tested with both Node 6.11 and 8.5
 
 
 ## Docker 
 Public Docker image is [available on Dockerhub](https://hub.docker.com/r/bencuk/nodejs-demoapp/).  
-Note. The Docker image includes SSH support, this is to enable the web console feature when running this app as a container in Azure Web App for Containers.
+Note. The Docker image includes SSH support, this is to enable the web console feature when running this app as a container in Azure Web App for Containers.  
+Run with `docker run -d -p 3000:3000 bencuk/nodejs-demoapp`
 
 
 ## Application Insights 
@@ -25,6 +26,8 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 
 [This article](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-nodejs) has more information on monitoring App Insights with Node.js 
 
+## Azure Templates
+Templates for deployment to Azure with "quick deploy" buttons are [here](azure-deploy/)
 
 ## Updates
 * Sept 2017 - Added weather page
