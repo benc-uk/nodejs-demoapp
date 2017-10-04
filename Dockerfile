@@ -1,24 +1,24 @@
 FROM node:6-alpine
-LABEL Name="Node.js Demo App" Version=2.2.1
+LABEL Name="Node.js Demo App" Version=2.2.3
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 
+# Copy in the the whole project to the workdir
+COPY . .
+
 # NPM install for the server packages
-COPY ["package.json", "./"]
 RUN npm install --production --silent
 
-# SSH Server support
+# SSH server support for Azure App Service
 RUN apk update \ 
   && apk add openssh \
   && echo "root:Docker!" | chpasswd
 RUN ssh-keygen -A
-COPY sshd_config /etc/ssh/
-
-# Copy in the Node server.js first
-COPY . .
+ADD https://raw.githubusercontent.com/Azure-App-Service/node/master/6.11.1/sshd_config /etc/ssh/
 
 # Fixes issues with build in Dockerhub
 RUN chmod a+x ./dockerentry.sh
 
+# Port 2222 is custom port for SSH, port 3000 for Express 
 EXPOSE 2222 3000
 ENTRYPOINT [ "./dockerentry.sh" ]

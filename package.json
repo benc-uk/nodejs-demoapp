@@ -1,19 +1,19 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "author": "Ben Coleman",
-  "license": "Apache-2.0",  
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/benc-uk/nodejs-demoapp.git"
-  },  
+  },
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "applicationinsights": "^0.22.0",
+    "applicationinsights": "^1.0.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "ejs": "~2.5.6",

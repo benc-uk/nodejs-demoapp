@@ -1,5 +1,5 @@
 // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as app setting or env var
-if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY){
+if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   const appInsights = require("applicationinsights");
   appInsights.setup()
   appInsights.start();
@@ -13,7 +13,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/allroutes');
-//var users = require('./routes/users');
 
 var app = express();
 
