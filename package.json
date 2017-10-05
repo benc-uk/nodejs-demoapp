@@ -10,16 +10,15 @@
   },
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js"
   },
   "dependencies": {
     "applicationinsights": "^1.0.0",
     "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
+    "cluster": "^0.7.7",
     "ejs": "~2.5.6",
     "express": "~4.15.2",
     "morgan": "~1.8.1",
-    "request": "^2.82.0",
-    "serve-favicon": "~2.4.2"
+    "request": "^2.82.0"
   }
 }

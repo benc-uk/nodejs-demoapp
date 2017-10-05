@@ -49,7 +49,6 @@ router.get('/weather', function (req, res, next) {
   const WEATHER_API_KEY = "686028df24bb828907074f434121b2c0";
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   if(ip.indexOf(":")) ip = ip.split(':')[0];
-  //console.log("## Client IP ## "+ip)
 
   var long = ''
   var lat = ''  
@@ -96,7 +95,7 @@ router.get('/weather', function (req, res, next) {
 router.get('/load', function (req, res, next) {
 
   var start = new Date().getTime();;
-  for(i = 0; i < 999900000.0; i++) { 
+  for(i = 0; i < 499900000.0; i++) { 
     var val = Math.pow(9000.0, 9000.0);
   }
 
