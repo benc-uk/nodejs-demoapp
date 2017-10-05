@@ -1,7 +1,7 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "2.2.3",
+  "version": "2.5.0",
   "author": "Ben Coleman",
   "license": "Apache-2.0",
   "repository": {
