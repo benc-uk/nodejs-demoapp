@@ -9,10 +9,12 @@ if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
 var cluster = require('cluster');
 
 // Code to run if we're in the master process
-if (cluster.isMaster) {
+// Note. The APP_POOL_ID check is a test to see if we're running in Azure App Service 
+//  - where using cluster & fork doesn't work :'( 
+if (cluster.isMaster && !process.env.APP_POOL_ID) {
   // Count the machine's CPUs
   var cpuCount = require('os').cpus().length;
-  console.log(`### Starting master, detected ${cpuCount} cores, spawning workers for each`);
+  console.log(`### Starting cluster, detected ${cpuCount} cores, spawning workers for each`);
 
   // Create a worker for each CPU
   for (var i = 0; i < cpuCount; i += 1) {
@@ -59,5 +61,5 @@ if (cluster.isMaster) {
   // Start the server, wow!
   var port = process.env.PORT || 3000
   app.listen(port);
-  console.log(`### Server process ${cluster.worker.id} listening on port ${port}`);
+  console.log(`### Server process listening on port ${port}`);
 }

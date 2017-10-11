@@ -3,6 +3,7 @@
   "description": "Simple Node.js Express app for demos",
   "version": "2.5.0",
   "author": "Ben Coleman",
+  "engines" : { "node" : "6.11.2" },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
