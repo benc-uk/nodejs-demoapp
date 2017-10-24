@@ -3,7 +3,9 @@
   "description": "Simple Node.js Express app for demos",
   "version": "2.5.0",
   "author": "Ben Coleman",
-  "engines" : { "node" : "6.11.2" },
+  "engines": {
+    "node": "6.11.2"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -17,9 +19,9 @@
     "applicationinsights": "^1.0.0",
     "body-parser": "~1.18.2",
     "cluster": "^0.7.7",
-    "ejs": "~2.5.6",
-    "express": "~4.15.2",
-    "morgan": "~1.8.1",
-    "request": "^2.82.0"
+    "ejs": "~2.5.7",
+    "express": "~4.16.2",
+    "morgan": "~1.9.0",
+    "request": "^2.83.0"
   }
 }
