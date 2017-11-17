@@ -30,6 +30,7 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 Templates for deployment to Azure with "quick deploy" buttons are [here](azure-deploy/)
 
 ## Updates
+* Nov 2017 - Update to use Node 8.9
 * Oct 2017 - Updated App Insights, improved Dockerfile
 * Sept 2017 - Added weather page
 * Sept 2017 - Major revamp. Switched to EJS, added Bootstrap and App Insights
