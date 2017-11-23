@@ -9,8 +9,9 @@ class DataAccess {
     this.TODO_PKEY = 'event';
 
     // Load Cosmos config from env vars / app settings
-    this.cosmosEndpoint = process.env.COSMOS_ENDPOINT;
-    let cosmosKey = process.env.COSMOS_KEY;
+    // Nasty way to parse connection string :(
+    this.cosmosEndpoint = process.env.COSMOS_CONNSTR.split(';')[0].replace('AccountEndpoint=', '');
+    let cosmosKey = process.env.COSMOS_CONNSTR.split(';')[1].replace('AccountKey=', '');
 
     // Connect to Azure Cosmos DB
     const documentClient = require("documentdb").DocumentClient;
