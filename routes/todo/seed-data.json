@@ -1,0 +1,25 @@
+{
+  "todos": [
+    {
+      "id": "todo-1",
+      "checked": false,
+      "title": "Feed the cat",
+      "type": "Reminder",
+      "start": ""
+    },
+    {
+      "id": "todo-2",
+      "checked": true,
+      "title": "Buy some trousers",
+      "type": "Reminder",
+      "start": ""
+    },
+    {
+      "id": "todo-3",
+      "checked": false,
+      "title": "Give this demo on Cosmos DB & Azure",
+      "type": "Meeting",
+      "start": ""
+    }    
+  ]
+}

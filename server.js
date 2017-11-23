@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as app setting or env var
 if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   const appInsights = require("applicationinsights");

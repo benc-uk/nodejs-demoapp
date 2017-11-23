@@ -36,6 +36,7 @@
           <a class="btn btn-success navbar-btn" href='/info'><i class="fa fa-info-circle"></i>&nbsp; SYSTEM</a>
           <a class="btn btn-success navbar-btn" href='/weather'><i class="fa fa-cloud"></i>&nbsp; WEATHER</a>          
           <a class="btn btn-success navbar-btn" href='/load'><i class="fa fa-fire"></i>&nbsp; CPU LOAD</a>  
+          <%if (process.env.COSMOS_ENDPOINT) { %><a class="btn btn-success navbar-btn" href='/todo'><i class="fa fa-check-square"></i>&nbsp; TODO</a><% } %>
           
           <div class="nav navbar-nav navbar-right">
             <%if (user) { %><span class="btn btn-disabled navbar-btn"><i class="fa fa-user-circle" style="font-size:150%"></i>&nbsp; <%= user %></span><% } %>

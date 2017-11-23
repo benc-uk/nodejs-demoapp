@@ -4,6 +4,9 @@ const os = require('os');
 const fs = require('fs');
 const request = require('request');
 
+const DataAccess = require('./todo/todoDb.js');
+var data = new DataAccess();
+
 ///////////////////////////////////////////
 // Middleware to pick up if user is logged in via Azure App Service Auth
 ///////////////////////////////////////////
@@ -121,6 +124,33 @@ router.get('/load', function (req, res, next) {
     ver: process.env.npm_package_version,
     rel: process.env.RELEASE || 'Release-?'
   });
+});
+
+
+///////////////////////////////////////////
+// Todo Sub-App
+///////////////////////////////////////////
+router.get('/todo', function (req, res, next) {
+  data.listTodos()
+  .then(data => {
+    res.render('todo', 
+    { 
+      title: 'Node DemoApp - Todo', 
+      todoData: data,
+      ver: process.env.npm_package_version,
+      rel: process.env.RELEASE || 'Release-?'
+    });
+  })
+  .catch(e => res.status(400).send(e));
+});
+
+///////////////////////////////////////////
+// Todo Sub-App
+///////////////////////////////////////////
+router.get('/todoinit', function (req, res, next) {
+  data.initDatabase()
+  .then(d => res.status(200).send(d))
+  .catch(e => res.status(400).send(e));
 });
 
 module.exports = router;

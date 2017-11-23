@@ -1,0 +1,29 @@
+<%- include('_head.ejs') %>
+
+<br/>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h2 class="panel-title"><i class="fa fa-check-square"></i>&nbsp; Todo App</h2>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover todo">
+            <tr>
+                <th>ID</th>
+                <th>Complete</th>
+                <th>Title</th>
+                <th>Type</th>
+            </tr>
+            <% for(let i = 0; i < todoData.length; i++) { %>
+               <tr>
+                 <td><%= todoData[i].id %></td>
+                 <td><input type="checkbox" <%= todoData[i].checked ? "checked" : "" %> /></td>
+                 <td><%= todoData[i].title %></td>
+                 <td><%= todoData[i].type %></td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+</div>
+
+<%- include('_foot.ejs') %>

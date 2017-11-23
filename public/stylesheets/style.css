@@ -39,3 +39,9 @@ table td {
   padding-left:30px; 
   font-size:1.8em
 }
+.todo td {
+  font-size: 200%;
+}
+.todo input[type=checkbox] {
+  transform: scale(2.5);
+}
