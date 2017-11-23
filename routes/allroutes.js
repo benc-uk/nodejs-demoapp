@@ -4,6 +4,17 @@ const os = require('os');
 const fs = require('fs');
 const request = require('request');
 
+///////////////////////////////////////////
+// Middleware to pick up if user is logged in via Azure App Service Auth
+///////////////////////////////////////////
+router.use(function(req, res, next) {
+  if(req.headers['x-ms-client-principal-name']) {
+    req.app.locals.user = req.headers['x-ms-client-principal-name'];
+  } else {
+    req.app.locals.user = null;
+  }
+  next(); 
+});
 
 ///////////////////////////////////////////
 // Get home page and index
