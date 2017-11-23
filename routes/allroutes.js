@@ -12,7 +12,8 @@ router.get('/', function (req, res, next) {
     res.render('index', 
     { 
       title: 'Node DemoApp - Home', 
-      ver: process.env.npm_package_version
+      ver: process.env.npm_package_version,
+      rel: process.env.RELEASE || 'Release-?'
     });
 });
 
@@ -37,7 +38,8 @@ router.get('/info', function (req, res, next) {
     title: 'Node DemoApp - Info', 
     info: info, 
     isDocker: fs.existsSync('/.dockerenv'), 
-    ver: process.env.npm_package_version
+    ver: process.env.npm_package_version,
+    rel: process.env.RELEASE || 'Release-?'
   });
 });
 
@@ -79,7 +81,8 @@ router.get('/weather', function (req, res, next) {
           precip: weather.currently.precipProbability,
           wind: weather.currently.windSpeed,
           title: 'Node DemoApp - Weather', 
-          ver: process.env.npm_package_version
+          ver: process.env.npm_package_version,
+          rel: process.env.RELEASE || 'Release-?'
         }); 
       } else {
         return res.status(500).end('API error fetching weather: ' + apierr + ' - '+apires);
@@ -104,7 +107,8 @@ router.get('/load', function (req, res, next) {
     title: 'Node DemoApp - Load', 
     val: val,
     time: (new Date().getTime() - start),
-    ver: process.env.npm_package_version
+    ver: process.env.npm_package_version,
+    rel: process.env.RELEASE || 'Release-?'
   });
 });
 
