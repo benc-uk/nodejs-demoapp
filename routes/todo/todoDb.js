@@ -8,6 +8,9 @@ class DataAccess {
     this.COLLNAME = 'allData';
     this.TODO_PKEY = 'event';
 
+    if(!process.env.COSMOS_CONNSTR) {
+      return;
+    }
     // Load Cosmos config from env vars / app settings
     // Nasty way to parse connection string :(
     this.cosmosEndpoint = process.env.COSMOS_CONNSTR.split(';')[0].replace('AccountEndpoint=', '');
