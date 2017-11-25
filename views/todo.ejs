@@ -3,14 +3,15 @@
   <br/>
 
   <div class="panel panel-info">
-    <div class="panel-heading">
-      <h2 class="panel-title">
-        <i class="fa fa-check-square"></i>&nbsp; Cosmos DB - Todo</h2>
+    <div class="panel-heading clearfix">
+        <div class="btn-group pull-right">
+          <button class="btn btn-primary" style='font-size:150%' data-toggle="modal" data-target="#newModal" onClick="clearForm()"><i class="fa fa-edit"></i> NEW</button>
+        </div>
+      <h2 class="panel-title" style="margin-top:10px;"><i class="fa fa-list-ul"></i>&nbsp; Cosmos DB - Todo</h2>
     </div>
     <div class="panel-body">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#newModal" onClick="clearForm()"><i class="fa fa-edit"></i> NEW</button>
-        <a href="/todo/init" class="btn btn-primary"><i class="fa fa-exclamation-triangle"></i> REINIT</a>
-        <hr/>
+
+      <hr/>
       <table class="table table-striped table-hover todo" id="todo-table">
         <tr>
           <!--th>ID</th-->
@@ -22,6 +23,8 @@
       </table>
     </div>
   </div>
+  
+  <a href="/todo/init">Reinit database</a>
 
   <!-- new todo dialog -->
   <div id="newModal" class="modal fade" role="dialog">
@@ -36,7 +39,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="newTitle">Todo message:</label>
-            <input type="text" class="form-control" id="newTitle">
+            <textarea type="text" class="form-control" id="newTitle"></textarea>
           </div>
           <div class="form-group">
             <label for="newType">Todo type:</label>
@@ -58,107 +61,10 @@
 
   <!-- ##################################################################################### -->
 
+  <script src="js/todo-client.js"></script>
+
   <script>
-    var todos;
-
-    function loadTodo() {
-      $.get(`/api/todo`, res => {
-        todos = res;
-
-        res.forEach(todo => {
-          addTodoToTable(todo);
-        });
-      });    
-    }
-
-    function clickTodo(id) {
-      let todo = todos.find(t => {return t.id == id});
-      todo.done = !todo.done;
-      updateTodo(todo, success => {
-        $(`#check_${todo.id}`)
-        .removeClass()
-        .addClass(`todocheck fa `+(todo.done ? 'fa-check-square-o' : 'fa-square-o'));
-      });
-    }
-
-    function clearForm()
-    {
-      $('#newTitle').val('');
-    }
-
-    function addNewTodo()
-    {
-      console.log($('#newTitle').val())
-      console.log($('#newType').val())
-      let todo = {
-        id: makeId(6),
-        title: $('#newTitle').val(),
-        done: false,
-        type: $('#newType').val()
-      }
-
-      updateTodo(todo, f => {addTodoToTable(todo); todos.push(todo)});
-    }
-
-    function addTodoToTable(todo) {
-      $('#todo-table tr:last').after(`<tr id="${todo.id}">
-        <td><i id="check_${todo.id}" class="todo-check fa ${todo.done ? 'fa-check-square-o' : 'fa-square-o'}" onclick="clickTodo('${todo.id}')"></i></td>
-        <td><div contentEditable="true" onkeydown="keyFilter(event)" class="todo-title" onfocusout="editTodo('${todo.id}', this)">${todo.title}</div></td>
-        <td>${todo.type}</td>
-        <td><button class="btn btn-danger" onClick="deleteTodo('${todo.id}')"><i class="fa fa-trash"></i></button></td>        
-      </tr>`);
-    }
-
-    function deleteTodoFromTable(id) {
-      $(`#${id}`).remove();
-    }
-
-    function editTodo(id, e) {
-      let todo = todos.find(t => {return t.id == id});
-      todo.title = e.innerHTML;
-      updateTodo(todo, success => {})
-    }
-    
-    function deleteTodo(id, e) {
-      $.ajax({
-        url: `/api/todo/${id}`,
-        type: 'DELETE',
-        success: f => { deleteTodoFromTable(id) }
-      })
-    }
-
-    // This fixes the behavior of contentEditable with newlines creating divs
-    function keyFilter(e) {
-      if (e.keyCode === 13) {
-        document.execCommand('insertHTML', false, '<br/><br/>');
-        e.preventDefault(); // doesn't work without this
-        return false;
-      }
-    }
-
-    function updateTodo(todo, callback) {
-      $.ajax({
-        url: `/api/todo`,
-        type: 'POST',
-        data: JSON.stringify(todo),
-        contentType: 'application/json',
-        success: callback
-      });
-    }
-
-    function makeId(len) {
-      var text = "";
-      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-      for (var i = 0; i < len; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-      return text;
-    }
-
-
-    // Start here!
-    loadTodo();
+    loadAllTodos();
   </script>
   
 <%- include('_foot.ejs') %>

@@ -45,9 +45,9 @@ table td {
 .todo input[type=checkbox] {
   transform: scale(2.5);
 }
-.todo-foo {
+.todo-done {
   text-decoration: line-through;
-  color: #777777;
+  color: #999999;
 }
 .todo-check {
   cursor: pointer;
