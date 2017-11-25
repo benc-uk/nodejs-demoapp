@@ -109,19 +109,6 @@
             "Application_Type": "web",
             "ApplicationId": "[variables('appInsightsName')]"
          }
-      },
-      {
-         "name": "[parameters('redisAcctName')]",
-         "type": "Microsoft.Cache/Redis",
-         "apiVersion": "2017-02-01",
-         "location": "[resourceGroup().location]",
-         "properties": {
-            "sku": {
-               "name": "Basic",
-               "family": "C",
-               "capacity": "0"
-            }
-         }
       }
    ],
    "outputs": {
