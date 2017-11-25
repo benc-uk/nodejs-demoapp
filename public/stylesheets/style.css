@@ -1,6 +1,15 @@
 body {
   padding-top: 70px;
-  /*background-color: green;*/
+}
+.logo {
+  margin-top: 0px;
+}
+.logo img {
+  height: 50px;
+  margin-top: -10px;
+}
+.username {
+  font-size: 150%;
 }
 .jumbotron {
   background-color: rgba(9, 27, 58, 0.38)
@@ -26,6 +35,7 @@ table i {
 table td {
   padding-bottom: 10px !important;
   padding-top: 10px !important;
+  font-size: 130%
 }
 .index-head {
   margin-top:-20px; 
@@ -60,4 +70,20 @@ table td {
   border: 3px solid #0793f0;
   outline: 0px solid transparent;
   box-shadow: 0 0 15px #0793f0;
+}
+.todo-button {
+  font-size: 150%;
+}
+.todo-panel-title {
+  margin-top: 10px;
+}
+.envvars {
+  word-break: break-all
+}
+.envtable {
+  max-height:500px;
+  overflow-y: scroll;
+  font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+  color:#45da59;
+  background-color:#222222;
 }

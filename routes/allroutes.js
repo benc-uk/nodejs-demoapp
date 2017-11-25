@@ -23,9 +23,7 @@ router.use(function(req, res, next) {
 router.get('/', function (req, res, next) {
     res.render('index', 
     { 
-      title: 'Node DemoApp - Home', 
-      ver: process.env.npm_package_version,
-      rel: process.env.RELEASE || 'Release-?'
+      title: 'Node DemoApp - Home'
     });
 });
 
@@ -34,7 +32,8 @@ router.get('/', function (req, res, next) {
 // Get system & runtime info 
 ///////////////////////////////////////////
 router.get('/info', function (req, res, next) {
-  var info = { 
+  let pjson = require('../package.json');
+  let info = { 
     release: os.release(), 
     type: os.type(), 
     cpus: os.cpus(), 
@@ -42,16 +41,15 @@ router.get('/info', function (req, res, next) {
     arch: os.arch(),
     mem: Math.round(os.totalmem() / 1048576),
     env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
-    nodever: process.version
+    nodever: process.version,
+    appver: pjson.version
   }
 
   res.render('info', 
   { 
     title: 'Node DemoApp - Info', 
     info: info, 
-    isDocker: fs.existsSync('/.dockerenv'), 
-    ver: process.env.npm_package_version,
-    rel: process.env.RELEASE || 'Release-?'
+    isDocker: fs.existsSync('/.dockerenv')
   });
 });
 
@@ -92,9 +90,7 @@ router.get('/weather', function (req, res, next) {
           temp: weather.currently.temperature,
           precip: weather.currently.precipProbability,
           wind: weather.currently.windSpeed,
-          title: 'Node DemoApp - Weather', 
-          ver: process.env.npm_package_version,
-          rel: process.env.RELEASE || 'Release-?'
+          title: 'Node DemoApp - Weather'
         }); 
       } else {
         return res.status(500).end('API error fetching weather: ' + apierr + ' - '+apires);
@@ -118,9 +114,7 @@ router.get('/load', function (req, res, next) {
   { 
     title: 'Node DemoApp - Load', 
     val: val,
-    time: (new Date().getTime() - start),
-    ver: process.env.npm_package_version,
-    rel: process.env.RELEASE || 'Release-?'
+    time: (new Date().getTime() - start)
   });
 });
 

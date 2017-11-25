@@ -18,9 +18,7 @@ router.get('/todo', function (req, res, next) {
      res.render('todo', 
      { 
        title: 'Node DemoApp - Todo', 
-       todoData: data,
-       ver: process.env.npm_package_version,
-       rel: process.env.RELEASE || 'Release-?'
+       todoData: data
      });
 });
  

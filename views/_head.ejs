@@ -29,17 +29,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><img class="navbar-left" src="images/node-icon.png" height="50px" style="margin-top:-10px"> &nbsp; Node.js Demo</a>
+          <a class="navbar-brand logo" href="/"><img class="navbar-left" src="images/node-icon.png"> &nbsp; Node.js Demo</a>
         </div>
     
         <div class="navbar-collapse collapse">
-          <a class="btn btn-success navbar-btn" href='/info'><i class="fa fa-info-circle"></i>&nbsp; SYSTEM</a>
+          <a class="btn btn-success navbar-btn" href='/info'><i class="fa fa-info-circle"></i>&nbsp; INFO</a>
           <a class="btn btn-success navbar-btn" href='/weather'><i class="fa fa-cloud"></i>&nbsp; WEATHER</a>          
           <a class="btn btn-success navbar-btn" href='/load'><i class="fa fa-fire"></i>&nbsp; CPU LOAD</a>  
           <%if (process.env.COSMOS_CONNSTR) { %><a class="btn btn-success navbar-btn" href='/todo'><i class="fa fa-check-square-o"></i>&nbsp; TODO</a><% } %>
           
           <div class="nav navbar-nav navbar-right">
-            <%if (user) { %><span class="btn btn-disabled navbar-btn"><i class="fa fa-user-circle" style="font-size:150%"></i>&nbsp; <%= user %></span><% } %>
+            <%if (user) { %><span class="btn btn-disabled navbar-btn"><i class="fa fa-user-circle username"></i>&nbsp; <%= user %></span><% } %>
           </div>  
 
         </div>
