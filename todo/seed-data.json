@@ -2,21 +2,21 @@
   "todos": [
     {
       "id": "todo-1",
-      "checked": false,
-      "title": "Feed the cat",
+      "done": false,
+      "title": "Feed the llamas",
       "type": "Reminder",
       "start": ""
     },
     {
       "id": "todo-2",
-      "checked": true,
+      "done": true,
       "title": "Buy some trousers",
       "type": "Reminder",
       "start": ""
     },
     {
       "id": "todo-3",
-      "checked": false,
+      "done": false,
       "title": "Give this demo on Cosmos DB & Azure",
       "type": "Meeting",
       "start": ""

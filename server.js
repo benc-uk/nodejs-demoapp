@@ -39,8 +39,10 @@ if (cluster.isMaster && !process.env.APP_POOL_ID) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.static(path.join(__dirname, 'public')));
 
-  var routes = require('./routes/allroutes');
-  app.use('/', routes);
+  let mainRoutes = require('./routes/allroutes');
+  app.use('/', mainRoutes);
+  let todoRoutes = require('./todo/todo-routes');
+  app.use('/', todoRoutes);
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

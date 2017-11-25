@@ -33,6 +33,29 @@ class DataAccess {
     });
   }
 
+
+  updateOrCreateTodo(todo) {
+    return new Promise((resolve, reject) => {
+      this.client.upsertDocument(this.collectionUrl, todo, (err, res) => {
+        if (err) { reject(err) }
+        else { resolve(res) };
+      });
+    });
+  }
+
+
+  deleteTodo(id) {
+    let docUrl = `${this.collectionUrl}/docs/${id}` 
+
+    return new Promise((resolve, reject) => {
+      this.client.deleteDocument(docUrl, (err, res) => {
+        if (err) { reject(err) }
+        else { resolve(res) };
+      });
+    });
+  }
+
+
   initDatabase () {
     console.log(`### DB init starting...`);
     return new Promise((resolve, reject) => {
@@ -53,7 +76,7 @@ class DataAccess {
             });      
 
             console.log(`### DB init complete`);
-            resolve({msg:'DB init complete, documents may still be loading async...'});
+            resolve({msg:'DB init complete, documents may still be loading async... <a href="/">RETURN</a> '});
           }); 
 
         });
