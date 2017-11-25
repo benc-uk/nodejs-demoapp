@@ -69,10 +69,14 @@
             "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
             "siteConfig": {
                "appSettings": [
-                   {
-                       "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                       "value": "[reference(concat('microsoft.insights/components/', variables('appInsightsName'))).InstrumentationKey]"
-                   }
+                  {
+                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                     "value": "[reference(concat('microsoft.insights/components/', variables('appInsightsName'))).InstrumentationKey]"
+                  },
+                  {
+                     "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                     "value": "6.9.1"
+                  }
                ]
             }
          },
