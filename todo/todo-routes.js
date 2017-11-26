@@ -29,7 +29,7 @@ router.get('/todo', function (req, res, next) {
 router.get('/todo/init', function (req, res, next) {
   data.initDatabase()
   .then(d => res.redirect('/todo'))
-  .catch(e => res.status(400).send("E"+e));
+  .catch(e => res.status(400).send("ERROR! "+e));
 });
 
 
