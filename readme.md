@@ -11,7 +11,7 @@ The app has two basic pages accessed from the nav bar menu:
 
 
 ## Running 
-Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable. Tested with both Node 6.11 and 8.5
+Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable. Tested with both Node 6.11 and 8.9
 
 
 ## Docker 
