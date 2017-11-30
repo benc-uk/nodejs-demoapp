@@ -16,7 +16,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "applicationinsights": "^1.0.0",
+    "applicationinsights": "^1.0.1",
     "body-parser": "~1.18.2",
     "cluster": "^0.7.7",
     "documentdb": "^1.14.1",
