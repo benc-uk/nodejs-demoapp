@@ -1,0 +1,22 @@
+queue:
+  name: Hosted Linux Preview
+variables:
+  image.name: 'apps/nodejs-demoapp'
+steps:
+- task: Docker@0
+  inputs:
+    azureSubscription: 'Microsoft Azure Internal Consumption (52512f28-c6ed-403e-9569-82a9fb9fec91)'
+    azureContainerRegistry: '{"loginServer":"bcdemo.azurecr.io", "id" : "/subscriptions/52512f28-c6ed-403e-9569-82a9fb9fec91/resourceGroups/Demo.Misc/providers/Microsoft.ContainerRegistry/registries/bcdemo"}'
+    imageName: '$(image.name)'
+    includeLatestTag: 'true'
+  condition: undefined
+
+- task: Docker@0
+  inputs:
+    azureSubscription: 'Microsoft Azure Internal Consumption (52512f28-c6ed-403e-9569-82a9fb9fec91)'
+    azureContainerRegistry: '{"loginServer":"bcdemo.azurecr.io", "id" : "/subscriptions/52512f28-c6ed-403e-9569-82a9fb9fec91/resourceGroups/Demo.Misc/providers/Microsoft.ContainerRegistry/registries/bcdemo"}'
+    action: 'Push an image'
+    imageName: '$(image.name)'
+    includeLatestTag: 'true'
+  condition: undefined
+
