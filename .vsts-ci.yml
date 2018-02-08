@@ -19,5 +19,3 @@ steps:
     imageName: '$(image.name)'
     includeLatestTag: 'true'
   condition: undefined
-
-# TEST TEST
