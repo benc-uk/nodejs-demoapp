@@ -8,13 +8,13 @@ class DataAccess {
     this.COLLNAME = 'allData';
     this.TODO_PKEY = 'event';
 
-    if(!process.env.DOCDBCONNSTR_TODO) {
+    if(!process.env.CUSTOMCONNSTR_TODO) {
       return;
     }
     // Load Cosmos config from env vars / app settings
     // Nasty way to parse connection string :(
-    this.cosmosEndpoint = process.env.DOCDBCONNSTR_TODO.split(';')[0].replace('AccountEndpoint=', '');
-    let cosmosKey = process.env.DOCDBCONNSTR_TODO.split(';')[1].replace('AccountKey=', '');
+    this.cosmosEndpoint = process.env.CUSTOMCONNSTR_TODO.split(';')[0].replace('AccountEndpoint=', '');
+    let cosmosKey = process.env.CUSTOMCONNSTR_TODO.split(';')[1].replace('AccountKey=', '');
 
     // Connect to Azure Cosmos DB
     const documentClient = require("documentdb").DocumentClient;
