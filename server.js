@@ -4,6 +4,13 @@ require('dotenv').config()
 if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   const appInsights = require("applicationinsights");
   appInsights.setup()
+  .setAutoDependencyCorrelation(true)
+  .setAutoCollectRequests(true)
+  .setAutoCollectPerformance(true)
+  .setAutoCollectExceptions(true)
+  .setAutoCollectDependencies(true)
+  .setAutoCollectConsole(true)
+  .setUseDiskRetryCaching(true);
   appInsights.start();
 }
 
