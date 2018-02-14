@@ -65,7 +65,7 @@ if (cluster.isMaster && !process.env.APP_POOL_ID) {
 
   // Error handler
   app.use(function(err, req, res, next) {
-    console.error(`### ${err}`);
+    console.error(`### ${err.message}`);
     
     // App Insights
     const appInsights = require("applicationinsights");    

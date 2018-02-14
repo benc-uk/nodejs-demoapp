@@ -25,7 +25,7 @@ class DataAccess {
 
   listTodos() {
     return new Promise((resolve, reject) => {
-      let q = `SELECT * FROM c`;
+      let q = `SELECTT * FROM c`;
       this.client.queryDocuments(this.collectionUrl, q).toArray((err, res) => {
         if (err) { reject(err) }
         else { resolve(res) };

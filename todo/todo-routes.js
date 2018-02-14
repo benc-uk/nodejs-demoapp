@@ -15,11 +15,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 ///////////////////////////////////////////
 router.get('/todo', function (req, res, next) {
 
-     res.render('todo', 
-     { 
-       title: 'Node DemoApp - Todo', 
-       todoData: data
-     });
+  res.render('todo', 
+  { 
+    title: 'Node DemoApp - Todo', 
+    todoData: data
+  });
 });
  
 
@@ -29,7 +29,7 @@ router.get('/todo', function (req, res, next) {
 router.get('/todo/init', function (req, res, next) {
   data.initDatabase()
   .then(d => res.redirect('/todo'))
-  .catch(e => res.status(400).send("ERROR! "+e));
+  .catch(e => next(new Error(e.body))); //res.status(400).send("ERROR! "+e));
 });
 
 
@@ -39,7 +39,7 @@ router.get('/todo/init', function (req, res, next) {
 router.get('/api/todo', function (req, res, next) {
   data.listTodos()
   .then(d => res.send(d))
-  .catch(e => res.status(400).send(e));
+  .catch(e => next(new Error(e.body))); //res.status(400).send(e));
 });
 
 
@@ -51,7 +51,7 @@ router.post('/api/todo', function (req, res, next) {
 
   data.updateOrCreateTodo(todo)
   .then(d => res.send(d))
-  .catch(e => res.status(400).send(e));
+  .catch(e => next(new Error(e.body))); //res.status(400).send(e));
 });
 
 
@@ -63,7 +63,7 @@ router.delete('/api/todo/:id', function (req, res, next) {
 
   data.deleteTodo(req.params.id)
   .then(d => res.send(d))
-  .catch(e => res.status(400).send(e));
+  .catch(e => next(new Error(e.body))); //res.status(400).send(e));
 });
 
 module.exports = router;
