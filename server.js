@@ -9,7 +9,7 @@ if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   .setAutoCollectPerformance(true)
   .setAutoCollectExceptions(true)
   .setAutoCollectDependencies(true)
-  .setAutoCollectConsole(true)
+  .setAutoCollectConsole(true, true)
   .setUseDiskRetryCaching(true);
   appInsights.start();
 }
@@ -51,22 +51,33 @@ if (cluster.isMaster && !process.env.APP_POOL_ID) {
   let todoRoutes = require('./todo/todo-routes');
   app.use('/', todoRoutes);
 
-  // catch 404 and forward to error handler
+  // Catch all route, generate an error & forward to error handler
   app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
+    if(req.method != 'GET') { 
+      err = new Error(`Method ${req.method} not allowed`);
+      err.status = 500;
+    }
+    
     next(err);
   });
 
-  // error handler
+  // Error handler
   app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    console.error(`### ${err}`);
+    
+    // App Insights
+    const appInsights = require("applicationinsights");    
+    if(appInsights.defaultClient) appInsights.defaultClient.trackException({exception: err});
 
-    // render the error page
+    // Render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error', {
+      title: 'Error', 
+      message: err.message,
+      error: err
+    });
   });
 
   // Start the server, wow!

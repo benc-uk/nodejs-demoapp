@@ -3,6 +3,7 @@ var router = express.Router();
 const os = require('os');
 const fs = require('fs');
 const request = require('request');
+const appInsights = require("applicationinsights");
 
 
 ///////////////////////////////////////////
@@ -117,14 +118,5 @@ router.get('/load', function (req, res, next) {
     time: (new Date().getTime() - start)
   });
 });
-
-///////////////////////////////////////////
-// Catch unhandled POSTs
-///////////////////////////////////////////
-router.post('*', function (req, res, next) {
-  // Poor error handling to surface error in App Insights
-  throw new Error('Badness happened');
-});
-
 
 module.exports = router;

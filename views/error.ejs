@@ -1,3 +1,11 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
+<%- include('_head.ejs') %>
+
+<br/>
+<div class="alert alert-danger" role="alert">
+  <h1>Error - <%= message %></h1>
+  <h3>Status: <%= error.status %></h3>
+</div>
+
 <pre><%= error.stack %></pre>
+
+<%- include('_foot.ejs') %>
