@@ -118,5 +118,13 @@ router.get('/load', function (req, res, next) {
   });
 });
 
+///////////////////////////////////////////
+// Catch unhandled POSTs
+///////////////////////////////////////////
+router.post('*', function (req, res, next) {
+  // Poor error handling to surface error in App Insights
+  throw new Error('Badness happened');
+});
+
 
 module.exports = router;
