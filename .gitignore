@@ -1,4 +1,4 @@
 node_modules/
-.vscode/*
+.vscode/launch.json
 *.log
 .env

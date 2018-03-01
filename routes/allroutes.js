@@ -33,7 +33,7 @@ router.get('/', function (req, res, next) {
 // Get system & runtime info 
 ///////////////////////////////////////////
 router.get('/info', function (req, res, next) {
-  let pjson = require('../package.json');
+  let packagejson = require('../package.json');
   let info = { 
     release: os.release(), 
     type: os.type(), 

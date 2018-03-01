@@ -4,7 +4,7 @@
   "version": "3.0.1",
   "author": "Ben Coleman",
   "engines": {
-    "node": "8.9.0"
+    "node": "8.9.4"
   },
   "license": "Apache-2.0",
   "repository": {
@@ -16,11 +16,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "applicationinsights": "^1.0.1",
+    "applicationinsights": "^1.0.2",
     "body-parser": "~1.18.2",
     "cluster": "^0.7.7",
-    "documentdb": "^1.14.1",
-    "dotenv": "^4.0.0",
+    "documentdb": "^1.14.2",
+    "dotenv": "^5.0.1",
     "ejs": "~2.5.7",
     "express": "~4.16.2",
     "morgan": "~1.9.0",

@@ -1,0 +1,5 @@
+{
+  "appService.zipIgnorePattern": "node_modules/**",
+  "appService.showRemoteFiles": true,
+  "appService.zipGlobPattern": "{public/**,routes/**,views/**,todo/**,server.js,package.json,.deployment}"
+}
