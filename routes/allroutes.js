@@ -43,7 +43,7 @@ router.get('/info', function (req, res, next) {
     mem: Math.round(os.totalmem() / 1048576),
     env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
     nodever: process.version,
-    appver: pjson.version
+    appver: packagejson.version
   }
 
   res.render('info', 
