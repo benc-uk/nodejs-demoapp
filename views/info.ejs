@@ -18,7 +18,7 @@
       <% } %>        
       </tr>
 
-      <tr> <td>&nbsp;<i class="fa fa-lightbulb-o"></i></td><td>  App Insights</td>
+      <tr> <td>&nbsp;<i class="fas fa-lightbulb"></i></td><td>  App Insights</td>
         <%if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
           <td>Reporting data to App Insights, nice job! </td>
         <% } else { %>
@@ -28,12 +28,12 @@
 
       <tr> <td><i class="fa fa-home"></i></td><td> Hostname</td> <td><%= info.hostname %></td> </tr>
       <tr> <td><i class="fa fa-laptop"></i></td><td>  OS Type</td> <td><%= info.type %></td> </tr>
-      <tr> <td><i class="fa fa-gears"></i></td><td>  OS Version</td> <td><%= info.release %></td> </tr>
+      <tr> <td><i class="fas fa-cogs"></i></td><td>  OS Version</td> <td><%= info.release %></td> </tr>
       <tr> <td><i class="fa fa-wrench"></i></td><td>  Architecture</td> <td><%= info.arch %></td> </tr>
       <tr> <td><i class="fa fa-microchip"></i></td><td>  Processors</td> <td><%= info.cpus.length%> &times; <%=info.cpus[0].model %></td> </tr>
-      <tr> <td><i class="fa fa-cog"></i></td><td>  Memory</td> <td><%= info.mem %> MB</td> </tr>
-      <tr> <td><i class="fa fa-codepen"></i></td><td>  Node Version</td> <td><%= info.nodever %></td> </tr>
-      <tr> <td><i class="fa fa-code-fork"></i></td><td>  App Version</td> <td>v<%= info.appver %></td> </tr>
+      <tr> <td><i class="fas fa-memory"></i></td><td>  Memory</td> <td><%= info.mem %> MB</td> </tr>
+      <tr> <td><i class="fab fa-codepen"></i></td><td>  Node Version</td> <td><%= info.nodever %></td> </tr>
+      <tr> <td><i class="fas fa-code-branch"></i></td><td>  App Version</td> <td>v<%= info.appver %></td> </tr>
     </table>
 
     <hr/>
