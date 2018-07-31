@@ -59,7 +59,8 @@ router.get('/info', function (req, res, next) {
 // Get weather page
 ///////////////////////////////////////////
 router.get('/weather', function (req, res, next) {
-  const WEATHER_API_KEY = "686028df24bb828907074f434121b2c0";
+  var WEATHER_API_KEY = process.env.WEATHER_API_KEY || "123456";
+  var GEOIP_API_KEY = process.env.GEOIP_API_KEY || "123456";
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   if(ip.indexOf(":")) ip = ip.split(':')[0];
 
@@ -69,7 +70,7 @@ router.get('/weather', function (req, res, next) {
   var city = '???'  
 
   // Geo IP reverse lookup
-  request('http://freegeoip.net/json/' + ip, { json: true }, (apierr, apires, geo_api_body) => {
+  request(`http://api.ipstack.com/${ip}?access_key=${GEOIP_API_KEY}&format=1`, { json: true }, (apierr, apires, geo_api_body) => {
     if (apierr) { return console.log(apierr); }
     country = geo_api_body.country_name;
     city = geo_api_body.city;
