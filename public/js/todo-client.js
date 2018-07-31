@@ -17,7 +17,7 @@ function clickTodoDone(id) {
   updateTodo(todo, success => {
     $(`#${id} > td > i`)
       .removeClass()
-      .addClass(`todo-check fa ` + (todo.done ? 'fa-check-square-o' : 'fa-square-o'));
+      .addClass(`todo-check far ` + (todo.done ? 'fa-check-square' : 'fa-square'));
     let todoTitle = $(`#${id} > td > .todo-title`);
     if (todo.done) {
       todoTitle.addClass('todo-done');
@@ -48,7 +48,7 @@ function addNewTodo() {
 
 function addTodoToTable(todo) {
   $('#todo-table tr:last').after(`<tr id="${todo._id}">
-    <td><i class="todo-check fa ${todo.done ? 'fa-check-square-o' : 'fa-square-o'}" onclick="clickTodoDone('${todo._id}')"></i></td>
+    <td><i class="todo-check far ${todo.done ? 'fa-check-square' : 'fa-square'}" onclick="clickTodoDone('${todo._id}')"></i></td>
     <td><div contentEditable="${todo.done ? 'false' : 'true'}" onkeydown="keyFilter(event)" class="todo-title ${todo.done ? 'todo-done' : ''}" onfocusout="editTodo('${todo._id}', this)">${todo.title}</div></td>
     <td>${todo.type}</td>
     <td><button class="btn btn-danger" onClick="deleteTodo('${todo._id}')"><i class="fa fa-trash"></i></button></td>        
