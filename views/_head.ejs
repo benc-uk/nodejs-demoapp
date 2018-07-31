@@ -4,7 +4,8 @@
     <title><%= title %></title>
     <link rel="shortcut icon" type="image/png" href="images/node-icon.png" />
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-S7YMK1xjUjSpEnF4P8hPUcgjXYLZKK3fQW1j5ObLSl787II9p8RO9XUGehRmKsxd" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!--link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <%if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
       <script type="text/javascript">
@@ -36,7 +37,7 @@
           <a class="btn btn-success navbar-btn" href='/info'><i class="fa fa-info-circle"></i>&nbsp; INFO</a>
           <a class="btn btn-success navbar-btn" href='/weather'><i class="fa fa-cloud"></i>&nbsp; WEATHER</a>          
           <a class="btn btn-success navbar-btn" href='/load'><i class="fa fa-fire"></i>&nbsp; CPU LOAD</a>  
-          <%if (process.env.CUSTOMCONNSTR_TODO) { %><a class="btn btn-success navbar-btn" href='/todo'><i class="fa fa-check-square-o"></i>&nbsp; TODO</a><% } %>
+          <%if (process.env.MONGO_CONNSTR) { %><a class="btn btn-success navbar-btn" href='/todo'><i class="fas fa-check-square"></i>&nbsp; TODO</a><% } %>
           
           <div class="nav navbar-nav navbar-right">
             <%if (user) { %><span class="btn btn-disabled navbar-btn"><i class="fa fa-user-circle username"></i>&nbsp; <%= user %></span><% } %>

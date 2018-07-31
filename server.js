@@ -1,3 +1,9 @@
+//
+// Main Express server for Nodejs-demoapp
+// ---------------------------------------------
+// Ben C, Oct 2017 - Updated: Jul 2018
+//
+
 // Dotenv handy for local config & debugging
 require('dotenv').config()
 
@@ -66,7 +72,36 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// Start the server, wow!
-var port = process.env.PORT || 3000
-app.listen(port);
-console.log(`### Server process listening on port ${port}`);
+// Get values from env vars or defaults where not provided
+var port = process.env.PORT || 3000;
+var monogUrl = process.env.MONGO_CONNSTR;  // Note. NO DEFAULT!
+var retries = process.env.MONGO_RETRIES || 5;
+var retryDelay = process.env.MONGO_RETRY_DELAY || 30;
+
+// Mongo Connection totally optional
+// - really only use it when demo'ing App Insights
+if(monogUrl) {
+  // Include our data-access library for MongoDB
+  var dataAccess = require('./todo/data-access');
+
+  dataAccess.connectMongo(monogUrl, retries, retryDelay)
+  .then(() => {
+    // This is important, pass our connected dataAccess - it's a global singleton
+    app.set('data', dataAccess);
+
+    // Normal express connect
+    var server = app.listen(port, function () {
+      var port = server.address().port;
+      console.log(`### Server listening on ${server.address().port}`);
+    });
+  })
+  .catch(err => {
+    console.error(`### ERROR! Unable to connect to MongoDB!, URL=${process.env.MONGO_CONNSTR}`);
+    console.error(err.message);
+    process.exit(-1);
+  })
+} else {
+  // Start the server, without Mongo
+  app.listen(port);
+  console.log(`### Server process listening on port ${port}`);
+}
