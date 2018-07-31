@@ -1,7 +1,7 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "3.0.2",
+  "version": "3.5.0",
   "author": "Ben Coleman",
   "engines": {
     "node": "8.9.4"
@@ -18,11 +18,10 @@
   "dependencies": {
     "applicationinsights": "^1.0.2",
     "body-parser": "~1.18.2",
-    "cluster": "^0.7.7",
-    "documentdb": "^1.14.2",
-    "dotenv": "^5.0.1",
+    "dotenv": "^6.0.0",
     "ejs": "~2.5.7",
     "express": "~4.16.3",
+    "mongodb": "~2.2.0",
     "morgan": "~1.9.0",
     "request": "^2.85.0"
   }
