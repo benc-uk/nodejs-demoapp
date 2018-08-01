@@ -3,8 +3,6 @@ var router = express.Router();
 const os = require('os');
 const fs = require('fs');
 const request = require('request');
-const appInsights = require("applicationinsights");
-
 
 ///////////////////////////////////////////
 // Middleware to pick up if user is logged in via Azure App Service Auth
@@ -118,6 +116,14 @@ router.get('/load', function (req, res, next) {
     val: val,
     time: (new Date().getTime() - start)
   });
+});
+
+
+///////////////////////////////////////////
+// Page to generate server side errors
+///////////////////////////////////////////
+router.get('/error', function (req, res, next) {
+  cakes.eat();
 });
 
 module.exports = router;
