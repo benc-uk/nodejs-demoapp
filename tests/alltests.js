@@ -3,10 +3,10 @@ var expect    = require('chai').expect;
 const request = require('request');
 const exec    = require('child_process');
 
-after(function (done) {
-  exec.execSync("pkill -f -x 'node server.js'");
-  done();
-});
+// after(function (done) {
+//   exec.execSync("pkill -f -x 'node server.js'");
+//   done();
+// });
 
 describe("Dummy Test", function() {
   describe("This is a test", function() {

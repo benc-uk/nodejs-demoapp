@@ -2,3 +2,4 @@ node_modules/
 .vscode/launch.json
 *.log
 .env
+**/test-results.xml
