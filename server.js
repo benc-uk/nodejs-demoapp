@@ -105,3 +105,6 @@ if(monogUrl) {
   app.listen(port);
   console.log(`### Server process listening on port ${port}`);
 }
+
+
+module.exports = app;
