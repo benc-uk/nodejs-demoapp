@@ -1,4 +1,4 @@
-# Node.js - Demo app for Azure
+# Node.js - Demo Web Application
 This is a simple Node.js web app using the Express framework and EJS templates. It has been designed with cloud demos in mind, to show things like auto scaling in Azure and Application Insights monitoring
 
 Based on the standard express-generator template with EJS views e.g. `express --git --view=ejs` but has been enhanced with Bootstrap, FontAwesome and App Insights.
