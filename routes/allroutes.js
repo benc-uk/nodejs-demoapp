@@ -54,48 +54,43 @@ router.get('/info', function (req, res, next) {
 
 
 ///////////////////////////////////////////
+// Get weather data as JSON
+///////////////////////////////////////////
+router.get('/api/weather/:lat/:long', function (req, res, next) {
+  var WEATHER_API_KEY = process.env.WEATHER_API_KEY || "123456";
+  let long = req.params.long
+  let lat = req.params.lat
+
+  // Call Darksky weather API
+  request(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`, { json: true }, (apierr, apires, weather) => {
+    if (apierr) { return console.log(apierr); }
+    if(weather.currently) {
+      res.status(200).send({ 
+        long: long,
+        lat: lat,
+        summary: weather.currently.summary,
+        icon: weather.currently.icon,          
+        temp: weather.currently.temperature,
+        precip: weather.currently.precipProbability,
+        wind: weather.currently.windSpeed,
+        uv: weather.currently.uvIndex,
+        forecastShort: weather.hourly.summary,
+        forecastLong: weather.daily.summary
+      });
+    } else {
+      return res.status(500).end('API error fetching weather: ' + apierr + ' - '+apires);
+    }
+  });
+});
+
+
+///////////////////////////////////////////
 // Get weather page
 ///////////////////////////////////////////
 router.get('/weather', function (req, res, next) {
-  var WEATHER_API_KEY = process.env.WEATHER_API_KEY || "123456";
-  var GEOIP_API_KEY = process.env.GEOIP_API_KEY || "123456";
-  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  if(ip.indexOf(":")) ip = ip.split(':')[0];
-
-  var long = ''
-  var lat = ''  
-  var country = 'unknown country'  
-  var city = '???'  
-
-  // Geo IP reverse lookup
-  request(`http://api.ipstack.com/${ip}?access_key=${GEOIP_API_KEY}&format=1`, { json: true }, (apierr, apires, geo_api_body) => {
-    if (apierr) { return console.log(apierr); }
-    country = geo_api_body.country_name;
-    city = geo_api_body.city;
-    lat = geo_api_body.latitude;
-    long = geo_api_body.longitude;
-
-    // Call Darksky weather API
-    request(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`, { json: true }, (apierr, apires, weather) => {
-      if (apierr) { return console.log(apierr); }
-      if(weather.currently) {
-        res.render('weather', { 
-          ip: ip,
-          long: long,
-          lat: lat,
-          country: country,
-          city: city,
-          summary: weather.currently.summary,
-          icon: weather.currently.icon,          
-          temp: weather.currently.temperature,
-          precip: weather.currently.precipProbability,
-          wind: weather.currently.windSpeed,
-          title: 'Node DemoApp - Weather'
-        }); 
-      } else {
-        return res.status(500).end('API error fetching weather: ' + apierr + ' - '+apires);
-      }
-    });
+  res.render('weather', 
+  { 
+    title: 'Node DemoApp - Weather'
   });
 });
 

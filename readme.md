@@ -5,7 +5,7 @@ Based on the standard express-generator template with EJS views e.g. `express --
 
 The app has four basic pages accessed from the top navigation menu:
  - **INFO** - Will show some system & runtime information, and will also display if the app is running from within a Docker container.  
- - **WEATHER** - Performs geo IP reverse lookup of the requesting client using [ipstack.com](https://ipstack.com/). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to both external APIs) when monitored by App Insights. API keys need to be provided, see configuration below
+ - **WEATHER** - Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to external APIs) when monitored by App Insights. Dark Sky API key needs to be provided, see configuration below
  - **CPU LOAD** - Simply runs a lot of maths calcs in a loop to max the CPU, can be used to trigger auto-scaling rules and other monitoring scenarios
  - **TODO** - This is a small todo/task-list app which uses MongoDB as a database. Enable this when demo'ing App Insights to show a more complete and real application. *Note.* this view only appears when configured, see configuration below
  
@@ -27,7 +27,6 @@ The following configuration environmental variables are used. These can be set d
 |MONGO_CONNSTR|*none*   |Connect to specified MongoDB connection string, when set the Todo feature will be enabled in the menu bar|
 |APPINSIGHTS_INSTRUMENTATIONKEY|*none*    |Enable Application Insights monitoring|
 |WEATHER_API_KEY|*none*    |DarkSky weather API key. [Info here](https://darksky.net/dev)|
-|GEOIP_API_KEY|*none*    |IPStack geo-lookup API key. [Info here](https://ipstack.com/)|
 
 
 ## Docker 
@@ -46,6 +45,7 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 Templates for deployment to Azure with "quick deploy" buttons are [here](azure-deploy/)
 
 ## Updates
+* Dec 2018 - Modified weather to use client browser location, rather than use IP
 * Jul 2018 - Switched todo app over to MongoDB, fixed weather
 * Feb 2018 - Updated App Insights monitoring
 * Nov 2017 - Update to use Node 8.9

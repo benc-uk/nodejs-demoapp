@@ -42,6 +42,7 @@
     <div class="envtable">
       <table class="table table-hover" >    
         <% Object.keys(process.env).forEach(p => { %>
+          <% if (p == 'WEATHER_API_KEY') return %>
           <tr> <td><b> <%= p %> </b></td> <td class="envvars"><%= process.env[p] %></td> </tr>
         <% }) %>
       </table>
