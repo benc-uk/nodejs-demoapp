@@ -1,5 +1,5 @@
-FROM node:8-alpine
-LABEL Name="Node.js Demo App" Version=3.6.0
+FROM node:10-alpine
+LABEL Name="Node.js Demo App" Version=3.6.1
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 

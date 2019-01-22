@@ -1,12 +1,12 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "author": "Ben Coleman",
   "engines": {
-    "node": "8.9.4"
+    "node": "10.15.0"
   },
-  "license": "Apache-2.0",
+  "license": "MIT0",
   "repository": {
     "type": "git",
     "url": "https://github.com/benc-uk/nodejs-demoapp.git"
