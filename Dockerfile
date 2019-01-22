@@ -1,7 +1,7 @@
 FROM node:10-alpine
 LABEL Name="Node.js Demo App" Version=3.6.1
 ENV NODE_ENV production
-WORKDIR /usr/src/app
+WORKDIR /app 
 
 # For efficient layer caching with NPM, this *really* speeds things up
 COPY package.json .
