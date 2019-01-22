@@ -1,59 +1,49 @@
-resources:
-- repo: self
-queue:
-  name: Hosted Linux Preview
+#
+# Azure Pipeline - Build defintion
+# Build demo app as container and push to ACR, also push to public Dockerhub
+# Ben C, 2019
+#
+trigger: none 
 
+pool:
+  name: Hosted Ubuntu 1604
+
+#
+# NOTE! The shared-secrets variable group must be pre-created and populated
+# - Expected variables: acr-password, dockerhub-password
+#
 variables:
-  appname: 'nodejs-demoapp'
-  dockerhub-name: 'bencuk'
-  acr-name: 'bcdemo'
+  - group: shared-secrets
+
+  - name: app-name
+    value: nodejs-dempapp
+  - name: acr-name
+    value: bcdemo
+  - name: dockerhub-name
+    value: benc-uk
+  - name: docker-file
+    value: Dockerfile
 
 steps:
-- task: Docker@0
-  displayName: 'Build an image'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryConnection: 'Docker Hub (bencuk)'
-    imageName: '$(dockerhub-name)/$(appname)'
-    includeLatestTag: true
+#
+# Run Docker build
+#
+- bash: |
+    docker build . -f $(docker-file) -t $(dockerhub-name)/$(app-name) -t $(acr-name)/apps/$(app-name)
+  displayName: 'Build app as container image'
 
+#
+# Push to ACR
+#
+- bash: |
+    docker login $(acr-name).azurecr.io -u $(acr-name) -p $(acr-password)
+    docker push $(acr-name)/apps/$(app-name)
+  displayName: 'Push image to ACR'
 
-- task: Docker@0
-  displayName: 'Push to Dockerhub'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryConnection: 'Docker Hub (bencuk)'
-    action: 'Push an image'
-    imageName: '$(dockerhub-name)/$(appname)'
-    includeLatestTag: true
-
-
-- task: Docker@0
-  displayName: 'Tag Image for ACR (BuildNumber)'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    action: 'Run a Docker command'
-    customCommand: 'tag $(dockerhub-name)/$(appname) $(acr-name).azurecr.io/apps/$(appname):$(Build.BuildNumber)'
-    enforceDockerNamingConvention: false
-
-
-- task: Docker@0
-  displayName: 'Tag Image for ACR (Latest)'
-  inputs:
-    containerregistrytype: 'Container Registry'
-    action: 'Run a Docker command'
-    customCommand: 'tag $(dockerhub-name)/$(appname) $(acr-name).azurecr.io/apps/$(appname):latest'
-    enforceDockerNamingConvention: false
-
-
-- task: Docker@0
-  displayName: 'Push to Azure Registry'
-  inputs:
-    azureSubscription: 'Azure (AIRS)'
-    azureContainerRegistry: '{"loginServer":"bcdemo.azurecr.io", "id" : "/subscriptions/52512f28-c6ed-403e-9569-82a9fb9fec91/resourceGroups/Demo.Containers/providers/Microsoft.ContainerRegistry/registries/bcdemo"}'
-    action: 'Push an image'
-    imageName: '$(acr-name).azurecr.io/apps/$(appname)'
-    qualifyImageName: false
-    additionalImageTags: '$(Build.BuildNumber)'
-
-
+#
+# Push to Dockerhub
+#
+- bash: |
+    docker login -u $(dockerhub-name) -p $(dockerhub-password)
+    docker push $(dockerhub-name)/$(app-name)
+  displayName: 'Push image to Dockerhub'
