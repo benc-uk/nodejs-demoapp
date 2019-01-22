@@ -3,7 +3,9 @@
 # Build demo app as container and push to ACR, also push to public Dockerhub
 # Ben C, 2019
 #
-trigger: none 
+trigger: 
+  branches:
+    include: [ master ] 
 
 pool:
   name: Hosted Ubuntu 1604
@@ -29,7 +31,7 @@ steps:
 # Run Docker build
 #
 - bash: |
-    docker build . -f $(docker-file) -t $(dockerhub-name)/$(app-name) -t $(acr-name)/apps/$(app-name)
+    docker build . -f $(docker-file) -t $(dockerhub-name)/$(app-name) -t $(acr-name).azurecr.io/apps/$(app-name)
   displayName: 'Build app as container image'
 
 #
@@ -37,7 +39,7 @@ steps:
 #
 - bash: |
     docker login $(acr-name).azurecr.io -u $(acr-name) -p $(acr-password)
-    docker push $(acr-name)/apps/$(app-name)
+    docker push $(acr-name).azurecr.io/apps/$(app-name)
   displayName: 'Push image to ACR'
 
 #
