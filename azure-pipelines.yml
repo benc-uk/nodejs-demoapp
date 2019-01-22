@@ -1,6 +1,6 @@
 #
-# Azure Pipeline - Build defintion
-# Build demo app as container and push to ACR, also push to public Dockerhub
+# Azure Pipeline - Build defintion for demo web apps
+# Build as Docker container image and push to ACR, also push to public Dockerhub
 # Ben C, 2019
 #
 trigger: 
