@@ -4,9 +4,9 @@ const os = require('os');
 const fs = require('fs');
 const request = require('request');
 
-///////////////////////////////////////////
+// =======================================================================
 // Middleware to pick up if user is logged in via Azure App Service Auth
-///////////////////////////////////////////
+// =======================================================================
 router.use(function(req, res, next) {
   if(req.headers['x-ms-client-principal-name']) {
     req.app.locals.user = req.headers['x-ms-client-principal-name'];
@@ -16,9 +16,9 @@ router.use(function(req, res, next) {
   next(); 
 });
 
-///////////////////////////////////////////
+// =======================================================================
 // Get home page and index
-///////////////////////////////////////////
+// =======================================================================
 router.get('/', function (req, res, next) {
     res.render('index', 
     { 
@@ -27,9 +27,9 @@ router.get('/', function (req, res, next) {
 });
 
 
-///////////////////////////////////////////
+// =======================================================================
 // Get system & runtime info 
-///////////////////////////////////////////
+// =======================================================================
 router.get('/info', function (req, res, next) {
   let packagejson = require('../package.json');
   let info = { 
@@ -53,9 +53,9 @@ router.get('/info', function (req, res, next) {
 });
 
 
-///////////////////////////////////////////
+// =======================================================================
 // Get weather data as JSON
-///////////////////////////////////////////
+// =======================================================================
 router.get('/api/weather/:lat/:long', function (req, res, next) {
   var WEATHER_API_KEY = process.env.WEATHER_API_KEY || "123456";
   let long = req.params.long
@@ -84,9 +84,9 @@ router.get('/api/weather/:lat/:long', function (req, res, next) {
 });
 
 
-///////////////////////////////////////////
+// =======================================================================
 // Get weather page
-///////////////////////////////////////////
+// =======================================================================
 router.get('/weather', function (req, res, next) {
   res.render('weather', 
   { 
@@ -95,9 +95,9 @@ router.get('/weather', function (req, res, next) {
 });
 
 
-///////////////////////////////////////////
+// =======================================================================
 // Page to generate CPU load
-///////////////////////////////////////////
+// =======================================================================
 router.get('/load', function (req, res, next) {
 
   var start = new Date().getTime();;
@@ -114,9 +114,9 @@ router.get('/load', function (req, res, next) {
 });
 
 
-///////////////////////////////////////////
-// Page to generate server side errors
-///////////////////////////////////////////
+// =======================================================================
+// Page to generate server side errors, good for App Insights demos
+// =======================================================================
 router.get('/error', function (req, res, next) {
   cakes.eat();
 });
