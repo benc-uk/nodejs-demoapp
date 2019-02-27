@@ -3,41 +3,29 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "containerName": {
-      "defaultValue": "nodejs-container",
+      "defaultValue": "nodejs-demoapp",
       "type": "string",
       "metadata": {
         "description": "Name of the container resource in Azure"
-      }
-    },
-    "previewLocation": {
-      "defaultValue": "westeurope",
-      "type": "string",
-      "allowedValues": [
-        "westeurope",
-        "westus",
-        "eastus"
-      ],
-      "metadata": {
-        "description": "During preview only available in these regions: westeurope, westus & eastus"
       }
     }
   },
   "variables": {
     "containerPort": "3000",
     "containerImage": "bencuk/nodejs-demoapp",
-    "memory": 1.0,
-    "cpu": 1.0
+    "memory": 0.1,
+    "cpu": 0.5
   },
   "resources": [
     {
       "name": "[parameters('containerName')]",
       "type": "Microsoft.ContainerInstance/containerGroups",
-      "apiVersion": "2017-08-01-preview",
-      "location": "[parameters('previewLocation')]",
+      "apiVersion": "2018-10-01",
+      "location": "[resourceGroup().location]",
       "properties": {
         "containers": [
           {
-            "name": "[parameters('containerName')]",
+            "name": "[concat(parameters('containerName'), '-container')]",
             "properties": {
               "image": "[variables('containerImage')]",
               "ports": [
@@ -73,7 +61,7 @@
       "type": "string"
     },
     "newContainerState": {
-      "value": "[reference(parameters('containerName')).state]",
+      "value": "[reference(parameters('containerName')).provisioningState]",
       "type": "string"
     }
   }
