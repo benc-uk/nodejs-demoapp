@@ -35,5 +35,5 @@ steps:
 #
 - bash: |
     docker login $(acr-name).azurecr.io -u $(acr-name) -p $(acr-password)
-    docker push $(acr-name).azurecr.io/apps/$(imagename)
+    docker push $(acr-name).azurecr.io/$(imagename)
   displayName: 'Push image to ACR'
