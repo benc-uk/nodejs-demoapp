@@ -27,7 +27,7 @@ steps:
 # Run Docker build
 #
 - bash: |
-    docker build . -f $(docker-file) -t $(acr-name).azurecr.io/$(imagename):latest -t $(acr-name).azurecr.io/$(app-name):$(Build.BuildNumber)
+    docker build . -f $(docker-file) -t $(acr-name).azurecr.io/$(imagename):latest -t $(acr-name).azurecr.io/$(imagename):$(Build.BuildNumber)
   displayName: 'Build app as container image'
 
 #
@@ -35,5 +35,5 @@ steps:
 #
 - bash: |
     docker login $(acr-name).azurecr.io -u $(acr-name) -p $(acr-password)
-    docker push $(acr-name).azurecr.io/apps/$(app-name)
+    docker push $(acr-name).azurecr.io/apps/$(imagename)
   displayName: 'Push image to ACR'
