@@ -34,23 +34,23 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="btn btn-outline-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; INFO</a>
+            <a class="btn btn-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; INFO</a>
           </li>
           &nbsp;
           <li class="nav-item active">
-            <a class="btn btn-outline-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; TOOLS</a>
+            <a class="btn btn-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; TOOLS</a>
           </li>          
 
           <%if (process.env.WEATHER_API_KEY) { %>
             &nbsp;
             <li class="nav-item active">
-              <a class="btn btn-outline-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; WEATHER</a>
+              <a class="btn btn-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; WEATHER</a>
             </li> 
           <% } %>
           <%if (process.env.MONGO_CONNSTR) { %>
             &nbsp;
             <li class="nav-item active">
-              <a class="btn btn-outline-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; TODO</a>
+              <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; TODO</a>
             </li> 
           <% } %>  
         </ul>
