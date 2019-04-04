@@ -28,6 +28,25 @@ variables:
 
 steps:
 #
+# Run unit tests with Mocha
+#
+- bash: |
+    npm install
+    npm run tests
+  displayName: 'Run unit tests with Mocha'
+
+#
+# Publish test results 
+#
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: JUnit
+    testResultsFiles: 'test-results.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+  condition: always()
+  displayName: 'Publish test results'
+
+#
 # Run Docker build
 #
 - bash: |

@@ -1,11 +1,6 @@
 const request = require('supertest');
 const app = require('../server')
 
-after(function (done) {
-  process.exit(0)
-  done();
-});
-
 describe('Check home page', function() {
   it('Responds with 200 & HTML', function(done) {
     request(app)
