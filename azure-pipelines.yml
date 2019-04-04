@@ -18,7 +18,7 @@ variables:
   - name: imagename
     value: nodejs-demoapp
   - name: acr-name
-    value: CHANGEME
+    value: bcdemo
   - name: docker-file
     value: Dockerfile
 
