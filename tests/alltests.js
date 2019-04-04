@@ -1,74 +1,51 @@
-var expect    = require('chai').expect;
-//var server = require('../server');
-const request = require('request');
-const exec    = require('child_process');
+const request = require('supertest');
+const app = require('../server')
 
 after(function (done) {
-  exec.execSync("pkill -f -x 'node server.js'");
+  process.exit(0)
   done();
 });
 
-describe("Dummy Test", function() {
-  describe("This is a test", function() {
-    it("checks nothing", function() {
-      var value   = "this is stupid"
-      expect(value).to.equal("this is stupid");
-    });
+describe('Check home page', function() {
+  it('Responds with 200 & HTML', function(done) {
+    request(app)
+      .get('/')
+      .expect('Content-Type', /html/)
+      .expect(/Ben Coleman/)
+      .expect(200, done)
   });
 });
 
-describe("Main app routes", function() {
-  describe("Check /home URL", function() {
-    var url = "http://localhost:3000/";
-
-    it("returns status 200", function(done) {
-      request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        done();
-      });
-    });
-
-    it("has valid content", function(done) {
-      request(url, function(error, response, body) {
-        expect(body).to.contain("Node.js Express");
-        done();
-      });
-    });
+describe('Check info results', function() {
+  it('Responds with valid info', function(done) {
+    request(app)
+      .get('/info')
+      .expect(/Not running as a Docker container/)
+      .expect(200, done);
   });
+});
 
-  describe("Check /info URL", function() {
-    var url = "http://localhost:3000/info";
-
-    it("returns status 200", function(done) {
-      request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        done();
-      });
-    });
-
-    it("has valid content", function(done) {
-      request(url, function(error, response, body) {
-        expect(body).to.contain("Server Environmental Variables");
-        done();
-      });
-    });
+describe('Check tools page', function() {
+  it('Responds with 200 & HTML', function(done) {
+    request(app)
+      .get('/tools')
+      .expect('Content-Type', /html/)
+      .expect(200, done);
   });
+});
 
-  describe("Check /load URL", function() {
-    var url = "http://localhost:3000/load";
+describe('Check error page', function() {
+  it('Responds with 404', function(done) {
+    request(app)
+      .get('/foobar')
+      .expect(404, done);
+  });
+});
 
-    it("returns status 200", function(done) {
-      request(url, function(error, response, body) {
-        expect(response.statusCode).to.equal(200);
-        done();
-      });
-    });
-
-    it("has valid content", function(done) {
-      request(url, function(error, response, body) {
-        expect(body).to.contain("milliseconds");
-        done();
-      });
-    });
+describe('Weather API fails', function() {
+  it('Responds with 500', function(done) {
+    request(app)
+      .get('/api/weather/51.40329/0.05619')
+      .expect(500, done);
   });
 });
