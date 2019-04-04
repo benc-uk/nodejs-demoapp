@@ -9,9 +9,9 @@ The app has four basic pages accessed from the top navigation menu:
  - **WEATHER** - Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to external APIs) when monitored by App Insights. Dark Sky API key needs to be provided, see configuration below
  - **TODO** - This is a small todo/task-list app which uses MongoDB as a database. Enable this when demo'ing App Insights to show a more complete and real application. *Note.* this view only appears when `MONGO_CONNSTR` is configured, see configuration below
  
-![screen](https://user-images.githubusercontent.com/14982936/43461431-674d705e-94cb-11e8-9633-00331d17c953.png)
-![screen](https://user-images.githubusercontent.com/14982936/43461432-676b34f4-94cb-11e8-87cd-2abbf17a1c3d.png)
-![screen](https://user-images.githubusercontent.com/14982936/43461433-6785cea4-94cb-11e8-99a6-3359f296ba3f.png)
+![screen](https://user-images.githubusercontent.com/14982936/55563611-2dac9100-56ee-11e9-9c6b-43dd1b49f464.png)
+![screen](https://user-images.githubusercontent.com/14982936/55563626-32714500-56ee-11e9-9ba6-0be9c6bf8644.png)
+![screen](https://user-images.githubusercontent.com/14982936/55563637-3604cc00-56ee-11e9-8259-ce5030e6dd61.png)
 
 
 ## Running 
