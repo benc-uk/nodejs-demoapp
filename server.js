@@ -17,7 +17,9 @@ if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   .setAutoCollectExceptions(true)
   .setAutoCollectDependencies(true)
   .setAutoCollectConsole(true, true)
-  .setUseDiskRetryCaching(true);
+  .setUseDiskRetryCaching(true)
+  .setSendLiveMetrics(true);
+
   appInsights.start();
 }
 

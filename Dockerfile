@@ -1,5 +1,5 @@
 FROM node:10-alpine
-LABEL Name="Node.js Demo App" Version=3.6.1
+LABEL Name="Node.js Demo App" Version=3.6.2
 ENV NODE_ENV production
 WORKDIR /app 
 
@@ -14,7 +14,7 @@ RUN apk update \
   && apk add openssh \
   && echo "root:Docker!" | chpasswd
 RUN ssh-keygen -A
-ADD https://raw.githubusercontent.com/Azure-App-Service/node/master/6.11.1/sshd_config /etc/ssh/
+ADD https://raw.githubusercontent.com/Azure-App-Service/node/master/10.14/sshd_config /etc/ssh/
 
 # NPM is done, now copy in the the whole project to the workdir
 COPY . .

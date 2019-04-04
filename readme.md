@@ -45,6 +45,7 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 Templates for deployment to Azure with "quick deploy" buttons are [here](azure-deploy/)
 
 ## Updates
+* Apr 2019 - Updated to latest App Insights SDK package
 * Dec 2018 - Modified weather to use client browser location, rather than use IP
 * Jul 2018 - Switched todo app over to MongoDB, fixed weather
 * Feb 2018 - Updated App Insights monitoring
