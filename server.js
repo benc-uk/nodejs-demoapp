@@ -1,7 +1,7 @@
 //
-// Main Express server for Nodejs-demoapp
+// Main Express server for nodejs-demoapp
 // ---------------------------------------------
-// Ben C, Oct 2017 - Updated: Jul 2018
+// Ben C, Oct 2017 - Updated: Apr 2019
 //
 
 // Dotenv handy for local config & debugging

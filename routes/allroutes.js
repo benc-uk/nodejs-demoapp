@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const os = require('os');
 const fs = require('fs');
-const request = require('request');
+const axios = require('axios');
 
 // =======================================================================
 // Middleware to pick up if user is logged in via Azure App Service Auth
@@ -56,12 +56,39 @@ router.get('/info', function (req, res, next) {
 // =======================================================================
 // Get weather data as JSON
 // =======================================================================
-router.get('/api/weather/:lat/:long', function (req, res, next) {
+router.get('/api/weather/:lat/:long', async function (req, res, next) {
   var WEATHER_API_KEY = process.env.WEATHER_API_KEY || "123456";
   let long = req.params.long
   let lat = req.params.lat
 
+  //https://geocode.xyz/51.40329,0.05619?json=1
+
   // Call Darksky weather API
+  try {
+    //let loc = await axios.get(`https://geocode.xyz/51.40329,0.05619?json=1`);
+    let weather = await axios.get(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`);
+
+    if(weather.data.currently) {
+      res.status(200).send({ 
+        long: long,
+        lat: lat,
+        summary: weather.data.currently.summary,
+        icon: weather.data.currently.icon,          
+        temp: weather.data.currently.temperature,
+        precip: weather.data.currently.precipProbability,
+        wind: weather.data.currently.windSpeed,
+        uv: weather.data.currently.uvIndex,
+        forecastShort: weather.data.hourly.summary,
+        forecastLong: weather.data.daily.summary
+      });      
+    } else  {
+      throw new Error(`Current weather not available for: ${long},${lat}`)
+    }
+  } catch(e) {    
+    return res.status(500).end(`API error fetching weather: ${e.toString()}`);
+  }
+  
+  axios.get
   request(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`, { json: true }, (apierr, apires, weather) => {
     if (apierr) { return console.log(apierr); }
     if(weather.currently) {

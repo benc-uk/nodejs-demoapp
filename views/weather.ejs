@@ -33,7 +33,9 @@
   }
 
   function getWeather(pos) {
-    $.get(`/api/weather/${pos.coords.latitude}/${pos.coords.longitude}`, weather => {
+    let lat = pos.coords.latitude; //51.40329 
+    let long = pos.coords.longitude; //0.05619 
+    $.get(`/api/weather/${lat}/${long}`, weather => {
       var skycons = new Skycons({ "color": "#3498db" });
       skycons.add("weather_icon", weather.icon);
       skycons.play();
@@ -46,6 +48,8 @@
       $('#weather-list').append(`<hr/>`)
       $('#weather-list').append(`<li>Forecast today: &nbsp; ${weather.forecastShort}</li>`)
       $('#weather-list').append(`<li>Forecast week: &nbsp; ${weather.forecastLong}</li>`)
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      $('#weather-list').append(`<h3 style="color:#e84640">API Error: ${errorThrown.toString()}</h3>`)
     });
   }
 </script>
