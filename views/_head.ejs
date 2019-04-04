@@ -3,9 +3,9 @@
   <head>
     <title><%= title %></title>
     <link rel="shortcut icon" type="image/png" href="images/node-icon.png" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-S7YMK1xjUjSpEnF4P8hPUcgjXYLZKK3fQW1j5ObLSl787II9p8RO9XUGehRmKsxd" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!--link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <%if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
       <script type="text/javascript">
@@ -21,33 +21,48 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand logo" href="/"><img class="navbar-left" src="images/node-icon.png"> &nbsp; Node.js Demo</a>
-        </div>
-    
-        <div class="navbar-collapse collapse">
-          <a class="btn btn-success navbar-btn" href='/info'><i class="fa fa-info-circle"></i>&nbsp; INFO</a>
-          <%if (process.env.WEATHER_API_KEY) { %><a class="btn btn-success navbar-btn" href='/weather'><i class="fa fa-cloud"></i>&nbsp; WEATHER</a><% } %>         
-          <a class="btn btn-success navbar-btn" href='/load'><i class="fa fa-fire"></i>&nbsp; CPU LOAD</a>  
-          <%if (process.env.MONGO_CONNSTR) { %><a class="btn btn-success navbar-btn" href='/todo'><i class="fas fa-check-square"></i>&nbsp; TODO</a><% } %>
-          
-          <div class="nav navbar-nav navbar-right">
-            <%if (user) { %><span class="btn btn-disabled navbar-btn"><i class="fa fa-user-circle username"></i>&nbsp; <%= user %></span><% } %>
-          </div>  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="/">
+        <img src="/images/node-icon.png" width="37" height="40" class="d-inline-block align-top" alt="">
+        &nbsp; Node.js Demo
+      </a>
 
-        </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="btn btn-outline-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; INFO</a>
+          </li>
+          &nbsp;
+          <li class="nav-item active">
+            <a class="btn btn-outline-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; TOOLS</a>
+          </li>          
+
+          <%if (process.env.WEATHER_API_KEY) { %>
+            &nbsp;
+            <li class="nav-item active">
+              <a class="btn btn-outline-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; WEATHER</a>
+            </li> 
+          <% } %>
+          <%if (process.env.MONGO_CONNSTR) { %>
+            &nbsp;
+            <li class="nav-item active">
+              <a class="btn btn-outline-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; TODO</a>
+            </li> 
+          <% } %>  
+        </ul>
       </div>
+      <%if (user) { %>
+        <div class="navbar-nav ml-auto">
+          <span class="h5"><i class="fa fa-user-circle"></i>&nbsp; <%= user %></span>
+        </div>  
+      <% } %>
     </nav>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     
     <div class="container body-content">

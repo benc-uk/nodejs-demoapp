@@ -1,0 +1,20 @@
+<%- include('_head.ejs') %>
+
+<div class="card text-white bg-secondary">
+    <div class="card-header bg-info h3"><i class="fa fa-tools"></i>&nbsp; Tools & Debug</div>
+    <div class="card-body h5">
+        <div>
+            <a class="btn btn-warning btn-lg" href="/load">CPU Load</a> &nbsp; Generate CPU load, useful for cloud auto scaling demos
+        </div>
+        <br/>
+        <div>
+            <a class="btn btn-warning btn-lg" href="/error">Exception</a> &nbsp; Error page, will trigger exception in App Insights
+        </div>
+        <br/>
+        <div>
+            <a class="btn btn-warning btn-lg" href="/pagemissing">404 Page</a> &nbsp; Trigger a 404, also for App Insights
+        </div>        
+    </div>
+</div>
+
+<%- include('_foot.ejs') %>

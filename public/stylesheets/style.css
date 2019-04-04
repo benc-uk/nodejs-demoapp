@@ -1,50 +1,31 @@
 body {
-  padding-top: 70px;
+  padding: 0px;
 }
-.logo {
-  margin-top: 0px;
-}
-.logo img {
-  height: 50px;
-  margin-top: -10px;
-}
-.username {
-  font-size: 150%;
-}
-.jumbotron {
-  background-color: rgba(9, 27, 58, 0.38)
+.container {
+  padding-top: 1rem;
 }
 .navbar, .navbar-brand  {
   font-size: 1.3em;
 }
-.navbar-btn  {
-  font-size: 1.1em;
+.navbar-brand:hover  {
+  color: #3498DB !important;
 }
-h2 {
-  font-size: 3.5em;
-}
+
 .footnote {
   font-size: 90%;
   float: right;
   top: -30px;
   padding-right:20px;
+  color: #aaa;
+  padding-top: 2rem;
 }
-table i {
-  font-size: 2em !important;
-}
-table td {
-  padding-bottom: 10px !important;
-  padding-top: 10px !important;
-  font-size: 130%
-}
+
 .index-head {
   margin-top:-20px; 
-  border-radius:15px; 
+  border-radius:6px; 
   padding:15px
 }
-.panel-title {
-  font-size: 2em !important;
-}
+
 .weather-info {
   padding-left:30px; 
   font-size:1.8em
@@ -78,12 +59,13 @@ table td {
   margin-top: 10px;
 }
 .envvars {
-  word-break: break-all
+  word-break: break-all;
+  color:#45da59;
 }
 .envtable {
   max-height:500px;
   overflow-y: scroll;
   font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
-  color:#45da59;
+
   background-color:#222222;
 }

@@ -45,6 +45,9 @@ app.use('/', mainRoutes);
 let todoRoutes = require('./todo/todo-routes');
 app.use('/', todoRoutes);
 
+// Make package app version a global var, shown in _foot.ejs
+app.locals.version = require('./package.json').version;
+
 // Catch all route, generate an error & forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -59,7 +62,7 @@ app.use(function(req, res, next) {
 
 // Error handler
 app.use(function(err, req, res, next) {
-  console.error(`### ${err.message}`);
+  console.error(`### ERROR: ${err.message}`);
   
   // App Insights
   const appInsights = require("applicationinsights");    

@@ -54,6 +54,17 @@ router.get('/info', function (req, res, next) {
 
 
 // =======================================================================
+// Tools page
+// =======================================================================
+router.get('/tools', function (req, res, next) {
+res.render('tools', 
+  { 
+    title: 'Node DemoApp - Tools'
+  });
+});
+
+
+// =======================================================================
 // Get weather data as JSON
 // =======================================================================
 router.get('/api/weather/:lat/:long', async function (req, res, next) {
@@ -87,27 +98,6 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
   } catch(e) {    
     return res.status(500).end(`API error fetching weather: ${e.toString()}`);
   }
-  
-  axios.get
-  request(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`, { json: true }, (apierr, apires, weather) => {
-    if (apierr) { return console.log(apierr); }
-    if(weather.currently) {
-      res.status(200).send({ 
-        long: long,
-        lat: lat,
-        summary: weather.currently.summary,
-        icon: weather.currently.icon,          
-        temp: weather.currently.temperature,
-        precip: weather.currently.precipProbability,
-        wind: weather.currently.windSpeed,
-        uv: weather.currently.uvIndex,
-        forecastShort: weather.hourly.summary,
-        forecastLong: weather.daily.summary
-      });
-    } else {
-      return res.status(500).end('API error fetching weather: ' + apierr + ' - '+apires);
-    }
-  });
 });
 
 

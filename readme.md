@@ -1,13 +1,13 @@
 # Node.js - Demo Web Application
-This is a simple Node.js web app using the Express framework and EJS templates. It has been designed with cloud demos in mind, to show things like auto scaling in Azure and Application Insights monitoring
+This is a simple Node.js web app using the Express framework and EJS templates. It has been designed with cloud demos & containers in mind, to demonstrate capabilities such as auto scaling in Azure and Application Insights monitoring
 
 Based on the standard express-generator template with EJS views e.g. `express --git --view=ejs` but has been enhanced with Bootstrap, FontAwesome and App Insights.
 
 The app has four basic pages accessed from the top navigation menu:
  - **INFO** - Will show some system & runtime information, and will also display if the app is running from within a Docker container.  
+ - **TOOLS** - Some tools useful in demos, such a forcing CPU load (for autoscale demos), and error pages for use with App Insights
  - **WEATHER** - Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to external APIs) when monitored by App Insights. Dark Sky API key needs to be provided, see configuration below
- - **CPU LOAD** - Simply runs a lot of maths calcs in a loop to max the CPU, can be used to trigger auto-scaling rules and other monitoring scenarios
- - **TODO** - This is a small todo/task-list app which uses MongoDB as a database. Enable this when demo'ing App Insights to show a more complete and real application. *Note.* this view only appears when configured, see configuration below
+ - **TODO** - This is a small todo/task-list app which uses MongoDB as a database. Enable this when demo'ing App Insights to show a more complete and real application. *Note.* this view only appears when `MONGO_CONNSTR` is configured, see configuration below
  
 ![screen](https://user-images.githubusercontent.com/14982936/43461431-674d705e-94cb-11e8-9633-00331d17c953.png)
 ![screen](https://user-images.githubusercontent.com/14982936/43461432-676b34f4-94cb-11e8-87cd-2abbf17a1c3d.png)
@@ -15,7 +15,7 @@ The app has four basic pages accessed from the top navigation menu:
 
 
 ## Running 
-Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000 or what is set in `PORT` environmental variable. Tested with both Node 6.11 and 8.9
+Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000, or whatever is set in the `PORT` environmental variable. Tested with Node v8.x and 10.x
 
 
 ## Configuration 
@@ -23,7 +23,7 @@ The following configuration environmental variables are used. These can be set d
 
 |Name|Default|Description                   |
 |----|-------|------------------------------|
-|PORT|4000   |Port the server will listen on|
+|PORT|3000   |Port the server will listen on|
 |MONGO_CONNSTR|*none*   |Connect to specified MongoDB connection string, when set the Todo feature will be enabled in the menu bar|
 |APPINSIGHTS_INSTRUMENTATIONKEY|*none*    |Enable Application Insights monitoring|
 |WEATHER_API_KEY|*none*    |DarkSky weather API key. [Info here](https://darksky.net/dev)|
@@ -32,11 +32,23 @@ The following configuration environmental variables are used. These can be set d
 ## Docker 
 Public Docker image is [available on Dockerhub](https://hub.docker.com/r/bencuk/nodejs-demoapp/).  
 Note. The Docker image includes SSH support, this is to enable the web console feature when running this app as a container in Azure Web App for Containers.  
-Run with `docker run -d -p 3000:3000 bencuk/nodejs-demoapp`
+
+Run with 
+```
+docker run -d -p 3000:3000 bencuk/nodejs-demoapp`
+```
+
+## CI/CD Azure Pipelines 
+A working `azure-pipelines.yml` build pipeline is provided, automated builds are run from the public Azure DevOps project
+
+### [DemoApps Project on Azure DevOps](https://dev.azure.com/bencoleman/DemoApps)
+
+### Build Status
+[![Build Status](https://dev.azure.com/bencoleman/DemoApps/_apis/build/status/Build%20nodejs-demoapp?branchName=master)](https://dev.azure.com/bencoleman/DemoApps/_build/latest?definitionId=67&branchName=master)
 
 
 ## Application Insights 
-The app has been instrumented with the Application Insights SDK, it will however need to be configured to point to your App Insights instance.  
+The app has been instrumented with the Application Insights SDK, it will however need to be configured to point to your App Insights instance/workspace.  
 To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variable to the relevant key for your active instance. If running in an Azure Web App, this can be set as an application setting in Azure.
 
 [This article](https://docs.microsoft.com/en-us/azure/application-insights/app-insights-nodejs) has more information on monitoring App Insights with Node.js 
@@ -45,7 +57,7 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 Templates for deployment to Azure with "quick deploy" buttons are [here](azure-deploy/)
 
 ## Updates
-* Apr 2019 - Updated to latest App Insights SDK package
+* Apr 2019 - Updated to latest App Insights SDK package, and moved to Bootstrap 4
 * Dec 2018 - Modified weather to use client browser location, rather than use IP
 * Jul 2018 - Switched todo app over to MongoDB, fixed weather
 * Feb 2018 - Updated App Insights monitoring

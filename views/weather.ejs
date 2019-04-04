@@ -1,22 +1,16 @@
 <%- include('_head.ejs') %>
 
-<br/>
-
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h2 class="panel-title"><i class="fa fa-globe"></i>&nbsp; Weather and Location</h2>
-  </div>
-  <div class="panel-body">
+<div class="card text-white bg-secondary">
+  <div class="card-header bg-info h3"><i class="fa fa-globe"></i>&nbsp; Geolocated Weather</div>
+  <div class="card-body">
     <table>
       <tr>
         <td> <canvas id="weather_icon" width="256" height="256"></canvas> </td>
         <td class="weather-info">
-          <ul id="weather-list">
-
-          </ul>
+          <ul id="weather-list"></ul>
         </td>
       </tr>
-    </table>
+    </table>       
   </div>
 </div>
 

@@ -1,11 +1,14 @@
 <%- include('_head.ejs') %>
 
-<br/>
-<div class="alert alert-danger" role="alert">
-  <h1>Error - <%= message %></h1>
-  <h3>Status: <%= error.status %></h3>
-</div>
 
-<pre><%= error.stack %></pre>
+<div class="card text-white bg-secondary">
+    <div class="card-header bg-danger h3"><i class="fa fa-frown"></i>&nbsp; Error! </div>
+    <div class="card-body">
+        <h2><%= message %></h2>
+        <h3>Status: <%= error.status %></h3>   
+        <hr> 
+        <pre class="text-warning" style="background-color: #222; padding: 1rem;"><%= error.stack %></pre>
+    </div>
+</div>
 
 <%- include('_foot.ejs') %>
