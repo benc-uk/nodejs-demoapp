@@ -32,7 +32,7 @@ steps:
 #
 - bash: |
     npm install
-    npm run tests
+    npm run tests-junit
   displayName: 'Run unit tests with Mocha'
 
 #

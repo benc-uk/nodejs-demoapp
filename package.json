@@ -15,7 +15,8 @@
   "scripts": {
     "start": "node server.js",
     "start-bg": "node server.js &",
-    "tests": "./node_modules/.bin/mocha --reporter mocha-junit-reporter --exit ./tests"
+    "tests-junit": "./node_modules/.bin/mocha --reporter mocha-junit-reporter --exit ./tests",
+    "tests": "./node_modules/.bin/mocha --exit ./tests"
   },
   "dependencies": {
     "applicationinsights": "^1.3.0",
