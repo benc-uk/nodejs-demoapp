@@ -69,7 +69,7 @@
 							"});",
 							"",
 							"pm.test(\"Info Page: Check content\", function () {",
-							"    pm.expect(pm.response.text()).to.include('Not running as a Docker container');",
+							"    pm.expect(pm.response.text()).to.include('Intel');",
 							"});",
 							""
 						],
