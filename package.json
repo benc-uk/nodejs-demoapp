@@ -4,7 +4,7 @@
   "version": "3.8.1",
   "author": "Ben Coleman",
   "engines": {
-    "node": "10.15.0"
+    "node": "10.14.1"
   },
   "license": "MIT",
   "repository": {
