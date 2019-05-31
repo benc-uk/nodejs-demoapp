@@ -15,7 +15,7 @@ The app has four basic pages accessed from the top navigation menu:
 
 
 ## Running 
-Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000, or whatever is set in the `PORT` environmental variable. Tested with Node v8.x and 10.x
+Standard `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x and 10.x
 
 
 ## Configuration 
