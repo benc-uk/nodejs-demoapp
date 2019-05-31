@@ -14,6 +14,14 @@
       <% } %>        
       </tr>
 
+      <tr> <td><i class="fa fa-project-diagram"></i></td><td>  Kubernetes</td>
+        <%if (isKube) { %>
+          <td>We're also running in a Kubernetes pod! &#x1f44d; </td>
+        <% } else { %>
+          <td>Not running in Kubernetes &#x1F622; </td>
+        <% } %>        
+      </tr>
+
       <tr> <td>&nbsp;<i class="fas fa-lightbulb"></i></td><td>  App Insights</td>
         <%if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
           <td>Reporting data to App Insights, nice job! </td>

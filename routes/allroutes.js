@@ -48,7 +48,8 @@ router.get('/info', function (req, res, next) {
   { 
     title: 'Node DemoApp - Info', 
     info: info, 
-    isDocker: fs.existsSync('/.dockerenv')
+    isDocker: fs.existsSync('/.dockerenv'),
+    isKube: fs.existsSync('/var/run/secrets/kubernetes.io')
   });
 });
 
