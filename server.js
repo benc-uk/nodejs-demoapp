@@ -4,6 +4,8 @@
 // Ben C, Oct 2017 - Updated: Apr 2019
 //
 
+console.log(`### Node.js demo app starting...`);
+
 // Dotenv handy for local config & debugging
 require('dotenv').config()
 
@@ -24,26 +26,33 @@ if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
 }
 
 // Core Express & logging stuff
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var app = express();
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const app = express();
 
-// View engine setup
+// View engine setup & static content 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Logging
 app.use(logger('dev'));
+
+// Parsing middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-let mainRoutes = require('./routes/allroutes');
-app.use('/', mainRoutes);
-let todoRoutes = require('./todo/todo-routes');
-app.use('/', todoRoutes);
+// Initialize Passport and AAD authentication 
+if(process.env.AAD_APP_ID) {
+  require('./auth/init')(app)
+}
+
+// Routes
+app.use('/', require('./routes.js'));
+if(process.env.MONGO_CONNSTR) app.use('/', require('./todo/routes'));
+app.use('/', require('./auth/routes'));
 
 // Make package app version a global var, shown in _foot.ejs
 app.locals.version = require('./package.json').version;
@@ -79,37 +88,9 @@ app.use(function(err, req, res, next) {
 
 // Get values from env vars or defaults where not provided
 var port = process.env.PORT || 3000;
-var monogUrl = process.env.MONGO_CONNSTR;  // Note. NO DEFAULT!
-var retries = process.env.MONGO_RETRIES || 5;
-var retryDelay = process.env.MONGO_RETRY_DELAY || 30;
 
-// Mongo Connection totally optional
-// - really only use it when demo'ing App Insights
-if(monogUrl) {
-  // Include our data-access library for MongoDB
-  var dataAccess = require('./todo/data-access');
-
-  dataAccess.connectMongo(monogUrl, retries, retryDelay)
-  .then(() => {
-    // This is important, pass our connected dataAccess - it's a global singleton
-    app.set('data', dataAccess);
-
-    // Normal express connect
-    var server = app.listen(port, function () {
-      var port = server.address().port;
-      console.log(`### Server listening on ${server.address().port}`);
-    });
-  })
-  .catch(err => {
-    console.error(`### ERROR! Unable to connect to MongoDB!, URL=${process.env.MONGO_CONNSTR}`);
-    console.error(err.message);
-    process.exit(-1);
-  })
-} else {
-  // Start the server, without Mongo
-  app.listen(port);
-  console.log(`### Server process listening on port ${port}`);
-}
-
+// Start the server, without Mongo
+app.listen(port);
+console.log(`### Server listening on port ${port}`);
 
 module.exports = app;

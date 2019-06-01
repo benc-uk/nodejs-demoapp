@@ -47,19 +47,29 @@
               <a class="btn btn-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; WEATHER</a>
             </li> 
           <% } %>
+
           <%if (process.env.MONGO_CONNSTR) { %>
             &nbsp;
             <li class="nav-item active">
               <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; TODO</a>
             </li> 
-          <% } %>  
+          <% } %>            
         </ul>
+        <%if (process.env.AAD_APP_ID) { %>
+          <ul class="navbar-nav ml-auto">
+          &nbsp;
+          <%if (!user) { %>
+            <li class="nav-item active">
+              <a class="btn btn-info btn-lg" href="/login"><i class="fas fa-user"></i>&nbsp; LOGIN</a>
+            </li> 
+          <% } else { %>       
+            <li class="nav-item active">
+              <a class="btn btn-info btn-lg" href="/account"><i class="fas fa-id-card"></i>&nbsp; <%= user.displayName %></a>
+            </li>  
+          <% } %> 
+          </ul>
+        <% } %>          
       </div>
-      <%if (user) { %>
-        <div class="navbar-nav ml-auto">
-          <span class="h5"><i class="fa fa-user-circle"></i>&nbsp; <%= user %></span>
-        </div>  
-      <% } %>
     </nav>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -8,8 +8,8 @@ const axios = require('axios');
 // Middleware to pick up if user is logged in via Azure App Service Auth
 // =======================================================================
 router.use(function(req, res, next) {
-  if(req.headers['x-ms-client-principal-name']) {
-    req.app.locals.user = req.headers['x-ms-client-principal-name'];
+  if(req.user) {
+    req.app.locals.user = req.user; //headers['x-ms-client-principal-name'];
   } else {
     req.app.locals.user = null;
   }
@@ -19,11 +19,11 @@ router.use(function(req, res, next) {
 // =======================================================================
 // Get home page and index
 // =======================================================================
-router.get('/', function (req, res, next) {
-    res.render('index', 
-    { 
-      title: 'Node DemoApp - Home'
-    });
+router.get('/', function (req, res, next) { 
+  res.render('index', 
+  { 
+    title: 'Node DemoApp: Home'
+  });
 });
 
 
@@ -31,7 +31,7 @@ router.get('/', function (req, res, next) {
 // Get system & runtime info 
 // =======================================================================
 router.get('/info', function (req, res, next) {
-  let packagejson = require('../package.json');
+  let packagejson = require('./package.json');
   let info = { 
     release: os.release(), 
     type: os.type(), 
@@ -46,7 +46,7 @@ router.get('/info', function (req, res, next) {
 
   res.render('info', 
   { 
-    title: 'Node DemoApp - Info', 
+    title: 'Node DemoApp: Info', 
     info: info, 
     isDocker: fs.existsSync('/.dockerenv'),
     isKube: fs.existsSync('/var/run/secrets/kubernetes.io')
@@ -60,7 +60,7 @@ router.get('/info', function (req, res, next) {
 router.get('/tools', function (req, res, next) {
 res.render('tools', 
   { 
-    title: 'Node DemoApp - Tools'
+    title: 'Node DemoApp: Tools'
   });
 });
 
@@ -108,7 +108,7 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
 router.get('/weather', function (req, res, next) {
   res.render('weather', 
   { 
-    title: 'Node DemoApp - Weather'
+    title: 'Node DemoApp: Weather'
   });
 });
 
@@ -125,7 +125,7 @@ router.get('/load', function (req, res, next) {
 
   res.render('load', 
   { 
-    title: 'Node DemoApp - Load', 
+    title: 'Node DemoApp: Load', 
     val: val,
     time: (new Date().getTime() - start)
   });
