@@ -69,3 +69,10 @@ body {
 
   background-color:#222222;
 }
+.code {
+  word-wrap: break-word;
+  word-break: break-all;
+  background-color: #222222;
+  color:#45da59;
+  width: 100%;/
+}

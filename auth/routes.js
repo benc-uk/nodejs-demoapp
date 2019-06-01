@@ -20,11 +20,17 @@ router.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+router.get('/account', function(req, res){
+  res.render('account', { 
+    title: 'Node DemoApp: Account'
+  });
+});
+
 // =======================================================================
 // Page to generate server side errors, good for App Insights demos
 // =======================================================================
 router.get('/loginfailed', function (req, res, next) {
-  throw new Error('Login ')
+  throw new Error('Login failed')
 });
 
 module.exports = router;

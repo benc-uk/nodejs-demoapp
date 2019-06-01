@@ -1,0 +1,23 @@
+<%- include('_head.ejs') %>
+
+<div class="card text-white bg-secondary">
+  <div class="card-header bg-info h3"><i class="fa fa-user"></i>&nbsp; User Account</div>
+  <div class="card-body h5">
+    
+    <h4 class="text-success">Main Info</h4>
+    <table>
+      <tr><td><b>Display Name: &nbsp;</b></td> <td><%= user.displayName %></td></tr>
+      <tr><td><b>Email: </b></td>        <td><%= user._json.email %></td></tr>
+      <tr><td><b>Tenant ID:</b></td>     <td><%= user._json.tid %></td></tr>
+    </table>
+    
+    <hr>
+
+    <h4 class="text-success">Raw JWT / Profile Object</h4>
+    <pre class="code">
+<%- JSON.stringify(user, null, 2) %>
+    </pre>  
+  </div>
+</div>
+
+<%- include('_foot.ejs') %>

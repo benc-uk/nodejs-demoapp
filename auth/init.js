@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 //
 // This sets up all middleware and Passport gubbins
 // For AAD v2 authentication and sign-in
-// It's kept here to keep server.js clean & tidy
+// It's kept here to stop cluttering server.js with weirdness
 //
 module.exports = function(app) {
   app.use(cookieParser())

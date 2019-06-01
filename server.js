@@ -45,9 +45,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Initialize Passport and AAD authentication 
-if(process.env.AAD_APP_ID) {
-  require('./auth/init')(app)
-}
+if(process.env.AAD_APP_ID) require('./auth/init')(app)
 
 // Routes
 app.use('/', require('./routes.js'));
