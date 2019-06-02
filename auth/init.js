@@ -33,7 +33,7 @@ module.exports = function(app) {
     identityMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
     //identityMetadata: `https://login.microsoftonline.com/${process.env.AAD_TENANT_ID}/v2.0/.well-known/openid-configuration`,
     clientID: process.env.AAD_APP_ID,
-    redirectUrl: 'http://localhost:3000/auth/openid/return',
+    redirectUrl: `${process.env.AAD_REDIRECT_URL_BASE}/auth/openid/return`,
     allowHttpForRedirectUrl: true,
     validateIssuer: false,
     clientSecret: process.env.AAD_APP_SECRET,

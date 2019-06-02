@@ -1,14 +1,14 @@
 # Node.js - Demo Web Application
-This is a simple Node.js web app using the Express framework and EJS templates. It has been designed with cloud demos & containers in mind, to demonstrate capabilities such as auto scaling in Azure and Application Insights monitoring
+This is a simple Node.js web app using the Express framework and EJS templates. It has been designed with cloud demos & containers in mind, to demonstrate capabilities such as auto scaling in Azure, Application Insights monitoring and use of Azure AD for authentication
 
-Based on the standard express-generator template with EJS views e.g. `express --git --view=ejs` but has been enhanced with Bootstrap, FontAwesome and App Insights.
 
 The app has four basic pages accessed from the top navigation menu:
  - **INFO** - Will show some system & runtime information, and will also display if the app is running from within a Docker container.  
  - **TOOLS** - Some tools useful in demos, such a forcing CPU load (for autoscale demos), and error pages for use with App Insights
  - **WEATHER** - Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API. The results are show using animated [Skycons](https://darkskyapp.github.io/skycons/). The has the added bonus of allowing you to see dependency calls (out to external APIs) when monitored by App Insights. Dark Sky API key needs to be provided, see configuration below
- - **TODO** - This is a small todo/task-list app which uses MongoDB as a database. Enable this when demo'ing App Insights to show a more complete and real application. *Note.* this view only appears when `MONGO_CONNSTR` is configured, see configuration below
- 
+ - **TODO** - This is a small todo/task-list app which uses MongoDB as a database. Enable this when demo'ing App Insights to show a more complete and real application. *Note.* this view only appears when `TODO_MONGO_CONNSTR` is configured, see configuration below
+ - **LOGIN** - When configured with details of an app registered in Azure AD  (id and secret) user login button will be enabled. This uses [Passport.js and the Azure AD plug-in](https://github.com/AzureAD/passport-azure-ad) to authenticate via OIDC. In addition the user account page shows details & photo retrieved from the Microsoft Graph API
+
 ![screen](https://user-images.githubusercontent.com/14982936/55620041-dfe96480-5791-11e9-8b78-8ff73ec0f239.png)
 ![screen](https://user-images.githubusercontent.com/14982936/55620043-dfe96480-5791-11e9-9746-3b42a3a41e5f.png)
 ![screen](https://user-images.githubusercontent.com/14982936/55620045-dfe96480-5791-11e9-94f3-6d788ed447c1.png)
@@ -19,7 +19,7 @@ Standard `npm install` and start with `npm start`. Web app will be listening on 
 
 
 ## Configuration 
-The following configuration environmental variables are used. These can be set directly or will be picked up from an `.env` file if it is present.
+The following configuration environmental variables are used. These can be set directly or when running locally will be picked up from an `.env` file if it is present. A sample `.env` file called `.env.sample` is provided for you to copy 
 
 |Name|Default|Description                   |
 |----|-------|------------------------------|
@@ -27,7 +27,11 @@ The following configuration environmental variables are used. These can be set d
 |TODO_MONGO_CONNSTR|*none*   |Connect to specified MongoDB connection string, when set the Todo feature will be enabled in the menu bar|
 |APPINSIGHTS_INSTRUMENTATIONKEY|*none*    |Enable Application Insights monitoring|
 |WEATHER_API_KEY|*none*    |DarkSky weather API key. [Info here](https://darksky.net/dev)|
+|AAD_APP_ID|*none*    |Id of app registered in AAD. When set will enable user login button and profile details page|
+|AAD_APP_SECRET|*none*    |Secret/password of app registered in AAD. Must be set when AAD_APP_ID is set|
+|AAD_REDIRECT_URL_BASE|*none*    |Hostname/domain where app is running. E.g. `http://localhost:3000` or `https://example.com`. Used by login flow to redirect back to the app, the path `/auth/openid/return` will be appended to this value to form the complete redirect URL|
 
+Note. [When configuring your app in Azure AD](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app), make sure you enable the options for "Access Tokens" and "ID Tokens" in the Authentication settings
 
 ## Docker 
 Public Docker image is [available on Dockerhub](https://hub.docker.com/r/bencuk/nodejs-demoapp/).  
