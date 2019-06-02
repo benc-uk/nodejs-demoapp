@@ -26,22 +26,6 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/.well-known/microsoft-identity-association.json', function (req, res, next) { 
-  res.type('application/json');
-  res.status(200).send(JSON.stringify(
-    {
-      "associatedApplications": [
-        {
-          "applicationId": "79a5ae6e-58ea-4114-8c42-1fd260b9549c"
-        }
-      ]
-    }
-  ))
-});
-
-https://nodejs-demoapp.azurewebsites.net/.well-known/microsoft-identity-association.json
-
-
 // =======================================================================
 // Get system & runtime info 
 // =======================================================================
@@ -132,7 +116,6 @@ router.get('/weather', function (req, res, next) {
 // Page to generate CPU load
 // =======================================================================
 router.get('/load', function (req, res, next) {
-
   var start = new Date().getTime();;
   for(i = 0; i < 499900000.0; i++) { 
     var val = Math.pow(9000.0, 9000.0);
@@ -151,7 +134,8 @@ router.get('/load', function (req, res, next) {
 // Page to generate server side errors, good for App Insights demos
 // =======================================================================
 router.get('/error', function (req, res, next) {
-  cakes.eat();
+  // Call some gibberish (object doesn't exist) which should trigger an exception 
+  beansOnToast.eat();
 });
 
 module.exports = router;
