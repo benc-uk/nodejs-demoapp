@@ -21,9 +21,9 @@ var db;
 //
 (async function() {
   try {
-    let client = await MongoClient.connect(process.env.MONGO_CONNSTR);
+    let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR);
     db = client.db(DBNAME);
-    console.log(`### Connected to MongoDB!`);
+    console.log(`### Enabled Todo app. Connected to MongoDB!`);
   } catch (err) {
     if(AppInsights.defaultClient) AppInsights.defaultClient.trackException({exception: err});
     console.log(`### ERROR! ${err.toString()}`);

@@ -24,7 +24,7 @@ The following configuration environmental variables are used. These can be set d
 |Name|Default|Description                   |
 |----|-------|------------------------------|
 |PORT|3000   |Port the server will listen on|
-|MONGO_CONNSTR|*none*   |Connect to specified MongoDB connection string, when set the Todo feature will be enabled in the menu bar|
+|TODO_MONGO_CONNSTR|*none*   |Connect to specified MongoDB connection string, when set the Todo feature will be enabled in the menu bar|
 |APPINSIGHTS_INSTRUMENTATIONKEY|*none*    |Enable Application Insights monitoring|
 |WEATHER_API_KEY|*none*    |DarkSky weather API key. [Info here](https://darksky.net/dev)|
 

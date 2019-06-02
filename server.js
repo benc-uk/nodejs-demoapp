@@ -49,7 +49,7 @@ if(process.env.AAD_APP_ID) require('./auth/init')(app)
 
 // Routes
 app.use('/', require('./routes.js'));
-if(process.env.MONGO_CONNSTR) app.use('/', require('./todo/routes'));
+if(process.env.TODO_MONGO_CONNSTR) app.use('/', require('./todo/routes'));
 app.use('/', require('./auth/routes'));
 
 // Make package app version a global var, shown in _foot.ejs

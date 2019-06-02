@@ -9,7 +9,7 @@ const axios = require('axios');
 // =======================================================================
 router.use(function(req, res, next) {
   if(req.user) {
-    req.app.locals.user = req.user; //headers['x-ms-client-principal-name'];
+    req.app.locals.user = req.user.profile; //headers['x-ms-client-principal-name'];
   } else {
     req.app.locals.user = null;
   }

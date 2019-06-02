@@ -48,7 +48,7 @@
             </li> 
           <% } %>
 
-          <%if (process.env.MONGO_CONNSTR) { %>
+          <%if (process.env.TODO_MONGO_CONNSTR) { %>
             &nbsp;
             <li class="nav-item active">
               <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; TODO</a>
@@ -64,7 +64,7 @@
             </li> 
           <% } else { %>       
             <li class="nav-item active">
-              <a class="btn btn-info btn-lg" href="/account"><i class="fas fa-id-card"></i>&nbsp; <%= user.displayName %></a>
+              <a class="btn btn-success btn-lg" href="/account"><i class="fas fa-user-circle"></i>&nbsp; <%= user.displayName %></a>
             </li>  
           <% } %> 
           </ul>

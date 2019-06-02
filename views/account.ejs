@@ -1,16 +1,33 @@
 <%- include('_head.ejs') %>
 
 <div class="card text-white bg-secondary">
-  <div class="card-header bg-info h3"><i class="fa fa-user"></i>&nbsp; User Account</div>
+  <div class="card-header bg-info h3"><i class="fa fa-user-cog"></i>&nbsp; User Account</div>
   <div class="card-body h5">
     
-    <h4 class="text-success">Main Info</h4>
+    <a class="btn btn-danger btn-lg float-right" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    
+    <h4 class="text-success">Basic Info (from OIDC)</h4>
     <table>
       <tr><td><b>Display Name: &nbsp;</b></td> <td><%= user.displayName %></td></tr>
       <tr><td><b>Email: </b></td>        <td><%= user._json.email %></td></tr>
       <tr><td><b>Tenant ID:</b></td>     <td><%= user._json.tid %></td></tr>
     </table>
     
+    <% if(details) { %>
+      <hr>
+      <% if(photo) { %>
+        <img class="float-right" src="data:image/png;base64,<%- photo %>" style="width: 200px; border-radius: 50%">
+      <% } %>
+
+      <h4 class="text-success">Microsoft Graph Details</h4>
+      <table>
+        <% Object.keys(details).forEach(key => { %>
+          <% if(!key.startsWith("@")) { %>
+            <tr><td><b><%= key %>: &nbsp;</b></td> <td><%= details[key] %></td></tr>
+        <% } }) %>
+      </table>
+    <% } %>
+
     <hr>
 
     <h4 class="text-success">Raw JWT / Profile Object</h4>
