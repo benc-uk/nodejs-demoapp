@@ -12,6 +12,7 @@ The app has four basic pages accessed from the top navigation menu:
 ![screen](https://user-images.githubusercontent.com/14982936/55620041-dfe96480-5791-11e9-8b78-8ff73ec0f239.png)
 ![screen](https://user-images.githubusercontent.com/14982936/55620043-dfe96480-5791-11e9-9746-3b42a3a41e5f.png)
 ![screen](https://user-images.githubusercontent.com/14982936/55620045-dfe96480-5791-11e9-94f3-6d788ed447c1.png)
+![screen](https://user-images.githubusercontent.com/14982936/58760378-e5172580-852e-11e9-8a69-7cf24028c2af.png)
 
 
 ## Running 
@@ -35,7 +36,6 @@ Note. [When configuring your app in Azure AD](https://docs.microsoft.com/en-us/a
 
 ## Docker 
 Public Docker image is [available on Dockerhub](https://hub.docker.com/r/bencuk/nodejs-demoapp/).  
-Note. The Docker image includes SSH support, this is to enable the web console feature when running this app as a container in Azure Web App for Containers.  
 
 Run with 
 ```
@@ -61,6 +61,7 @@ To configure this, set the `APPINSIGHTS_INSTRUMENTATIONKEY` environmental variab
 Templates for deployment to Azure with "quick deploy" buttons are [here](azure-deploy/)
 
 ## Updates
+* Jun 2019 - Added Azure AD login and profile page, cleaned up Todo app MongoDB code
 * Apr 2019 - Updated to latest App Insights SDK package, and moved to Bootstrap 4
 * Dec 2018 - Modified weather to use client browser location, rather than use IP
 * Jul 2018 - Switched todo app over to MongoDB, fixed weather
@@ -72,4 +73,3 @@ Templates for deployment to Azure with "quick deploy" buttons are [here](azure-d
 * Aug 2017 - Minor changes and fixes for CRLF stuff
 * July 2017 - Updated Dockerfile to use super tiny Alpine Node 6 image
 * June 2017 - Moved repo to Github
-
