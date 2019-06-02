@@ -26,6 +26,21 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/.well-known/microsoft-identity-association.json', function (req, res, next) { 
+  res.type('application/json');
+  res.status(200).send(JSON.stringify(
+    {
+      "associatedApplications": [
+        {
+          "applicationId": "79a5ae6e-58ea-4114-8c42-1fd260b9549c"
+        }
+      ]
+    }
+  ))
+});
+
+https://nodejs-demoapp.azurewebsites.net/.well-known/microsoft-identity-association.json
+
 
 // =======================================================================
 // Get system & runtime info 
@@ -58,7 +73,7 @@ router.get('/info', function (req, res, next) {
 // Tools page
 // =======================================================================
 router.get('/tools', function (req, res, next) {
-res.render('tools', 
+  res.render('tools', 
   { 
     title: 'Node DemoApp: Tools'
   });
