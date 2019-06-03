@@ -48,4 +48,4 @@ stages:
               location: '$(location)'
               csmFile: 'azure-arm/app-service/containers/web-app-acr.json'
               csmParametersFile: 'azure-arm/app-service/containers/web-app-acr.parameters.json'
-              overrideParameters: '-siteName $(app-svcname) -existingPlan $(res-group)/$(app-svc-plan) -registryName $(acr-name) -registryPassword $(acr-password) -imageNameTag apps/$(appname):latest'
+              overrideParameters: '-siteName $(appservice-name) -existingPlan $(res-group)/$(app-svc-plan) -registryName $(acr-name) -registryPassword $(acr-password) -imageNameTag apps/$(appname):latest'
