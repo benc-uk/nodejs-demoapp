@@ -18,6 +18,11 @@
           appInsights.trackPageView();
       </script> 
     <% } %>
+    <script>
+      if(!!window.MSInputMethodContext && !!document.documentMode) {
+        alert("Greetings Time Traveller!\n\nYou're still running Internet Explorer. I feel very sorry for you.\nTry using a real browser otherwise parts of this site will not work")
+      }
+    </script>
 
   </head>
   <body>
