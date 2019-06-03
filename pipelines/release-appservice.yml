@@ -14,7 +14,9 @@ variables:
   - name: azure-connection
     value: 'Azure (AIRS)'
   - name: acr-name
-    value: bcdemo
+    value: 'bcdemo'
+  - name: app-svc-plan
+    value: 'SharedAppPlanLinux'
 
 stages:
 - stage: deployTest
@@ -40,9 +42,9 @@ stages:
           - task: AzureResourceGroupDeployment@2
             displayName: 'Deploy Web App Container (ARM)'
             inputs:
-              azureSubscription: ''
+              azureSubscription: '$(azure-connection)'
               resourceGroupName: '$(res-group)'
               location: '$(location)'
               csmFile: 'azure-arm/app-service/containers/web-app-acr.json'
-              csmParametersFile: '$(System.DefaultWorkingDirectory)/App-Source/azure-arm/app-service/containers/web-app-acr.parameters.json'
+              csmParametersFile: 'azure-arm/app-service/containers/web-app-acr.parameters.json'
               overrideParameters: '-siteName $(app-svcname) -existingPlan $(res-group)/$(app-svc-plan) -registryName $(acr-name) -registryPassword $(acr-password) -imageNameTag apps/$(appname):latest'
