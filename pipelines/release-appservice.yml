@@ -1,0 +1,47 @@
+trigger: none
+
+#
+# NOTE! The shared-secrets variable group must be pre-created and populated
+# - Expected variables: acr-password
+#
+variables:
+  - group: shared-secrets
+
+  - name: app-name
+    value: 'nodejs-demoapp'
+  - name: res-group
+    value: 'Demo.AppService'
+  - name: azure-connection
+    value: 'Azure (AIRS)'
+  - name: acr-name
+    value: bcdemo
+
+stages:
+- stage: deployTest
+  displayName: 'Test'
+
+  variables:
+    location: 'North Europe'
+    appservice-name: '$(app-name)-test'
+
+  jobs:
+  - deployment: deployToAppService
+    displayName: 'Deploy to App Service'
+
+    pool:
+      vmImage: Ubuntu-16.04
+
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureResourceGroupDeployment@2
+            displayName: 'Deploy Web App Container (ARM)'
+            inputs:
+              azureSubscription: ''
+              resourceGroupName: '$(res-group)'
+              location: '$(location)'
+              csmFile: 'azure-arm/app-service/containers/web-app-acr.json'
+              csmParametersFile: '$(System.DefaultWorkingDirectory)/App-Source/azure-arm/app-service/containers/web-app-acr.parameters.json'
+              overrideParameters: '-siteName $(app-svcname) -existingPlan $(res-group)/$(app-svc-plan) -registryName $(acr-name) -registryPassword $(acr-password) -imageNameTag apps/$(appname):latest'
