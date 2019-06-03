@@ -1,12 +1,8 @@
 trigger: none
 
-#
-# NOTE! The shared-secrets variable group must be pre-created and populated
-# - Expected variables: acr-password
-#
 variables:
+  # This variable group must exist & populated with acr-password
   - group: shared-secrets
-  - group: nodejs-demoapp-vars
 
   - name: app-name
     value: 'nodejs-demoapp'
@@ -25,30 +21,30 @@ stages:
 #
 # Test
 #
-- stage: deployTest
-  displayName: 'Test'
+# - stage: deployTest
+#   displayName: 'Test'
 
-  variables:
-    appservice-name: '$(app-name)-test'
+#   variables:
+#     appservice-name: '$(app-name)-test'
 
-  jobs:
-  - template: templates/arm-app-service.yml
-    parameters:
-      envName: Test
+#   jobs:
+#   - template: templates/arm-app-service.yml
+#     parameters:
+#       envName: Test
 
 #
 # Staging
 #
-- stage: deployStaging
-  displayName: 'Staging'
+# - stage: deployStaging
+#   displayName: 'Staging'
 
-  variables:
-    appservice-name: '$(app-name)-staging'
+#   variables:
+#     appservice-name: '$(app-name)-staging'
 
-  jobs:
-  - template: templates/arm-app-service.yml
-    parameters:
-      envName: Staging
+#   jobs:
+#   - template: templates/arm-app-service.yml
+#     parameters:
+#       envName: Staging
 
 #
 # Prod
@@ -65,7 +61,11 @@ stages:
       envName: Prod   
 
   - job: configureProdApp
+    dependsOn: deployToAppService
     displayName: 'Configure Prod App Settings'
+    variables:
+      # This variable group must exist & populated with all the vars in the configureProdApp job
+      - group: nodejs-demoapp-vars
     pool:
       vmImage: Ubuntu-16.04
     steps:
@@ -76,12 +76,12 @@ stages:
           scriptLocation: inlineScript
           inlineScript: |
             az webapp config appsettings set -g $(res-group) -n $(appservice-name) --settings \
-            RELEASE=$(Build.BuildNumber)  \
-            MONGO_CONNSTR=$(mongo-db-connstr)  \
-            TODO_MONGO_DB=$(mongo-db-name)  \
-            APPINSIGHTS_INSTRUMENTATIONKEY=$(app-insights-key)  \
-            WEATHER_API_KEY=$(weather-key)  \
-            AAD_APP_SECRET=$(aad-app-secret)  \
+            RELEASE=$(Build.BuildNumber) \
+            MONGO_CONNSTR=$(mongo-db-connstr) \
+            TODO_MONGO_DB=$(mongo-db-name) \
+            APPINSIGHTS_INSTRUMENTATIONKEY=$(app-insights-key) \
+            WEATHER_API_KEY=$(weather-key) \
+            AAD_APP_SECRET=$(aad-app-secret) \
             AAD_APP_ID=$(aad-app-id) \
             AAD_REDIRECT_URL_BASE=$(aad-redirect-url)
 
