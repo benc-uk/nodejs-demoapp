@@ -3,6 +3,8 @@
 <div class="card text-white bg-secondary">
   <div class="card-header bg-info h3"><i class="fa fa-globe"></i>&nbsp; Geolocated Weather</div>
   <div class="card-body">
+    <div class="alert alert-warning fade" role="alert" id="error" style="color: #222">
+    </div>
     <table>
       <tr>
         <td> <canvas id="weather_icon" width="256" height="256"></canvas> </td>
@@ -21,14 +23,26 @@
 <script src='js/skycons.js'></script>
 <script>
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(getWeather);
+    $('#error').addClass('hide');
+    navigator.geolocation.getCurrentPosition(getWeather, (err) => {  
+      let errMessage = err.message;
+      if(err.message.startsWith("Only secure origins are allowed")) {
+        errMessage = "getCurrentPosition API only works on secure (HTTPS) domains";
+      } 
+      $('#error').addClass('show');
+      $('#error').text(errMessage + ". Will fall back to showing weather for London");
+      getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 }})
+    });
   } else {
+    $('#error').addClass('show');
+    $('#error').text("Geolocation is not supported by this browser. Maybe it's time to upgrade!");
+    getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 }})
     console.err("Geolocation is not supported by this browser.");
   }
 
   function getWeather(pos) {
-    let lat = pos.coords.latitude; //51.40329 
-    let long = pos.coords.longitude; //0.05619 
+    let lat = pos.coords.latitude;    //51.40329 
+    let long = pos.coords.longitude;  //0.05619 
     $.get(`/api/weather/${lat}/${long}`, weather => {
       var skycons = new Skycons({ "color": "#3498db" });
       skycons.add("weather_icon", weather.icon);
