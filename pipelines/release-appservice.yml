@@ -83,7 +83,7 @@ stages:
             AAD_APP_SECRET=$(aad-app-secret) \
             AAD_APP_ID=$(aad-app-id) \
             AAD_REDIRECT_URL_BASE=$(aad-redirect-url) \
-            MONGO_CONNSTR=$(mongo-db-connstr)
+            TODO_MONGO_CONNSTR=$(mongo-db-connstr)
 
   - job: removeNonProd
     displayName: 'Remove Non Prod Apps'
