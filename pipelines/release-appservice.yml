@@ -39,6 +39,7 @@ stages:
         deploy:
           steps:
           - checkout: self
+            submodules: true 
           - task: AzureResourceGroupDeployment@2
             displayName: 'Deploy Web App Container (ARM)'
             inputs:
