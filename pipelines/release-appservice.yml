@@ -75,15 +75,15 @@ stages:
           azureSubscription: 'Azure (AIRS)'
           scriptLocation: inlineScript
           inlineScript: |
-            az webapp config appsettings set -g $(res-group) -n $(appservice-name) --settings /
-            RELEASE=$(Build.BuildNumber) /
-            MONGO_CONNSTR=$(mongo-db-connstr) /
-            TODO_MONGO_DB=$(mongo-db-name) /
-            APPINSIGHTS_INSTRUMENTATIONKEY=$(app-insights-key) /
-            WEATHER_API_KEY=$(weather-key) /
-            AAD_APP_SECRET=$(aad-app-secret) /
-            AAD_APP_ID=$(aad-app-id) /
-            AAD_REDIRECT_URL_BASE=$(aad-redirect-url) 
+            az webapp config appsettings set -g $(res-group) -n $(appservice-name) --settings \
+            RELEASE=$(Build.BuildNumber)  \
+            MONGO_CONNSTR=$(mongo-db-connstr)  \
+            TODO_MONGO_DB=$(mongo-db-name)  \
+            APPINSIGHTS_INSTRUMENTATIONKEY=$(app-insights-key)  \
+            WEATHER_API_KEY=$(weather-key)  \
+            AAD_APP_SECRET=$(aad-app-secret)  \
+            AAD_APP_ID=$(aad-app-id) \
+            AAD_REDIRECT_URL_BASE=$(aad-redirect-url)
 
   - job: removeNonProd
     displayName: 'Remove Non Prod Apps'
