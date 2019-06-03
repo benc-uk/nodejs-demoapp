@@ -4,37 +4,56 @@
   <div class="card-header bg-info h3"><i class="fa fa-user-cog"></i>&nbsp; User Account</div>
   <div class="card-body h5">
     
-    <a class="btn btn-danger btn-lg float-right" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a class="btn btn-danger btn-lg float-right mr-3" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a class="btn btn-info btn-lg float-right mr-3" data-toggle="modal" data-target="#detailsModal"><i class="fas fa-code"></i> Debug</a>
+    <br>
     
-    <h4 class="text-success">Basic Info (from OIDC)</h4>
-    <table>
+    <h4 class="text-success">Basic Info</h4>
+    <table class="table table-striped">
       <tr><td><b>Display Name: &nbsp;</b></td> <td><%= user.displayName %></td></tr>
       <tr><td><b>Email: </b></td>        <td><%= user._json.email %></td></tr>
       <tr><td><b>Tenant ID:</b></td>     <td><%= user._json.tid %></td></tr>
     </table>
     
+    <% if(photo) { %>
+      <hr>
+      <h4 class="text-success">Photo</h4>
+      <img src="data:image/png;base64,<%- photo %>" style="width: 160px; border-radius: 50%;">
+    <% } %>
+
     <% if(details) { %>
       <hr>
-      <% if(photo) { %>
-        <img class="float-right" src="data:image/png;base64,<%- photo %>" style="width: 160px; border-radius: 50%">
-      <% } %>
-
       <h4 class="text-success">Microsoft Graph Details</h4>
-      <table>
+      <table class="table table-striped">
         <% Object.keys(details).forEach(key => { %>
           <% if(!key.startsWith("@")) { %>
             <tr><td><b><%= key %>: &nbsp;</b></td> <td><%= details[key] %></td></tr>
         <% } }) %>
       </table>
     <% } %>
-
-    <hr>
-
-    <h4 class="text-success">Raw JWT / Profile Object</h4>
-    <pre class="code">
-<%- JSON.stringify(user, null, 2) %>
-    </pre>  
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Raw JWT / Profile Object</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <pre class="code">
+<%- JSON.stringify(user, null, 2) %>
+            </pre>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <%- include('_foot.ejs') %>
