@@ -27,6 +27,7 @@ stages:
   jobs:
   - deployment: deployToAppService
     displayName: 'Deploy to App Service'
+    environment: 'Test'
 
     pool:
       vmImage: Ubuntu-16.04
