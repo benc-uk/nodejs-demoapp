@@ -22,7 +22,7 @@ var db;
 (async function() {
   try {
     
-    let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR);
+    let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, { useNewUrlParser: true });
     db = client.db(DBNAME);
     console.log(`### Enabled Todo app. Connected to MongoDB!`);
   } catch (err) {
