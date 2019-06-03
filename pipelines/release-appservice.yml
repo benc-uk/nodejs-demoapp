@@ -21,30 +21,30 @@ stages:
 #
 # Test
 #
-# - stage: deployTest
-#   displayName: 'Test'
+- stage: deployTest
+  displayName: 'Test'
 
-#   variables:
-#     appservice-name: '$(app-name)-test'
+  variables:
+    appservice-name: '$(app-name)-test'
 
-#   jobs:
-#   - template: templates/arm-app-service.yml
-#     parameters:
-#       envName: Test
+  jobs:
+  - template: templates/arm-app-service.yml
+    parameters:
+      envName: Test
 
 #
 # Staging
 #
-# - stage: deployStaging
-#   displayName: 'Staging'
+- stage: deployStaging
+  displayName: 'Staging'
 
-#   variables:
-#     appservice-name: '$(app-name)-staging'
+  variables:
+    appservice-name: '$(app-name)-staging'
 
-#   jobs:
-#   - template: templates/arm-app-service.yml
-#     parameters:
-#       envName: Staging
+  jobs:
+  - template: templates/arm-app-service.yml
+    parameters:
+      envName: Staging
 
 #
 # Prod
@@ -58,32 +58,23 @@ stages:
   jobs:
   - template: templates/arm-app-service.yml
     parameters:
-      envName: Prod   
-
-  - job: configureProdApp
-    dependsOn: deployToAppService
-    displayName: 'Configure Prod App Settings'
-    variables:
-      # This variable group must exist & populated with all the vars in the configureProdApp job
-      - group: nodejs-demoapp-vars
-    pool:
-      vmImage: Ubuntu-16.04
-    steps:
-      - task: AzureCLI@1
-        displayName: 'Set webapp config'
-        inputs:
-          azureSubscription: 'Azure (AIRS)'
-          scriptLocation: inlineScript
-          inlineScript: |
-            az webapp config appsettings set -g $(res-group) -n $(appservice-name) --settings \
-            RELEASE=$(Build.BuildNumber) \
-            TODO_MONGO_DB=$(mongo-db-name) \
-            APPINSIGHTS_INSTRUMENTATIONKEY=$(app-insights-key) \
-            WEATHER_API_KEY=$(weather-key) \
-            AAD_APP_SECRET=$(aad-app-secret) \
-            AAD_APP_ID=$(aad-app-id) \
-            AAD_REDIRECT_URL_BASE=$(aad-redirect-url) \
-            TODO_MONGO_CONNSTR=$(mongo-db-connstr)
+      envName: Prod  
+    steps: 
+    - task: AzureCLI@1
+      displayName: 'Set webapp config'
+      inputs:
+        azureSubscription: 'Azure (AIRS)'
+        scriptLocation: inlineScript
+        inlineScript: |
+          az webapp config appsettings set -g $(res-group) -n $(appservice-name) --settings \
+          RELEASE=$(Build.BuildNumber) \
+          TODO_MONGO_DB=$(mongo-db-name) \
+          APPINSIGHTS_INSTRUMENTATIONKEY=$(app-insights-key) \
+          WEATHER_API_KEY=$(weather-key) \
+          AAD_APP_SECRET=$(aad-app-secret) \
+          AAD_APP_ID=$(aad-app-id) \
+          AAD_REDIRECT_URL_BASE=$(aad-redirect-url) \
+          TODO_MONGO_CONNSTR=$(mongo-db-connstr)
 
   - job: removeNonProd
     displayName: 'Remove Non Prod Apps'
