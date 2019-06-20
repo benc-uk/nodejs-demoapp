@@ -31,6 +31,11 @@ router.get('/', function (req, res, next) {
 // =======================================================================
 router.get('/info', function (req, res, next) {
   let packagejson = require('./package.json');
+
+  var date = new Date(null);
+  date.setSeconds(os.uptime()); // specify value for SECONDS here
+  var result = date.toISOString();//.substr(0, 8);
+
   let info = { 
     release: os.release(), 
     type: os.type(), 
@@ -40,7 +45,8 @@ router.get('/info', function (req, res, next) {
     mem: Math.round(os.totalmem() / 1048576),
     env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
     nodever: process.version,
-    appver: packagejson.version
+    appver: packagejson.version,
+    uptime: convertSectoDay(os.uptime())
   }
 
   res.render('info', 
@@ -139,3 +145,17 @@ router.get('/error', function (req, res, next) {
 });
 
 module.exports = router;
+
+//
+// Util to convert seconds to DD:HH:MM:SS
+// 
+function convertSectoDay(n)  { 
+  let days = Math.floor(n / (24 * 3600)); 
+  n = n % (24 * 3600); 
+  let hours = Math.floor(n / 3600); 
+  n %= 3600; 
+  let mins = Math.floor(n / 60); 
+  n %= 60; 
+  let secs = n; 
+  return `${days} days, ${hours} hours, ${mins} mins, ${secs} seconds`;
+} 
