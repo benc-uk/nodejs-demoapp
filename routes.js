@@ -46,7 +46,7 @@ router.get('/info', function (req, res, next) {
     env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
     nodever: process.version,
     appver: packagejson.version,
-    uptime: convertSectoDay(os.uptime())
+    uptime: convertSeconds(os.uptime())
   }
 
   res.render('info', 
@@ -122,7 +122,7 @@ router.get('/weather', function (req, res, next) {
 // Page to generate CPU load
 // =======================================================================
 router.get('/load', function (req, res, next) {
-  var start = new Date().getTime();;
+  var start = new Date().getTime();
   for(i = 0; i < 499900000.0; i++) { 
     var val = Math.pow(9000.0, 9000.0);
   }
@@ -146,16 +146,16 @@ router.get('/error', function (req, res, next) {
 
 module.exports = router;
 
-//
-// Util to convert seconds to DD:HH:MM:SS
-// 
-function convertSectoDay(n)  { 
+// ******* UTILS HERE *************************************************************
+
+// Util to convert seconds to DD:HH:MM:SS 
+function convertSeconds(n)  { 
   let days = Math.floor(n / (24 * 3600)); 
   n = n % (24 * 3600); 
   let hours = Math.floor(n / 3600); 
   n %= 3600; 
   let mins = Math.floor(n / 60); 
   n %= 60; 
-  let secs = n; 
+  let secs = n;
   return `${days} days, ${hours} hours, ${mins} mins, ${secs} seconds`;
 } 
