@@ -86,6 +86,9 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
     let weather = await axios.get(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`);
 
     if(weather.data.currently) {
+      const appInsights = require("applicationinsights");    
+      if(appInsights.defaultClient) appInsights.defaultClient.trackMetric({name: "weatherTemp", value: weather.data.currently.temperature});
+      
       res.status(200).send({ 
         long: long,
         lat: lat,
