@@ -29,7 +29,7 @@
     "ejs": "~2.6.1",
     "express": "~4.17.1",
     "express-session": "^1.16.1",
-    "mongodb": "^3.2.6",
+    "mongodb": "^3.3.2",
     "morgan": "~1.9.1",
     "passport-azure-ad": "^4.1.0"
   },
