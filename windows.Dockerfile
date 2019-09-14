@@ -1,5 +1,5 @@
-FROM stefanscherer/node-windows:10.15.3-nanoserver-1809
-LABEL Name="Node.js Demo App" Version=4.2.0
+FROM stefanscherer/node-windows:10.16.3-nanoserver-1809
+LABEL Name="Node.js Demo App" Version=4.2.2
 ENV NODE_ENV production
 WORKDIR /app 
 

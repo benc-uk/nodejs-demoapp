@@ -27,7 +27,11 @@
       <table class="table table-striped">
         <% Object.keys(details).forEach(key => { %>
           <% if(!key.startsWith("@")) { %>
-            <tr><td><b><%= key %>: &nbsp;</b></td> <td><%= details[key] %></td></tr>
+            <% 
+              let displayKey = key.replace(/([A-Z])/g, ' $1')
+              displayKey = displayKey.replace(/^./, str => { return str.toUpperCase() })
+            %>
+            <tr><td><b><%= displayKey %>: &nbsp;</b></td> <td><%= details[key] %></td></tr>
         <% } }) %>
       </table>
     <% } %>

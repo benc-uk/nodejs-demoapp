@@ -3,6 +3,10 @@ const router = express.Router();
 const passport = require('passport');
 const axios = require('axios');
 
+// ==============================
+// Routes
+// ==============================
+
 router.get('/login', 
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/loginfailed' }),
   function(req, res) {
@@ -50,9 +54,9 @@ router.get('/loginfailed', function (req, res, next) {
 
 module.exports = router;
 
-//
-//
-//
+// ==============================
+// MS Graph calls
+// ==============================
 
 async function getUserDetails(accessToken) { 
   try {

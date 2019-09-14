@@ -78,11 +78,8 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
   let long = req.params.long
   let lat = req.params.lat
 
-  //https://geocode.xyz/51.40329,0.05619?json=1
-
   // Call Darksky weather API
   try {
-    //let loc = await axios.get(`https://geocode.xyz/51.40329,0.05619?json=1`);
     let weather = await axios.get(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`);
 
     if(weather.data.currently) {
@@ -130,8 +127,7 @@ router.get('/load', function (req, res, next) {
     var val = Math.pow(9000.0, 9000.0);
   }
 
-  res.render('load', 
-  { 
+  res.render('load', { 
     title: 'Node DemoApp: Load', 
     val: val,
     time: (new Date().getTime() - start)

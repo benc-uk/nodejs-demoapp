@@ -88,9 +88,7 @@ app.use(function(err, req, res, next) {
 var port = process.env.PORT || 3000;
 
 // Start the server
-var server = require('http').createServer(app);
-server.keepAliveTimeout = 0; // This is a workaround for WSL v2 issues
-server.listen(port);
+app.listen(port);
 console.log(`### Server listening on port ${port}`);
 
 module.exports = app;
