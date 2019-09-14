@@ -43,6 +43,7 @@ steps:
     testResultsFormat: JUnit
     testResultsFiles: 'test-results.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)'
+    testRunTitle: Demo app Mocha unit tests
   condition: always()
   displayName: 'Publish test results'
 
