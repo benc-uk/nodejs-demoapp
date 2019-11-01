@@ -1,0 +1,14 @@
+{
+  // Open port 3000 by default
+  "appPort": 3000,
+
+  // Install ESLint and Peacock extensions
+  "extensions": [
+    "johnpapa.vscode-peacock"
+  ],
+
+  // Set remote color for Peacock
+  "settings": {
+    "peacock.remoteColor": "#0078D7"
+  }
+}
