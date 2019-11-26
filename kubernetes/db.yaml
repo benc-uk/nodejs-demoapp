@@ -1,0 +1,6 @@
+persistence:
+  enabled: false
+  size: 1Gi
+usePassword: false
+replicaSet:
+  enabled: false  

@@ -1,0 +1,9 @@
+image:
+  repository: bencuk/nodejs-demoapp
+  tag: latest
+  pullPolicy: Always
+
+replicaCount: 1
+
+service:
+  targetPort: 3000

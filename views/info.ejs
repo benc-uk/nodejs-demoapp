@@ -52,10 +52,13 @@
 
     <div class="envtable">
       <table class="table table-hover" >    
-        <% Object.keys(process.env).forEach(p => { %>
-          <% if (p == 'WEATHER_API_KEY') return %>
+
+        <% for(let p in process.env) { %>
+          <% if (p.includes('SECRET')) continue %>
+          <% if (p.includes('PWD')) continue %>
+          <% if (p.includes('API_KEY')) continue %>
           <tr> <td> <%= p %> </td> <td class="envvars"><%= process.env[p] %></td> </tr>
-        <% }) %>
+        <% } %>
       </table>
     </div>
 

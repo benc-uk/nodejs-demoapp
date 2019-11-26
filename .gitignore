@@ -4,3 +4,4 @@ node_modules/
 .env
 **/test-results.xml
 azuredeploy.my.parameters.json
+appvalues.yaml

@@ -32,10 +32,6 @@ router.get('/', function (req, res, next) {
 router.get('/info', function (req, res, next) {
   let packagejson = require('./package.json');
 
-  var date = new Date(null);
-  date.setSeconds(os.uptime()); // specify value for SECONDS here
-  var result = date.toISOString();//.substr(0, 8);
-
   let info = { 
     release: os.release(), 
     type: os.type(), 
