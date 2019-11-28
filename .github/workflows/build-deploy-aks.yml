@@ -6,14 +6,17 @@ on:
   pull_request:
     branches: [master]
 
-# Note. Required secrets: dockerPassword, acrPassword
+# Note. Required secrets: dockerPassword, acrPassword & kubeConfig
 
 env:
   dockerUser: bencuk
   acrName: bcdemo
   imageName: nodejs-demoapp
   host: nodejs-demoapp.kube.benco.io
-  
+  appInsightsKey: 45f5a949-518c-4216-80bd-6c5632a9342c
+  aadAppId: 79a5ae6e-58ea-4114-8c42-1fd260b9549c
+  dbReleaseName: db
+
 jobs:
   buildJob:
     runs-on: ubuntu-latest
@@ -54,13 +57,8 @@ jobs:
         name: vars
         path: ./vars.sh
 
-    - name: create deployment
-      uses: niklasmerz/github-deployment-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        args: -o benc-uk -r nodejs-demoapp -c master -e demo -i 2
-    
+# ================================================================
+
   releaseJob:
     needs: buildJob
     env:
@@ -87,34 +85,40 @@ jobs:
         password: ${{ secrets.acrPassword }}  
 
     - name: Helm install MongoDB
-      uses: 'deliverybot/helm@v1'
+      uses: deliverybot/helm@v1
       with:
-        helm: 'helm3'
-        release: 'db'
-        namespace: 'demoapps'
-        chart: 'https://kubernetes-charts.storage.googleapis.com/mongodb-7.4.6.tgz'
-        value-files: './kubernetes/db.yaml'
+        helm: helm3
+        release: ${{ env.dbReleaseName }}
+        namespace: demoapps
+        chart: https://kubernetes-charts.storage.googleapis.com/mongodb-7.4.6.tgz
+        value-files: ./kubernetes/db.yaml
 
     - name: Helm install Nodejs-Demoapp
-      uses: 'deliverybot/helm@v1'
+      uses: deliverybot/helm@v1
       with:
-        helm: 'helm3'
-        release: 'nodejs'
-        namespace: 'demoapps'
-        chart: 'https://code.benco.io/helm-charts/webapp-1.0.0.tgz'
-        value-files: './kubernetes/app.yaml'
+        helm: helm3
+        release: nodejs
+        namespace: demoapps
+        chart: https://code.benco.io/helm-charts/webapp-1.1.0.tgz
+        value-files: ./kubernetes/app.yaml
         values: |
           image:
-            tag: '${{ env.imageTag }}'
-            repository: '${{ env.acrName }}.azurecr.io/apps/${{ env.imageName }}'
+            tag: ${{ env.imageTag }}
+            repository: ${{ env.acrName }}.azurecr.io/apps/${{ env.imageName }}
 
           env: 
-            TODO_MONGO_CONNSTR: mongodb://db-mongodb
-            WEATHER_API_KEY: ${{ secrets.weatherKey }}
-            APPINSIGHTS_INSTRUMENTATIONKEY: ${{ secrets.appInsightsKey }}
-            AAD_APP_ID: 79a5ae6e-58ea-4114-8c42-1fd260b9549c
-            AAD_APP_SECRET: ${{ secrets.aadAppSecret }}
+            TODO_MONGO_CONNSTR: mongodb://${{ env.dbReleaseName }}-mongodb
+            APPINSIGHTS_INSTRUMENTATIONKEY: ${{ env.appInsightsKey }}
+            AAD_APP_ID: ${{ env.aadAppId }} 
             AAD_REDIRECT_URL_BASE: https://${{ env.host }}
+
+          secretEnv:
+            WEATHER_API_KEY:
+              secretName: nodejs-demoapp
+              secretKey: weatherKey
+            AAD_APP_SECRET:
+              secretName: nodejs-demoapp
+              secretKey: aadAppSecret
 
           ingress:
             enabled: true
