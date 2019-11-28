@@ -103,7 +103,7 @@ jobs:
         value-files: ./kubernetes/app.yaml
         values: |
           image:
-            tag: ${{ env.imageTag }}
+            tag: '${{ env.imageTag }}'
             repository: ${{ env.acrName }}.azurecr.io/apps/${{ env.imageName }}
 
           env: 
