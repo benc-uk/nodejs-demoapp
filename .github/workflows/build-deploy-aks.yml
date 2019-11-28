@@ -99,7 +99,7 @@ jobs:
         helm: helm3
         release: nodejs
         namespace: demoapps
-        chart: https://code.benco.io/helm-charts/webapp-1.1.0.tgz
+        chart: https://code.benco.io/helm-charts/webapp-1.2.0.tgz
         value-files: ./kubernetes/app.yaml
         values: |
           image:
