@@ -13,9 +13,6 @@ env:
   acrName: bcdemo
   imageName: nodejs-demoapp
   host: nodejs-demoapp.kube.benco.io
-  appInsightsKey: 45f5a949-518c-4216-80bd-6c5632a9342c
-  aadAppId: 79a5ae6e-58ea-4114-8c42-1fd260b9549c
-  dbReleaseName: db
 
 jobs:
   buildJob:
@@ -88,7 +85,7 @@ jobs:
       uses: deliverybot/helm@v1
       with:
         helm: helm3
-        release: ${{ env.dbReleaseName }}
+        release: db
         namespace: demoapps
         chart: https://kubernetes-charts.storage.googleapis.com/mongodb-7.4.6.tgz
         value-files: ./kubernetes/db.yaml
@@ -105,27 +102,7 @@ jobs:
           image:
             tag: '${{ env.imageTag }}'
             repository: ${{ env.acrName }}.azurecr.io/apps/${{ env.imageName }}
-
-          env: 
-            TODO_MONGO_CONNSTR: mongodb://${{ env.dbReleaseName }}-mongodb
-            APPINSIGHTS_INSTRUMENTATIONKEY: ${{ env.appInsightsKey }}
-            AAD_APP_ID: ${{ env.aadAppId }} 
+          env:
             AAD_REDIRECT_URL_BASE: https://${{ env.host }}
-
-          secretEnv:
-            WEATHER_API_KEY:
-              secretName: nodejs-demoapp
-              secretKey: weatherKey
-            AAD_APP_SECRET:
-              secretName: nodejs-demoapp
-              secretKey: aadAppSecret
-
           ingress:
-            enabled: true
-            annotations:
-              kubernetes.io/ingress.class: addon-http-application-routing
-              nginx.ingress.kubernetes.io/ssl-redirect: "true"
             host: ${{ env.host }}
-            tls: 
-              enabled: true
-              secretName: kube-benco-io-cert
