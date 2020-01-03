@@ -31,13 +31,14 @@ docker run -d -p 3000:3000 bencuk/nodejs-demoapp
 
 Should you want to build your own container, use the `Dockerfile` at the root of the project
 
-# CI/CD Azure Pipelines 
-A working `azure-pipelines.yml` build pipeline is provided, automated builds are run from the public Azure DevOps project
 
-### [DemoApps Project on Azure DevOps](https://dev.azure.com/bencoleman/DemoApps)
+# GitHub Actions CI/CD 
+A working CI and release GitHub Actions workflow is provided `.github/workflows/build-deploy-aks.yml`, automated builds are run in GitHub hosted runners
 
-### Build Status
-[![Build Status](https://dev.azure.com/bencoleman/DemoApps/_apis/build/status/Build%20nodejs-demoapp?branchName=master)](https://dev.azure.com/bencoleman/DemoApps/_build/latest?definitionId=67&branchName=master)
+### [GitHub Actions](https://github.com/benc-uk/nodejs-demoapp/actions)
+
+![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/Build%20%26%20Deploy%20AKS)  
+![](https://img.shields.io/github/last-commit/benc-uk/nodejs-demoapp)  
 
 
 # Optional Features
