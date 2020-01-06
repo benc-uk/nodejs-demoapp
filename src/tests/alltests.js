@@ -44,3 +44,15 @@ describe('Weather API fails', function() {
       .expect(500, done);
   });
 });
+
+describe('Monitor API returns data', function() {
+  it('Responds with 500', function(done) {
+    request(app)
+      .get('/api/monitoringdata')
+      .expect('Content-Type', /json/)
+      .expect(/memTotalBytes/)
+      .expect(/memUsedBytes/)
+      .expect(/cpuAppPercentage/)
+      .expect(200, done);
+  });
+});

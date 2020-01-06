@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="shortcut icon" type="image/png" href="images/node-icon.png" />
+    <link rel="shortcut icon" type="image/png" href="/images/node-icon.png" />
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <!--link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -28,7 +28,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <a class="navbar-brand" href="/">
-        <img src="images/node-icon.png" width="37" height="40" class="d-inline-block align-top" alt="">
+        <img src="/images/node-icon.png" width="37" height="40" class="d-inline-block align-top" alt="">
         &nbsp; Node.js Demo
       </a>
 
@@ -39,24 +39,28 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="btn btn-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; INFO</a>
+            <a class="btn btn-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; Info</a>
           </li>
           &nbsp;
           <li class="nav-item active">
-            <a class="btn btn-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; TOOLS</a>
+            <a class="btn btn-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; Tools</a>
           </li>          
+          &nbsp;
+          <li class="nav-item active">
+            <a class="btn btn-success btn-lg" href="/monitor"><i class="fas fa-chart-line"></i>&nbsp; Monitor</a>
+          </li>  
 
           <%if (process.env.WEATHER_API_KEY) { %>
             &nbsp;
             <li class="nav-item active">
-              <a class="btn btn-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; WEATHER</a>
+              <a class="btn btn-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; Weather</a>
             </li> 
           <% } %>
 
           <%if (process.env.TODO_MONGO_CONNSTR) { %>
             &nbsp;
             <li class="nav-item active">
-              <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; TODO</a>
+              <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; Todo</a>
             </li> 
           <% } %>            
         </ul>
@@ -65,7 +69,7 @@
           &nbsp;
           <%if (!user) { %>
             <li class="nav-item active">
-              <a class="btn btn-info btn-lg" href="/login"><i class="fas fa-user"></i>&nbsp; LOGIN</a>
+              <a class="btn btn-info btn-lg" href="/login"><i class="fas fa-user"></i>&nbsp; Login</a>
             </li> 
           <% } else { %>       
             <li class="nav-item active">

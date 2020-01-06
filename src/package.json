@@ -1,7 +1,7 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "4.2.2",
+  "version": "4.5.0",
   "author": "Ben Coleman",
   "engines": {
     "node": ">=8.0.0"
@@ -13,7 +13,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "node server.js",
+    "start": "node --expose_gc server.js",
     "start-bg": "node server.js &",
     "test-junit": "mocha --reporter mocha-junit-reporter --exit ./tests",
     "test": "mocha --exit ./tests",
@@ -21,14 +21,13 @@
   },
   "dependencies": {
     "applicationinsights": "^1.6.0",
-    "applicationinsights-native-metrics": "0.0.5",
+    "applicationinsights-native-metrics": "^0.0.5",
     "axios": "^0.19.0",
     "body-parser": "~1.19.0",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.0.0",
     "ejs": "^3.0.1",
     "express": "~4.17.1",
-    "express-session": "^1.16.1",
     "mongodb": "^3.3.2",
     "morgan": "~1.9.1",
     "passport-azure-ad": "^4.1.0"

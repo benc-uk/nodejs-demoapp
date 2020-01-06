@@ -6,8 +6,10 @@ The app has been designed with cloud native demos & containers in mind, in order
 Typical uses would be deployment to Kubernetes, demos of Docker, CI/CD (build pipelines are provided), deployment to cloud (Azure) monitoring, auto-scaling
 
 The app has several basic pages accessed from the top navigation menu, some of which are only lit up when certain configuration variables are set (see 'Optional Features' below):
+
 - **'Info'** - Will show system & runtime information, and will also display if the app is running from within a Docker container and Kubernetes.  
 - **'Tools'** - Some tools useful in demos, such a forcing CPU load (for autoscale demos), and error/exception pages for use with App Insights or other monitoring tool.
+- **'Monitor'** - Display realtime monitoring data, showing memory usage/total and process CPU load.
 - **'Weather'** - (Optional) Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API
 - **'Todo'** - (Optional) This is a small todo/task-list app which uses MongoDB as a database.
 - **'User Account'** - (Optional) When configured with Azure AD (application client id and secret) user login button will be enabled, and an user-account details page enabled, which calls the Microsoft Graph API
@@ -18,7 +20,7 @@ The app has several basic pages accessed from the top navigation menu, some of w
 
 
 # Running Locally 
-Standard Node.js `npm install` and start with `npm start`. Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x and 10.x
+Standard Node.js `npm install` and start with `npm start` from the 'src' directory. Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x and 10.x
 
 
 # Docker 
@@ -97,6 +99,7 @@ ARM templates for deployment to Azure are provided. To get started quickly you c
 
 
 # Updates
+* Jan 2020 - Added monitor page and API
 * Jun 2019 - Added Azure AD login and profile page, cleaned up Todo app MongoDB code
 * Apr 2019 - Updated to latest App Insights SDK package, and moved to Bootstrap 4
 * Dec 2018 - Modified weather to use client browser location, rather than use IP

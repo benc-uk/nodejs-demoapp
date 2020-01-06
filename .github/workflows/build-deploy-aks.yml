@@ -12,6 +12,7 @@ env:
   dockerUser: bencuk
   acrName: bcdemo
   imageName: nodejs-demoapp
+  imageBase: 12-alpine
   host: nodejs-demoapp.kube.benco.io
 
 jobs:
@@ -27,7 +28,7 @@ jobs:
         source ./vars.sh
       
     - name: Build the Docker image
-      run: docker build . --file ./Dockerfile --tag $dockerUser/$imageName:latest --tag $acrName.azurecr.io/apps/$imageName:$imageTag --tag $acrName.azurecr.io/apps/$imageName:latest
+      run: docker build . --file ./Dockerfile --build-arg IMAGE_BASE=$imageBase --tag $dockerUser/$imageName:latest --tag $acrName.azurecr.io/apps/$imageName:$imageTag --tag $acrName.azurecr.io/apps/$imageName:latest
     
     - name: Dockerhub Login
       uses: Azure/docker-login@v1
