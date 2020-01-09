@@ -47,8 +47,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Initialize Passport and AAD authentication 
 if(process.env.AAD_APP_ID) require('./auth/init')(app)
 
-// Routes
-app.use('/', require('./routes.js'));
+// Routes & controllers
+app.use('/', require('./routes/pages.js'));
+app.use('/', require('./routes/api.js'));
 if(process.env.TODO_MONGO_CONNSTR) app.use('/', require('./todo/routes'));
 app.use('/', require('./auth/routes'));
 
