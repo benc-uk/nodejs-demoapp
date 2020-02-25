@@ -1,3 +1,9 @@
+//
+// HTML page routes, that render ejs templates 
+// --------------------------------------------------
+// Ben C, Jan 2020
+//
+
 var express = require('express');
 var router = express.Router();
 const os = require('os');

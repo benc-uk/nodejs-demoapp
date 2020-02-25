@@ -48,10 +48,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 if(process.env.AAD_APP_ID) require('./auth/init')(app)
 
 // Routes & controllers
-app.use('/', require('./routes/pages.js'));
-app.use('/', require('./routes/api.js'));
+app.use('/', require('./routes/pages'));
+app.use('/', require('./routes/api'));
+
+// Optional routes based on certain settings/features being enabled
 if(process.env.TODO_MONGO_CONNSTR) app.use('/', require('./todo/routes'));
-app.use('/', require('./auth/routes'));
+if(process.env.AAD_APP_ID) app.use('/', require('./auth/routes'));
 
 // Make package app version a global var, shown in _foot.ejs
 app.locals.version = require('./package.json').version;

@@ -1,5 +1,7 @@
 //
-// API routes
+// API routes, that return JSON
+// ---------------------------------------------
+// Ben C, Jan 2020
 //
 
 var express = require('express');
