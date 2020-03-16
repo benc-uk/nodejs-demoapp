@@ -1,88 +1,86 @@
-const express = require('express');
-const router = express.Router();
-const passport = require('passport');
-const axios = require('axios');
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
+const axios = require('axios')
 
 // ==============================
 // Routes
 // ==============================
 
-router.get('/login', 
+router.get('/login',
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/loginfailed' }),
   function(req, res) {
-    log.info('Login was called in the Sample');
-    res.redirect('/');
-});
+    res.redirect('/')
+  })
 
 router.post('/auth/openid/return', passport.authenticate('azuread-openidconnect', { failureRedirect: '/loginfailed' }),
   function(req, res) {
-    res.redirect('/');
+    res.redirect('/')
   }
-);
+)
 
 router.get('/logout', function(req, res){
-  req.session.destroy(function(err) {
-    req.logout();
-    res.redirect('/');
-  });
-});
+  req.session.destroy(() => {
+    req.logout()
+    res.redirect('/')
+  })
+})
 
 router.get('/account', async function(req, res) {
-  if(!req.user) { res.redirect('/login'); return; }
-  let details = {};
-  let photo = null;
+  if (!req.user) { res.redirect('/login'); return }
+  let details = {}
+  let photo = null
 
   try {
-    details = await getUserDetails(req.user.token);
-    photo = await getUserPhoto(req.user.token);       
-  } catch(err) {
-    console.log("### ERROR! Problem calling graph API");
-    console.log("### ERROR! ", err);
+    details = await getUserDetails(req.user.token)
+    photo = await getUserPhoto(req.user.token)
+  } catch (err) {
+    console.log('### ERROR! Problem calling graph API')
+    console.log('### ERROR! ', err)
   }
 
-  res.render('account', { 
+  res.render('account', {
     title: 'Node DemoApp: Account',
     details: details,
     photo: photo
-  });  
-});
-
+  })
+})
 
 router.get('/loginfailed', function (req, res, next) {
   throw new Error('Login failed')
-});
+})
 
-module.exports = router;
+module.exports = router
 
 // ==============================
 // MS Graph calls
 // ==============================
 
-async function getUserDetails(accessToken) { 
+async function getUserDetails(accessToken) {
   try {
     let graphReq = {
-      url: "https://graph.microsoft.com/v1.0/me",
-      headers: { "Authorization": accessToken,  }
+      url: 'https://graph.microsoft.com/v1.0/me',
+      headers: { 'Authorization': accessToken,  }
     }
 
-    let resp = await axios(graphReq);
+    let resp = await axios(graphReq)
     return resp.data
-  } catch(err) {
-    console.log(`### ERROR! Failed to get user details ${err.toString()}`);
+  } catch (err) {
+    console.log(`### ERROR! Failed to get user details ${err.toString()}`)
   }
 }
 
-async function getUserPhoto(accessToken) { 
+async function getUserPhoto(accessToken) {
   try {
     let graphReq = {
-      url: "https://graph.microsoft.com/v1.0/me/photo/$value",
+      url: 'https://graph.microsoft.com/v1.0/me/photo/$value',
       responseType: 'arraybuffer',
-      headers: { "Authorization": accessToken }
+      headers: { 'Authorization': accessToken }
     }
 
-    let resp = await axios(graphReq);
-    return new Buffer.from(resp.data, 'binary').toString('base64');
-  } catch(err) {
-    console.log(`### ERROR! Failed to get user photo ${err.toString()}`);
+    let resp = await axios(graphReq)
+    return new Buffer.from(resp.data, 'binary').toString('base64')
+  } catch (err) {
+    console.log(`### ERROR! Failed to get user photo ${err.toString()}`)
   }
 }

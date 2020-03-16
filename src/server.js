@@ -4,94 +4,96 @@
 // Ben C, Oct 2017 - Updated: Apr 2019
 //
 
-console.log(`### Node.js demo app starting...`);
+console.log('### Node.js demo app starting...')
 
 // Dotenv handy for local config & debugging
 require('dotenv').config()
 
 // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as App Setting or env var
-if(process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
-  const appInsights = require("applicationinsights");
+if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+  const appInsights = require('applicationinsights')
   appInsights.setup()
-  .setAutoDependencyCorrelation(true)
-  .setAutoCollectRequests(true)
-  .setAutoCollectPerformance(true)
-  .setAutoCollectExceptions(true)
-  .setAutoCollectDependencies(true)
-  .setAutoCollectConsole(true, true)
-  .setUseDiskRetryCaching(true)
-  .setSendLiveMetrics(true);
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true, true)
+    .setUseDiskRetryCaching(true)
+    .setSendLiveMetrics(true)
 
-  appInsights.start();
+  appInsights.start()
 }
 
 // Core Express & logging stuff
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const app = express();
+const express = require('express')
+const path = require('path')
+const logger = require('morgan')
+const bodyParser = require('body-parser')
+const app = express()
 
-// View engine setup & static content 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
+// View engine setup & static content
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Logging
-app.use(logger('dev'));
+app.use(logger('dev'))
 
 // Parsing middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-// Initialize Passport and AAD authentication 
-if(process.env.AAD_APP_ID) require('./auth/init')(app)
+// Initialize Passport and AAD authentication
+if (process.env.AAD_APP_ID) { require('./auth/init')(app) }
 
 // Routes & controllers
-app.use('/', require('./routes/pages'));
-app.use('/', require('./routes/api'));
+app.use('/', require('./routes/pages'))
+app.use('/', require('./routes/api'))
 
 // Optional routes based on certain settings/features being enabled
-if(process.env.TODO_MONGO_CONNSTR) app.use('/', require('./todo/routes'));
-if(process.env.AAD_APP_ID) app.use('/', require('./auth/routes'));
+if (process.env.TODO_MONGO_CONNSTR) { app.use('/', require('./todo/routes')) }
+if (process.env.AAD_APP_ID) { app.use('/', require('./auth/routes')) }
 
 // Make package app version a global var, shown in _foot.ejs
-app.locals.version = require('./package.json').version;
+app.locals.version = require('./package.json').version
 
 // Catch all route, generate an error & forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  if(req.method != 'GET') { 
-    err = new Error(`Method ${req.method} not allowed`);
-    err.status = 500;
+  let err = new Error('Not Found')
+  err.status = 404
+  if (req.method != 'GET') {
+    err = new Error(`Method ${req.method} not allowed`)
+    err.status = 500
   }
-  
-  next(err);
-});
+
+  next(err)
+})
 
 // Error handler
 app.use(function(err, req, res, next) {
-  console.error(`### ERROR: ${err.message}`);
-  
+  console.error(`### ERROR: ${err.message}`)
+
   // App Insights
-  const appInsights = require("applicationinsights");    
-  if(appInsights.defaultClient) appInsights.defaultClient.trackException({exception: err});
+  const appInsights = require('applicationinsights')
+  if (appInsights.defaultClient) {
+    appInsights.defaultClient.trackException({ exception: err })
+  }
 
   // Render the error page
-  res.status(err.status || 500);
+  res.status(err.status || 500)
   res.render('error', {
-    title: 'Error', 
+    title: 'Error',
     message: err.message,
     error: err
-  });
-});
+  })
+})
 
 // Get values from env vars or defaults where not provided
-var port = process.env.PORT || 3000;
+let port = process.env.PORT || 3000
 
 // Start the server
-app.listen(port);
-console.log(`### Server listening on port ${port}`);
+app.listen(port)
+console.log(`### Server listening on port ${port}`)
 
-module.exports = app;
+module.exports = app

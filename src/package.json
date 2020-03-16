@@ -1,10 +1,10 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "author": "Ben Coleman",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "license": "MIT",
   "repository": {
@@ -17,7 +17,8 @@
     "start-bg": "node server.js &",
     "test-junit": "mocha --reporter mocha-junit-reporter --exit ./tests",
     "test": "mocha --exit ./tests",
-    "test-postman": "newman run ./tests/postman_collection.json -r junit --timeout 60000 --reporter-junit-export test-results.xml"
+    "test-postman": "newman run ./tests/postman_collection.json -r junit --timeout 60000 --reporter-junit-export test-results.xml",
+    "lint": "eslint ."
   },
   "dependencies": {
     "applicationinsights": "^1.7.3",
@@ -33,6 +34,7 @@
     "express-session": "^1.17.0"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "mocha": "^7.1.0",
     "mocha-junit-reporter": "^1.22.0",
     "newman": "^4.5.0",

@@ -1,7 +1,7 @@
-const session = require('express-session');
-const passport = require('passport');
-const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-const cookieParser = require('cookie-parser');
+const session = require('express-session')
+const passport = require('passport')
+const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
+const cookieParser = require('cookie-parser')
 
 //
 // This sets up all middleware and Passport gubbins
@@ -9,26 +9,26 @@ const cookieParser = require('cookie-parser');
 // It's kept here to stop cluttering server.js with weirdness
 //
 module.exports = function(app) {
-  console.log("### Setting up AAD authentication middleware and OIDC");
-  
+  console.log('### Setting up AAD authentication middleware and OIDC')
+
   app.use(cookieParser())
   passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
+    done(null, user)
+  })
 
   passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
+    done(null, user)
+  })
 
   app.use(session({
     secret: 'LMCIwZKyIIVmy4fX19RE5uuvFzCAjxrd',
     resave: true,
     saveUninitialized: false
-  }));
+  }))
 
-  app.use(passport.initialize());
-  app.use(passport.session());
-  
+  app.use(passport.initialize())
+  app.use(passport.session())
+
   passport.use(new OIDCStrategy({
     identityMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
     //identityMetadata: `https://login.microsoftonline.com/${process.env.AAD_TENANT_ID}/v2.0/.well-known/openid-configuration`,
@@ -42,16 +42,16 @@ module.exports = function(app) {
     scope: ['email', 'profile', 'offline_access', 'user.read'],
     loggingLevel: 'error'
   },
-  signInComplete));
-};
+  signInComplete))
+}
 
 async function signInComplete(iss, sub, profile, accessToken, refreshToken, params, done) {
   if (!profile.oid) {
-    return done(new Error("No OID found, that's pretty bad :("), null);
+    return done(new Error('No OID found, that\'s pretty bad :('), null)
   } else {
     // var graph = require('@microsoft/microsoft-graph-client');
     //let usr = await getUserDetails(accessToken);
-    return done(null, { profile: profile, token: accessToken });
+    return done(null, { profile: profile, token: accessToken })
   }
 }
 
