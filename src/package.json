@@ -1,7 +1,7 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "author": "Ben Coleman",
   "engines": {
     "node": ">=12.0.0"
@@ -15,29 +15,31 @@
   "scripts": {
     "start": "node --expose_gc server.js",
     "start-bg": "node server.js &",
+    "watch": "nodemon -e ejs",
     "test-junit": "mocha --reporter mocha-junit-reporter --exit ./tests",
     "test": "mocha --exit ./tests",
     "test-postman": "newman run ./tests/postman_collection.json -r junit --timeout 60000 --reporter-junit-export test-results.xml",
     "lint": "eslint ."
   },
   "dependencies": {
-    "applicationinsights": "^1.7.5",
+    "applicationinsights": "^1.7.6",
     "axios": "^0.19.2",
     "body-parser": "~1.19.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.3",
     "express": "~4.17.1",
-    "mongodb": "^3.5.7",
+    "mongodb": "^3.5.9",
     "morgan": "~1.10.0",
     "passport-azure-ad": "^4.2.1",
     "express-session": "^1.17.1"
   },
   "devDependencies": {
-    "eslint": "^7.0.0",
-    "mocha": "^7.1.2",
-    "mocha-junit-reporter": "^1.23.3",
-    "newman": "^5.0.1",
-    "supertest": "^4.0.2"
+    "eslint": "^7.2.0",
+    "mocha": "^8.0.1",
+    "mocha-junit-reporter": "^2.0.0",
+    "newman": "^5.1.0",
+    "supertest": "^4.0.2",
+    "nodemon": "^2.0.4"
   }
 }
