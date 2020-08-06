@@ -14,8 +14,7 @@ env:
   acrName: bcdemo
   imageName: nodejs-demoapp
   imageBase: 12-alpine
-  #host: nodejs-demoapp.kube.benco.io
-  host: nodejs-demoapp.kube-new.benco.io
+  host: nodejs-demoapp.kube.benco.io
 
 jobs:
   buildJob:
