@@ -76,5 +76,7 @@ jobs:
           image:
             tag: '${{ github.run_id }}'
             repository: ${{ env.ACR_NAME }}.azurecr.io/apps/${{ env.IMAGE_NAME }}
+          env:
+            AAD_REDIRECT_URL_BASE: https://${{ env.INGRESS_DNS_HOST }}            
           ingress:
             host: ${{ env.INGRESS_DNS_HOST }}
