@@ -68,7 +68,7 @@ jobs:
       uses: deliverybot/helm@v1
       with:
         helm: helm3
-        release: vuego
+        release: nodejs
         namespace: demoapps
         chart: https://code.benco.io/helm-charts/webapp-1.2.0.tgz
         value-files: ./kubernetes/app.yaml

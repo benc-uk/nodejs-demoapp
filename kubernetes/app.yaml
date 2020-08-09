@@ -18,6 +18,7 @@ secretEnv:
 env: 
   APPINSIGHTS_INSTRUMENTATIONKEY: 45f5a949-518c-4216-80bd-6c5632a9342c
   AAD_APP_ID: 79a5ae6e-58ea-4114-8c42-1fd260b9549c
+  TODO_MONGO_DB: shared
 
 resources:
   limits:
