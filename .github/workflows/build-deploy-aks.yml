@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ master ]
 
-# Note. Required secrets: dockerPassword, acrPassword & kubeConfig
+# Note. Required secrets: DOCKER_PASSWORD, ACR_PASSWORD & KUBE_CONFIG
 
 env:
   DOCKER_USER: bencuk
