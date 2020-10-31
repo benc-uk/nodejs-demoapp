@@ -1,0 +1,82 @@
+name: CD Release - AKS
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Note. Required secrets: CR_PAT & AZURE_CREDENTIALS
+
+env:
+  IMAGE_REG: ghcr.io
+  IMAGE_REPO: benc-uk/nodejs-demoapp
+  AKS_NAME: benc
+  AKS_RES_GROUP: aks
+  HELM_RELEASE: nodejs
+  HELM_NAMESPACE: demoapps
+  INGRESS_DNS_HOST: nodejs-demoapp.kube.benco.io
+
+jobs:
+  #
+  # Run the image build & push to registry
+  #
+  build-app:
+    name: Build & Push Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker build image
+        run: docker build . -t $IMAGE_REG/$IMAGE_REPO:${{ github.run_id }} -t $IMAGE_REG/$IMAGE_REPO:latest
+
+      - name: Login to GitHub container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.IMAGE_REG }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Docker push image to ${{ env.IMAGE_REG }}
+        run: docker push $IMAGE_REG/$IMAGE_REPO
+
+  #
+  # Deploy to Kubernetes (AKS)
+  #
+  deploy-aks:
+    name: Deploy to AKS with Helm
+    needs: build-app
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials -n $AKS_NAME -g $AKS_RES_GROUP
+
+      - name: Helm release
+        run: |
+          helm upgrade ${{ env.HELM_RELEASE }} \
+          https://code.benco.io/helm-charts/webapp-1.2.0.tgz \
+          --install \
+          --namespace ${{ env.HELM_NAMESPACE }} \
+          --values ./kubernetes/app.yaml \
+          --set image.tag=latest,image.repository=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }},env.AAD_REDIRECT_URL_BASE=https://${{ env.INGRESS_DNS_HOST }},ingress.host=${{ env.INGRESS_DNS_HOST }}
+
+  #
+  # Post deployment testing stage
+  #
+  validate-deployment:
+    name: Smoke Test App Deployment
+    needs: deploy-aks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Validate site is running
+        run: .github/scripts/url-check.sh -u https://${{ env.INGRESS_DNS_HOST }} -s "Ben Coleman" -t 200

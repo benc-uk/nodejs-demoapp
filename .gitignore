@@ -6,3 +6,4 @@ node_modules/
 azuredeploy.my.parameters.json
 myvalues.yaml
 secrets.sh
+infra/bicep

@@ -184,13 +184,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://{{apphost}}/error",
+					"raw": "http://{{apphost}}/tools/error",
 					"protocol": "http",
 					"host": [
 						"{{apphost}}"
 					],
 					"path": [
-						"error"
+						"tools/error"
 					]
 				}
 			},

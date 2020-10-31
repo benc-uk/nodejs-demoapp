@@ -1,4 +1,4 @@
-name: CI Build Demo App
+name: CI Build App
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  ci-test:
+  test:
     name: Tests & Linting
     runs-on: ubuntu-latest
     steps:
@@ -29,11 +29,12 @@ jobs:
           name: test-results
           path: ./src/test-results.xml
 
-  ci-build:
+  build:
     name: Build Image
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: NPM install
+      - name: Docker build
         run: docker build . -t temp-ci-image
