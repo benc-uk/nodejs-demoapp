@@ -1,0 +1,21 @@
+name: CD Release Demo App
+
+on:
+  push:
+    branches: [master]
+  workflow_run:
+
+env:
+  IMAGE_REG: ghcr.io
+  IMAGE_REPO: benc-uk/nodejs-demoapp
+  IMAGE_TAG: ${{ env.GITHUB_RUN_ID }}
+
+jobs:
+  cd-build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker build
+        run: docker build . -t $IMAGE_REG/$IMAGE_REPO:$IMAGE_TAG
