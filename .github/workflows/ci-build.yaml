@@ -1,0 +1,39 @@
+name: CI Build Demo App
+
+on:
+  push:
+    branches-ignore: [master]
+  pull_request:
+
+jobs:
+  ci-test:
+    name: Tests & Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: NPM install
+        run: npm install --silent
+        working-directory: ./src
+
+      - name: Run linting
+        run: npm run lint
+        working-directory: ./src
+
+      - name: Run tests
+        run: npm run test-junit
+        working-directory: ./src
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: ./src/test-results.xml
+
+  ci-build:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: NPM install
+        run: docker build . -t temp-ci-image
