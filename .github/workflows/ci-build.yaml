@@ -14,33 +14,42 @@ jobs:
     name: "Tests & Linting"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: "Checkout"
+        uses: actions/checkout@v2
 
-      - name: NPM install
+      - name: "NPM install"
         run: npm install --silent
         working-directory: ./src
 
-      - name: Run linting
+      - name: "Run linting"
         run: npm run lint
         working-directory: ./src
 
-      - name: Run tests
+      - name: "Run tests"
         run: npm run test-junit
         working-directory: ./src
 
-      - uses: actions/upload-artifact@v2
+      - name: "Upload test results"
+        uses: actions/upload-artifact@v2
         with:
           name: test-results
           path: ./src/test-results.xml
+
+      - name: "Report on test results"
+        uses: ashley-taylor/junit-report-annotations-action@master
+        if: always()
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: ./src/test-results.xml
+          name: Unit test results
 
   build:
     name: "Build & Push Image"
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - run: echo ${{ github.ref }}
+      - name: "Checkout"
+        uses: actions/checkout@v2
 
       - name: "Docker build image"
         run: docker build . -t $IMAGE_REG/$IMAGE_REPO:${{ github.run_id }} -t $IMAGE_REG/$IMAGE_REPO:latest

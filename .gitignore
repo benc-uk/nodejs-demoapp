@@ -2,7 +2,7 @@ node_modules/
 .vscode/launch.json
 *.log
 .env
-**/test-results.xml
+**/src/*.xml
 azuredeploy.my.parameters.json
 myvalues.yaml
 secrets.sh
