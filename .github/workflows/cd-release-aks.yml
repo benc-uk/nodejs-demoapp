@@ -1,3 +1,9 @@
+#
+# Build and push image to GitHub Container Registry
+# Then deploy to AZure Kubernetes Service using Helm
+# Using Bicep for infrastructure as code
+#
+
 name: CD Release - AKS
 
 on:
@@ -79,4 +85,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Validate site is running
-        run: .github/scripts/url-check.sh -u https://${{ env.INGRESS_DNS_HOST }} -s "Ben Coleman" -t 200
+        run: .github/scripts/url-check.sh -u https://${{ env.INGRESS_DNS_HOST }} -s "Node.js Demo App" -t 200
+
+      - name: Run API tests
+        run: |
+          npm install newman --silent
+          node_modules/newman/bin/newman.js run src/tests/postman_collection.json --global-var apphost=${{ env.INGRESS_DNS_HOST }}
