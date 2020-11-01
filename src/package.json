@@ -16,7 +16,7 @@
     "start": "node --expose_gc server.js",
     "start-bg": "node server.js &",
     "watch": "nodemon -e ejs",
-    "test-junit": "MOCHA_FILE=TEST-RESULTS.xml mocha --reporter mocha-junit-reporter --exit ./tests",
+    "test-junit": "mocha --reporter mocha-junit-reporter --exit ./tests",
     "test": "mocha --exit ./tests",
     "test-postman": "newman run ./tests/postman_collection.json -r junit --timeout 60000 --reporter-junit-export TEST-RESULTS.xml",
     "lint": "eslint ."
