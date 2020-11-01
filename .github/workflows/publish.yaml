@@ -7,17 +7,18 @@ on:
 
 env:
   IMAGE_REG: ghcr.io
-  IMAGE_NAME: nodejs-demoapp
+  IMAGE_REPO: nodejs-demoapp
 
 jobs:
-  releaseJob:
+  publish-image:
+    name: "Build & Publish"
     runs-on: ubuntu-latest
 
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
 
-      - name: "Docker build image"
+      - name: "Docker build image with version tag"
         run: docker build . -t $IMAGE_REG/$IMAGE_REPO:latest $IMAGE_REG/$IMAGE_REPO:${{ github.event.release.tag_name }}
 
       - name: "Login to GitHub container registry"
