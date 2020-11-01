@@ -32,6 +32,7 @@ jobs:
         with:
           name: test-results
           path: ./src/test-results.xml
+
       - name: Publish test report
         uses: mikepenz/action-junit-report@v1
         with:
