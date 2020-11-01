@@ -7,8 +7,13 @@
 name: CD Release - Webapp
 
 on:
-  push:
+  # push:
+  #   branches: [master]
+  workflow_run:
+    workflows: [CI Build App]
     branches: [master]
+    types:
+      - completed
   workflow_dispatch:
 
 # Note. Required secrets: CR_PAT & AZURE_CREDENTIALS
@@ -16,7 +21,7 @@ on:
 env:
   IMAGE_REG: ghcr.io
   IMAGE_REPO: benc-uk/nodejs-demoapp
-  APP_NAME: nodejs-demoapp
+  APP_NAME: node-demoapp # nodejs-demoapp was taken by someone else, grrr
   ARM_SUB_ID: 52512f28-c6ed-403e-9569-82a9fb9fec91
   ARM_REGION: westeurope
   ARM_RES_GROUP: apps
@@ -31,6 +36,11 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
+
+      - name: dump event
+        env:
+          DUMP: ${{ toJson(github.event) }}
+        run: echo "$DUMP"
 
       - name: "Docker build image"
         run: docker build . -t $IMAGE_REG/$IMAGE_REPO:${{ github.run_id }} -t $IMAGE_REG/$IMAGE_REPO:latest
