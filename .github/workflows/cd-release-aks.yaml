@@ -72,7 +72,7 @@ jobs:
           --install \
           --namespace ${{ env.HELM_NAMESPACE }} \
           --values ./kubernetes/app.yaml \
-          --set image.tag=${{ env.IMAGE_TAG }},image.repository=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }},env.AAD_REDIRECT_URL_BASE=https://${{ env.INGRESS_DNS_HOST }},ingress.host=${{ env.INGRESS_DNS_HOST }}
+          --set image.tag=dev-${{ env.IMAGE_TAG }},image.repository=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }},env.AAD_REDIRECT_URL_BASE=https://${{ env.INGRESS_DNS_HOST }},ingress.host=${{ env.INGRESS_DNS_HOST }}
 
       - name: "End deployment - failure"
         if: ${{ failure() }}
