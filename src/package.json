@@ -1,10 +1,10 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "4.5.3",
+  "version": "4.6.0",
   "author": "Ben Coleman",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=10.0.0"
   },
   "license": "MIT",
   "repository": {
