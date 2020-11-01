@@ -6,15 +6,9 @@
 name: CD Release - Webapp
 
 on:
-  # Run when CI completes but ONLY in master branch
-  workflow_run:
-    workflows: [CI Build App]
-    branches: [master]
-    types:
-      - completed
   workflow_dispatch:
     inputs:
-      imagetag:
+      IMAGE_TAG:
         description: "Image tag to be deployed"
         required: true
         default: "latest"
@@ -36,16 +30,10 @@ jobs:
   deploy-infra:
     name: "Deploy Infra"
     runs-on: ubuntu-latest
-    # Important! workaround to not being able to trigger on "type:success"
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     outputs:
       deployment_id: ${{ steps.deploy.outputs.deployment_id }}
 
     steps:
-      # Note. This trick allows both manual running with workflow_dispatch and CD triggered runs
-      - name: "Set IMAGE_TAG variable"
-        run: echo "IMAGE_TAG=${{ github.event.workflow_run.id }}${{ github.event.inputs.imagetag }}" >> $GITHUB_ENV
-
       - name: "Checkout"
         uses: actions/checkout@v2
 
@@ -78,7 +66,7 @@ jobs:
           subscriptionId: ${{ env.ARM_SUB_ID }}
           resourceGroupName: ${{ env.ARM_RES_GROUP }}
           template: ./infra/webapp.json
-          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:dev-${{ env.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }}
+          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:${{ github.event.inputs.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }}
           deploymentName: webapp-deploy-${{ github.run_id }}
 
       - name: "End deployment - failure"
