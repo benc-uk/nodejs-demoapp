@@ -35,7 +35,7 @@ jobs:
       - uses: ashley-taylor/junit-report-annotations-action@1.3
         if: always()
         with:
-          access-token: ${{ github.token }}
+          access-token: ${{ secrets.GITHUB_TOKEN }}
           path: ./src/test-results.xml
 
   build:
