@@ -1,20 +1,23 @@
 #
-# Build and push image to GitHub Container Registry
-# Then deploy to Azure App Service as a containerized Web App
+# Deploy to Azure App Service as a containerized Web App
 # Using Bicep for infrastructure as code
 #
 
 name: CD Release - Webapp
 
 on:
-  # push:
-  #   branches: [master]
+  # Run when CI completes but ONLY in master branch
   workflow_run:
     workflows: [CI Build App]
     branches: [master]
     types:
       - completed
   workflow_dispatch:
+    inputs:
+      imagetag:
+        description: "Image tag to be deployed"
+        required: true
+        default: "latest"
 
 # Note. Required secrets: CR_PAT & AZURE_CREDENTIALS
 
@@ -28,44 +31,19 @@ env:
 
 jobs:
   #
-  # Run the image build & push to registry
+  # Deploy Azure infra (App Service) using Bicep
   #
-  build-app:
-    name: Build & Push Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v2
-
-      - name: dump event
-        env:
-          DUMP: ${{ toJson(github.event) }}
-        run: echo "$DUMP"
-
-      - name: "Docker build image"
-        run: docker build . -t $IMAGE_REG/$IMAGE_REPO:${{ github.run_id }} -t $IMAGE_REG/$IMAGE_REPO:latest
-
-      - name: "Login to GitHub container registry"
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.IMAGE_REG }}
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
-
-      - name: "Docker push image to ${{ env.IMAGE_REG }}"
-        run: docker push $IMAGE_REG/$IMAGE_REPO
-
-  #
-  # Deploy Azure infra using Bicep
-  #
-  deploy-bicep:
-    name: Deploy Infra
-    needs: build-app
+  deploy-infra:
+    name: "Deploy Infra"
     runs-on: ubuntu-latest
     outputs:
       deployment_id: ${{ steps.deploy.outputs.deployment_id }}
 
     steps:
+      # Note. This trick allows both manual running with workflow_dispatch and CD triggered runs
+      - name: "Set IMAGE_TAG variable"
+        run: echo "IMAGE_TAG=${{ github.event.workflow_run.id }}${{ github.event.inputs.imagetag }}" >> $GITHUB_ENV
+
       - name: "Checkout"
         uses: actions/checkout@v2
 
@@ -98,7 +76,7 @@ jobs:
           subscriptionId: ${{ env.ARM_SUB_ID }}
           resourceGroupName: ${{ env.ARM_RES_GROUP }}
           template: ./infra/webapp.json
-          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:${{ github.run_id }} weatherKey=${{ secrets.WEATHER_API_KEY }}
+          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }}
           deploymentName: webapp-deploy-${{ github.run_id }}
 
       - name: "End deployment - failure"
@@ -113,8 +91,8 @@ jobs:
   # Post deployment testing stage
   #
   validate-deployment:
-    name: Smoke Test App Deployment
-    needs: deploy-bicep
+    name: "Run Deployment Tests"
+    needs: deploy-infra
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -134,7 +112,7 @@ jobs:
         with:
           token: ${{ github.token }}
           state: success
-          deployment_id: ${{ needs.deploy-bicep.outputs.deployment_id }}
+          deployment_id: ${{ needs.deploy-infra.outputs.deployment_id }}
           environment_url: https://${{ env.APP_NAME }}.azurewebsites.net/
 
       - name: "End deployment - failure"
@@ -143,4 +121,4 @@ jobs:
         with:
           token: ${{ github.token }}
           state: failure
-          deployment_id: ${{ needs.deploy-bicep.outputs.deployment_id }}
+          deployment_id: ${{ needs.deploy-infra.outputs.deployment_id }}
