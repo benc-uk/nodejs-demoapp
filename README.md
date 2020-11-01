@@ -39,13 +39,13 @@ A working set of CI and CD release GitHub Actions workflows are provided `.githu
 
 ### [GitHub Actions](https://github.com/benc-uk/nodejs-demoapp/actions)
 
-![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CI%20Build%20App)
+[![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CI%20Build%20App)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CI+Build+App%22)
 
-![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20AKS?label=release-kubernetes)  
+[![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20AKS?label=release-kubernetes)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CD+Release+-+AKS%22)
 
-![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20Webapp?label=release-azure)
+[![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20Webapp?label=release-azure)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CD+Release+-+Webapp%22)
 
-![](https://img.shields.io/github/last-commit/benc-uk/nodejs-demoapp)  
+[![](https://img.shields.io/github/last-commit/benc-uk/nodejs-demoapp)](https://github.com/benc-uk/nodejs-demoapp/commits/master)
 
 
 # Optional Features
