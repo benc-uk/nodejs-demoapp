@@ -24,18 +24,18 @@ Standard Node.js `npm install` and start with `npm start` from the 'src' directo
 
 
 # Docker 
-Public Docker image is [available on Dockerhub](https://hub.docker.com/r/bencuk/nodejs-demoapp/).  
+Public Docker image is [available on GitHub Container Registry](https://github.com/users/benc-uk/packages/container/package/nodejs-demoapp).  
 
 Run in a container with:
 ```
-docker run -d -p 3000:3000 bencuk/nodejs-demoapp
+docker run --rm -it -p 3000:3000 ghcr.io/benc-uk/nodejs-demoapp:latest
 ```
 
 Should you want to build your own container, use the `Dockerfile` at the root of the project
 
 
 # GitHub Actions CI/CD 
-A working CI and release GitHub Actions workflow is provided `.github/workflows/build-deploy-aks.yml`, automated builds are run in GitHub hosted runners
+A working set of CI and CD release GitHub Actions workflows are provided `.github/workflows/`, automated builds are run in GitHub hosted runners
 
 ### [GitHub Actions](https://github.com/benc-uk/nodejs-demoapp/actions)
 
