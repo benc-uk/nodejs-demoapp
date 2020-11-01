@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_REG: ghcr.io
-  IMAGE_REPO: nodejs-demoapp
+  IMAGE_REPO: benc-uk/nodejs-demoapp
 
 jobs:
   publish-image:
