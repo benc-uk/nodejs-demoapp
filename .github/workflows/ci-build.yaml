@@ -35,7 +35,7 @@ jobs:
       - name: Publish test report
         uses: mikepenz/action-junit-report@v1
         with:
-          report_paths: "**/test-*.xml"
+          report_paths: "**/src/*.xml"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
