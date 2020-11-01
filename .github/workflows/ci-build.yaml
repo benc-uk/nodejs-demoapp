@@ -32,10 +32,10 @@ jobs:
       #   with:
       #     name: test-results
       #     path: ./src/test-results.xml
-      - name: Publish Test Report
+      - name: Publish test report
         uses: mikepenz/action-junit-report@v1
         with:
-          report_paths: src/test-results.xml
+          report_paths: "**/test-results.xml"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
