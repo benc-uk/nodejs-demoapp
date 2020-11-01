@@ -76,7 +76,7 @@ jobs:
           subscriptionId: ${{ env.ARM_SUB_ID }}
           resourceGroupName: ${{ env.ARM_RES_GROUP }}
           template: ./infra/webapp.json
-          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }}
+          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:dev-${{ env.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }}
           deploymentName: webapp-deploy-${{ github.run_id }}
 
       - name: "End deployment - failure"

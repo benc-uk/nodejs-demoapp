@@ -1,9 +1,8 @@
 node_modules/
-.vscode/launch.json
 *.log
 .env
-**/src/*.xml
-azuredeploy.my.parameters.json
+src/test-*.xml
 myvalues.yaml
 secrets.sh
 infra/bicep
+infra/*.json

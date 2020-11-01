@@ -1,8 +1,8 @@
 ARG ARCH=
-ARG IMAGE_BASE=12-alpine
+ARG IMAGE_BASE=14-alpine
 
 FROM ${ARCH}node:$IMAGE_BASE
-LABEL Name="Node.js Demo App" Version=4.5.0
+LABEL Name="Node.js Demo App" Version=4.6.0
 ENV NODE_ENV production
 WORKDIR /app 
 

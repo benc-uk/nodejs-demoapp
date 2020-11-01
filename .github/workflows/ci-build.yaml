@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: "Docker build image"
-        run: docker build . -t $IMAGE_REG/$IMAGE_REPO:${{ github.run_id }} -t $IMAGE_REG/$IMAGE_REPO:latest
+        run: docker build . -t $IMAGE_REG/$IMAGE_REPO:dev-${{ github.run_id }}
 
       - name: "Login to GitHub container registry"
         if: github.ref == 'refs/heads/master'
