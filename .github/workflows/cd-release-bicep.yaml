@@ -85,3 +85,5 @@ jobs:
 
       - name: Validate site is running
         run: .github/scripts/url-check.sh -u https://${{ env.APP_NAME }}.azurewebsites.net/ -s "Ben Coleman" -t 200
+      # - name: Validate site is running
+      #   run: npm install newman --global

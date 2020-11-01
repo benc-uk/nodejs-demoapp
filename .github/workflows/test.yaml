@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          npm install newman --global
-          newman run --help
+          npm install newman
+          node_modules/newman/bin/newman.js run --help
