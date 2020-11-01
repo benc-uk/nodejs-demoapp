@@ -1,6 +1,6 @@
 param location string = resourceGroup().location
 
-param planName string = 'app-svc-plan'
+param planName string = 'app-plan-linux'
 param planTier string = 'P1v2'
 
 param webappName string = 'nodejs-demoapp'
