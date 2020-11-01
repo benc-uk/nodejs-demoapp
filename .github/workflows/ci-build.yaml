@@ -33,11 +33,15 @@ jobs:
           name: test-results
           path: ./src/test-results.xml
 
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v1
+      # - name: Publish test report
+      #   uses: mikepenz/action-junit-report@v1
+      #   with:
+      #     report_paths: "**/src/*.xml"
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ashley-taylor/junit-report-annotations-action@1.3
+        if: always()
         with:
-          report_paths: "**/src/*.xml"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          access-token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: "Build & Push Image"
