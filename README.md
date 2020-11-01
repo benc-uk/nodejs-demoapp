@@ -82,16 +82,16 @@ The following configuration environmental variables are supported, however none 
 
 If running in an Azure Web App, all of these values can be injected as application settings in Azure.
 
-|Environmental Variable|Default|Description                   |
-|----|-------|------------------------------|
-|PORT| 3000  |Port the server will listen on|
-|TODO_MONGO_CONNSTR|  *none*  |Connect to specified MongoDB instance, when set the Todo feature will be enabled in the menu bar|
-|TODO_MONGO_DB|  todoDb  |Name of the database in MongoDB to use (optional)|
-|APPINSIGHTS_INSTRUMENTATIONKEY|  *none*  |Enable Application Insights monitoring|
-|WEATHER_API_KEY| *none* |DarkSky weather API key. [Info here](https://darksky.net/dev)|
-|AAD_APP_ID| *none* |Application ID of app registered in Azure AD|
-|AAD_APP_SECRET| *none* |Secret / password of app registered in Azure AD|
-|AAD_REDIRECT_URL_BASE| *none* |Hostname/domain where app is running|
+| Environmental Variable         | Default | Description                                                                                      |
+| ------------------------------ | ------- | ------------------------------------------------------------------------------------------------ |
+| PORT                           | 3000    | Port the server will listen on                                                                   |
+| TODO_MONGO_CONNSTR             | *none*  | Connect to specified MongoDB instance, when set the Todo feature will be enabled in the menu bar |
+| TODO_MONGO_DB                  | todoDb  | Name of the database in MongoDB to use (optional)                                                |
+| APPINSIGHTS_INSTRUMENTATIONKEY | *none*  | Enable Application Insights monitoring                                                           |
+| WEATHER_API_KEY                | *none*  | DarkSky weather API key. [Info here](https://darksky.net/dev)                                    |
+| AAD_APP_ID                     | *none*  | Application ID of app registered in Azure AD                                                     |
+| AAD_APP_SECRET                 | *none*  | Secret / password of app registered in Azure AD                                                  |
+| AAD_REDIRECT_URL_BASE          | *none*  | Hostname/domain where app is running                                                             |
 
 
 # Azure Templates
@@ -99,6 +99,7 @@ ARM templates for deployment to Azure are provided. To get started quickly you c
 
 
 # Updates
+* Oct 2020 - Added GitHub Actions pipelines and Bicep IaC
 * Jan 2020 - Added monitor page and API
 * Jun 2019 - Added Azure AD login and profile page, cleaned up Todo app MongoDB code
 * Apr 2019 - Updated to latest App Insights SDK package, and moved to Bootstrap 4
