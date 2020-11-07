@@ -71,6 +71,13 @@
         <td> Node Version</td>
         <td><%= info.nodever %></td>
       </tr>
+      <% if (process.env.RELEASE_INFO) { %>
+      <tr>
+        <td><i class="fa fa-window-restore"></i></td>
+        <td> Release Info</td>
+        <td><%= process.env.RELEASE_INFO %></td>
+      </tr>
+      <% } %>
     </table>
 
   </div>
