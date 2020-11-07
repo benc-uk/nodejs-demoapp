@@ -1,87 +1,101 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel="shortcut icon" type="image/png" href="/images/node-icon.png" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <!--link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <%if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
-      <script type="text/javascript">
-        var appInsights=window.appInsights||function(config){
-          function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t
-          }({
-              instrumentationKey:"<%=process.env.APPINSIGHTS_INSTRUMENTATIONKEY%>"
-          });
-          window.appInsights=appInsights;
-          appInsights.trackPageView();
-      </script> 
-    <% } %>
-    <script>
-      if(!!window.MSInputMethodContext && !!document.documentMode) {
-        alert("Greetings Time Traveller!\n\nYou're still running Internet Explorer. I feel very sorry for you.\nTry using a real browser otherwise parts of this site will not work")
-      }
-    </script>
 
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="/">
-        <img src="/images/node-icon.png" width="37" height="40" class="d-inline-block align-top" alt="">
-        &nbsp; Node.js Demo
-      </a>
+<head>
+  <title><%= title %></title>
+  <link rel="shortcut icon" type="image/png" href="/images/node-icon.png" />
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="btn btn-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; Info</a>
-          </li>
-          &nbsp;
-          <li class="nav-item active">
-            <a class="btn btn-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; Tools</a>
-          </li>          
-          &nbsp;
-          <li class="nav-item active">
-            <a class="btn btn-success btn-lg" href="/monitor"><i class="fas fa-chart-line"></i>&nbsp; Monitor</a>
-          </li>  
+  <!-- Bootstrap theme -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css"
+    integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cyborg/bootstrap.min.css"
+    integrity="sha384-nEnU7Ae+3lD52AK+RGNzgieBWMnEfgTbRHIwEvp1XXPdqdO6uLTd/NwXbzboqjc2" crossorigin="anonymous"> -->
 
-          <%if (process.env.WEATHER_API_KEY) { %>
-            &nbsp;
-            <li class="nav-item active">
-              <a class="btn btn-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; Weather</a>
-            </li> 
-          <% } %>
+  <!-- Fontawesome icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+    integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 
-          <%if (process.env.TODO_MONGO_CONNSTR) { %>
-            &nbsp;
-            <li class="nav-item active">
-              <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; Todo</a>
-            </li> 
-          <% } %>            
-        </ul>
-        <%if (process.env.AAD_APP_ID) { %>
-          <ul class="navbar-nav ml-auto">
-          &nbsp;
-          <%if (!user) { %>
-            <li class="nav-item active">
-              <a class="btn btn-info btn-lg" href="/login"><i class="fas fa-user"></i>&nbsp; Login</a>
-            </li> 
-          <% } else { %>       
-            <li class="nav-item active">
-              <a class="btn btn-success btn-lg" href="/account"><i class="fas fa-user-circle"></i>&nbsp; <%= user.displayName %></a>
-            </li>  
-          <% } %> 
-          </ul>
-        <% } %>          
-      </div>
-    </nav>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    
-    <div class="container body-content">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <%if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
+  <script type="text/javascript">
+    var appInsights = window.appInsights || function (config) {
+      function i(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = "AuthenticatedUserContext", h = "start", c = "stop", l = "Track", a = l + "Event", v = l + "Page", y = u.createElement(o), r, f; y.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(y); try { t.cookie = u.cookie } catch (p) { } for (t.queue = [], t.version = "1.0", r = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; r.length;)i("track" + r.pop()); return i("set" + s), i("clear" + s), i(h + a), i(c + a), i(h + v), i(c + v), i("flush"), config.disableExceptionTracking || (r = "onerror", i("_" + r), f = e[r], e[r] = function (config, i, u, e, o) { var s = f && f(config, i, u, e, o); return s !== !0 && t["_" + r](config, i, u, e, o), s }), t
+    }({
+      instrumentationKey: "<%=process.env.APPINSIGHTS_INSTRUMENTATIONKEY%>"
+    });
+    window.appInsights = appInsights;
+    appInsights.trackPageView();
+  </script>
+  <% } %>
+
+  <script>
+    if (!!window.MSInputMethodContext && !!document.documentMode) {
+      alert("Greetings Time Traveller!\n\nYou're still running Internet Explorer. I feel very sorry for you.\nTry using a real browser otherwise parts of this site will not work")
+    }
+  </script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">
+      <img src="/images/node-icon.png" width="37" height="40" class="d-inline-block align-top" alt="">
+      &nbsp; Node.js Demo
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="btn btn-success btn-lg" href="/info"><i class="fas fa-info-circle"></i>&nbsp; Info</a>
+        </li>
+        &nbsp;
+        <li class="nav-item active">
+          <a class="btn btn-success btn-lg" href="/tools"><i class="fas fa-tools"></i>&nbsp; Tools</a>
+        </li>
+        &nbsp;
+        <li class="nav-item active">
+          <a class="btn btn-success btn-lg" href="/monitor"><i class="fas fa-chart-line"></i>&nbsp; Monitor</a>
+        </li>
+
+        <%if (process.env.WEATHER_API_KEY) { %>
+        &nbsp;
+        <li class="nav-item active">
+          <a class="btn btn-success btn-lg" href="/weather"><i class="fas fa-cloud"></i>&nbsp; Weather</a>
+        </li>
+        <% } %>
+
+        <%if (process.env.TODO_MONGO_CONNSTR) { %>
+        &nbsp;
+        <li class="nav-item active">
+          <a class="btn btn-success btn-lg" href="/todo"><i class="fas fa-check-square"></i>&nbsp; Todo</a>
+        </li>
+        <% } %>
+      </ul>
+      <%if (process.env.AAD_APP_ID) { %>
+      <ul class="navbar-nav ml-auto">
+        &nbsp;
+        <%if (!user) { %>
+        <li class="nav-item active">
+          <a class="btn btn-info btn-lg" href="/login"><i class="fas fa-user"></i>&nbsp; Login</a>
+        </li>
+        <% } else { %>
+        <li class="nav-item active">
+          <a class="btn btn-success btn-lg" href="/account"><i class="fas fa-user-circle"></i>&nbsp;
+            <%= user.displayName %></a>
+        </li>
+        <% } %>
+      </ul>
+      <% } %>
+    </div>
+  </nav>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+  <div class="container body-content">
