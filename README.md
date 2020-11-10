@@ -98,11 +98,6 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | AAD_APP_SECRET                 | *none*  | Secret / password of app registered in Azure AD                                                  |
 | AAD_REDIRECT_URL_BASE          | *none*  | Hostname/domain where app is running                                                             |
 
-
-# Azure Templates
-ARM templates for deployment to Azure are provided. To get started quickly you can deploy the app as a Azure Container Instance using [this template](https://github.com/benc-uk/azure-arm/tree/master/container-instances/linux-container), and use `bencuk/nodejs-demoapp` as the image name and `3000` as the port
-
-
 # Updates
 * Oct 2020 - Added GitHub Actions pipelines and Bicep IaC
 * Jan 2020 - Added monitor page and API

@@ -1,4 +1,5 @@
 image:
+  repository: ghcr.io/benc-uk/nodejs-demoapp
   pullPolicy: Always
 
 service:
@@ -11,13 +12,14 @@ secretEnv:
   AAD_APP_SECRET:
     secretName: nodejs-demoapp
     secretKey: aadAppSecret
-  TODO_MONGO_CONNSTR: 
+  TODO_MONGO_CONNSTR:
     secretName: nodejs-demoapp
     secretKey: mongoConnString
 
-env: 
+env:
   APPINSIGHTS_INSTRUMENTATIONKEY: 45f5a949-518c-4216-80bd-6c5632a9342c
   AAD_APP_ID: 79a5ae6e-58ea-4114-8c42-1fd260b9549c
+  AAD_REDIRECT_URL_BASE: https://nodejs-demoapp.kube.benco.io
   TODO_MONGO_DB: shared
 
 resources:
@@ -30,8 +32,9 @@ resources:
 
 ingress:
   enabled: true
+  host: nodejs-demoapp.kube.benco.io
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-  tls: 
+  tls:
     enabled: true
     secretName: kube-benco-io-cert

@@ -1,14 +1,41 @@
 #
-# See this Helm chart for options
+# See this Helm chart for all options
 # https://github.com/benc-uk/helm-charts/tree/master/webapp
 #
 
 image:
-  repository: bencuk/nodejs-demoapp
+  repository: ghcr.io/benc-uk/nodejs-demoapp
   tag: latest
   pullPolicy: Always
 
 service:
   targetPort: 3000
-  port: 3000
   type: LoadBalancer
+
+#
+# Create these secrets & envs vars if you want to enable optional features
+#
+# secretEnv:
+#   WEATHER_API_KEY:
+#     secretName: nodejs-secrets
+#     secretKey: weatherKey
+#   AAD_APP_SECRET:
+#     secretName: nodejs-secrets
+#     secretKey: aadAppSecret
+#   TODO_MONGO_CONNSTR: 
+#     secretName: nodejs-secrets
+#     secretKey: mongoConnString
+# env: 
+#   APPINSIGHTS_INSTRUMENTATIONKEY: __CHANGE_ME__
+#   AAD_APP_ID: __CHANGE_ME__
+#   TODO_MONGO_DB: __CHANGE_ME__
+
+#
+# If you have an ingress controller set up
+#
+# ingress:
+#   enabled: true
+#   host: changeme.example.net
+#   tls:
+#     enabled: true
+#     secretName: changeme-cert-secret
