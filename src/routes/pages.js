@@ -11,13 +11,11 @@ const fs = require('fs')
 
 
 // =======================================================================
-// Middleware to pick up if user is logged in via Azure App Service Auth
+// Middleware to pass user data from session to all views
 // =======================================================================
-router.use(function(req, res, next) {
-  if (req.user) {
-    req.app.locals.user = req.user.profile //headers['x-ms-client-principal-name'];
-  } else {
-    req.app.locals.user = null
+router.use(function (req, res, next) {
+  if (req.session.user) {
+    res.locals.user = req.session.user
   }
   next()
 })
@@ -27,10 +25,9 @@ router.use(function(req, res, next) {
 // Get home page and index
 // =======================================================================
 router.get('/', function (req, res, next) {
-  res.render('index',
-    {
-      title: 'Node DemoApp: Home'
-    })
+  res.render('index', {
+    title: 'Node DemoApp: Home'
+  })
 })
 
 
@@ -53,13 +50,12 @@ router.get('/info', function (req, res, next) {
     uptime: convertSeconds(os.uptime())
   }
 
-  res.render('info',
-    {
-      title: 'Node DemoApp: Info',
-      info: info,
-      isDocker: fs.existsSync('/.dockerenv'),
-      isKube: fs.existsSync('/var/run/secrets/kubernetes.io')
-    })
+  res.render('info', {
+    title: 'Node DemoApp: Info',
+    info: info,
+    isDocker: fs.existsSync('/.dockerenv'),
+    isKube: fs.existsSync('/var/run/secrets/kubernetes.io')
+  })
 })
 
 
@@ -67,10 +63,9 @@ router.get('/info', function (req, res, next) {
 // Get monitor page
 // =======================================================================
 router.get('/monitor', function (req, res, next) {
-  res.render('monitor',
-    {
-      title: 'Node DemoApp: Monitoring'
-    })
+  res.render('monitor', {
+    title: 'Node DemoApp: Monitoring'
+  })
 })
 
 
@@ -78,10 +73,9 @@ router.get('/monitor', function (req, res, next) {
 // Get weather page
 // =======================================================================
 router.get('/weather', function (req, res, next) {
-  res.render('weather',
-    {
-      title: 'Node DemoApp: Weather'
-    })
+  res.render('weather', {
+    title: 'Node DemoApp: Weather'
+  })
 })
 
 
@@ -89,10 +83,9 @@ router.get('/weather', function (req, res, next) {
 // Tools page
 // =======================================================================
 router.get('/tools', function (req, res, next) {
-  res.render('tools',
-    {
-      title: 'Node DemoApp: Tools'
-    })
+  res.render('tools', {
+    title: 'Node DemoApp: Tools'
+  })
 })
 
 
@@ -107,11 +100,10 @@ router.get('/tools/load', function (req, res, next) {
 
   let time = (new Date().getTime() - start)
 
-  res.render('tools',
-    {
-      title: 'Node DemoApp: Tools',
-      message: `I did some really hard sums and it only took me ${time} milliseconds!`
-    })
+  res.render('tools', {
+    title: 'Node DemoApp: Tools',
+    message: `I did some really hard sums and it only took me ${time} milliseconds!`
+  })
 })
 
 
@@ -152,7 +144,7 @@ module.exports = router
 // ******* UTILS HERE *************************************************************
 
 // Util to convert seconds to DD:HH:MM:SS
-function convertSeconds(n)  {
+function convertSeconds(n) {
   let days = Math.floor(n / (24 * 3600))
   n = n % (24 * 3600)
   let hours = Math.floor(n / 3600)

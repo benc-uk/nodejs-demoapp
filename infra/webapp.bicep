@@ -6,7 +6,12 @@ param planTier string = 'P1v2'
 param webappName string = 'nodejs-demoapp'
 param webappImage string = 'ghcr.io/benc-uk/nodejs-demoapp:latest'
 param weatherKey string = ''
-param releaseInfo string = ''
+param releaseInfo string = 'Released on ${utcNow('f')}'
+param aadAppId string = ''
+param aadAppSecret string {
+  secure: true
+  default: ''
+}
 
 resource appServicePlan 'Microsoft.Web/serverFarms@2020-06-01' = {
   name: planName
@@ -34,7 +39,15 @@ resource webApp 'Microsoft.Web/sites@2018-11-01' = {
         {
           name: 'RELEASE_INFO'
           value: releaseInfo
-        }        
+        }
+        {
+          name: 'AAD_APP_ID'
+          value: aadAppId
+        }
+        {
+          name: 'AAD_APP_SECRET'
+          value: aadAppSecret
+        }                 
       ]
       linuxFxVersion: 'DOCKER|${webappImage}'
     }

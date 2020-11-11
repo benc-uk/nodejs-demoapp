@@ -1,100 +1,108 @@
 /* eslint-disable no-unused-vars */
 
 // Global todo model
-let todos
+let todos = []
 
-function loadAllTodos() {
-  $.get('/api/todo', (res) => {
-    todos = res
-
-    res.forEach((todo) => {
+async function loadAllTodos() {
+  const resp = await fetch('/api/todo')
+  if (resp.ok) {
+    todos = await resp.json()
+    for (let todo of todos) {
       addTodoToTable(todo)
-    })
-  })
+    }
+  }
 }
 
 function clickTodoDone(id) {
   let todo = todos.find((t) => { return t._id == id })
   todo.done = !todo.done
   updateTodo(todo, (success) => {
-    $(`#${id} > td > i`)
-      .removeClass()
-      .addClass('todo-check far ' + (todo.done ? 'fa-check-square' : 'fa-square'))
-    let todoTitle = $(`#${id} > td > .todo-title`)
+    const todoRow = document.getElementById(id)
+    const todoIcon = todoRow.querySelector('td > i')
+    todoIcon.className = 'todo-check far ' + (todo.done ? 'fa-check-square' : 'fa-square')
+
+    const todoTitle = todoRow.querySelector('td > .todo-title')
     if (todo.done) {
-      todoTitle.addClass('todo-done')
-      todoTitle.attr('contenteditable', false)
+      todoTitle.classList.add('todo-done')
+      todoTitle.setAttribute('contenteditable', 'false')
     } else {
-      todoTitle.removeClass('todo-done')
-      todoTitle.attr('contenteditable', true)
+      todoTitle.classList.remove('todo-done')
+      todoTitle.setAttribute('contenteditable', 'true')
     }
   })
 }
 
 function clearForm() {
-  $('#newTitle').val('')
+  document.getElementById('newTitle').value = ''
 }
 
 function addNewTodo() {
   let todo = {
-    title: $('#newTitle').val(),
+    title: document.getElementById('newTitle').value,
     done: false,
-    type: $('#newType').val()
+    type: document.getElementById('newType').value
   }
-  createTodo(todo, (data, status) => {
-    todo._id = data._id
-    addTodoToTable(todo)
-    todos.push(todo)
-  })
+
+  createTodo(todo)
 }
 
 function addTodoToTable(todo) {
-  $('#todo-table tr:last').after(`<tr id="${todo._id}">
-    <td><i class="todo-check far ${todo.done ? 'fa-check-square' : 'fa-square'}" onclick="clickTodoDone('${todo._id}')"></i></td>
+  const table = document.querySelector('#todo-table')
+  const row = document.createElement('tr')
+  row.id = `${todo._id}`
+
+  row.innerHTML = `<td><i class="todo-check far ${todo.done ? 'fa-check-square' : 'fa-square'}" onclick="clickTodoDone('${todo._id}')"></i></td>
     <td><div contentEditable="${todo.done ? 'false' : 'true'}" onkeydown="keyFilter(event)" class="todo-title ${todo.done ? 'todo-done' : ''}" onfocusout="editTodo('${todo._id}', this)">${todo.title}</div></td>
     <td>${todo.type}</td>
-    <td><button class="btn btn-danger" onClick="deleteTodo('${todo._id}')"><i class="fa fa-trash"></i></button></td>        
-    </tr>`)
+    <td><button class="btn btn-danger" onClick="deleteTodo('${todo._id}')"><i class="fa fa-trash"></i></button></td>`
+
+  table.appendChild(row)
 }
 
 function deleteTodoFromTable(id) {
-  $(`#${id}`).remove()
+  let e = document.getElementById(id)
+  e.remove()
 }
 
 function editTodo(id, e) {
-  console.log('EDDINGTTT ', id)
-
   let todo = todos.find((t) => { return t._id == id })
   todo.title = e.innerHTML
   updateTodo(todo, (success) => { })
 }
 
-function deleteTodo(id, e) {
-  $.ajax({
-    url: `/api/todo/${id}`,
-    type: 'DELETE',
-    success: (f) => { deleteTodoFromTable(id) }
+async function deleteTodo(id) {
+  const resp = await fetch(`/api/todo/${id}`, {
+    method: 'DELETE'
   })
+  if (resp.ok) {
+    deleteTodoFromTable(id)
+  }
 }
 
-function createTodo(todo, callback) {
-  $.ajax({
-    url: '/api/todo',
-    type: 'POST',
-    data: JSON.stringify(todo),
-    contentType: 'application/json',
-    success: callback
+async function createTodo(todo) {
+  const resp = await fetch('/api/todo', {
+    method: 'POST',
+    body: JSON.stringify(todo),
+    headers: { 'Content-Type': 'application/json' }
   })
+  if (resp.ok) {
+    const data = await resp.json()
+    todo._id = data._id
+    addTodoToTable(todo)
+    todos.push(todo)
+  }
 }
 
-function updateTodo(todo, callback) {
-  $.ajax({
-    url: `/api/todo/${todo._id}`,
-    type: 'PUT',
-    data: JSON.stringify(todo),
-    contentType: 'application/json',
-    success: callback
+async function updateTodo(todo, callback) {
+  const resp = await fetch(`/api/todo/${todo._id}`, {
+    method: 'PUT',
+    body: JSON.stringify(todo),
+    headers: { 'Content-Type': 'application/json' }
   })
+  if (resp.ok) {
+    const data = await resp.json()
+    callback(data)
+  }
 }
 
 // This fixes the behavior of contentEditable with newlines creating divs
