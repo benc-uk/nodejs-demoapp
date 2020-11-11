@@ -22,6 +22,7 @@ env:
   ARM_SUB_ID: 52512f28-c6ed-403e-9569-82a9fb9fec91
   ARM_REGION: westeurope
   ARM_RES_GROUP: apps
+  AAD_APP_ID: 79a5ae6e-58ea-4114-8c42-1fd260b9549c
 
 jobs:
   #
@@ -66,7 +67,7 @@ jobs:
           subscriptionId: ${{ env.ARM_SUB_ID }}
           resourceGroupName: ${{ env.ARM_RES_GROUP }}
           template: ./infra/webapp.json
-          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:${{ github.event.inputs.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }} releaseInfo="Ref=${{ github.ref }} RunId=${{ github.run_id }} SHA=${{ github.sha }}"
+          parameters: webappName=${{ env.APP_NAME }} webappImage=${{ env.IMAGE_REG }}/${{ env.IMAGE_REPO }}:${{ github.event.inputs.IMAGE_TAG }} weatherKey=${{ secrets.WEATHER_API_KEY }} releaseInfo="Ref=${{ github.ref }} RunId=${{ github.run_id }}" aadAppId=${{ env.AAD_APP_ID }} aadAppSecret=${{ secrets.AAD_APP_SECRET }}
           deploymentName: webapp-deploy-${{ github.run_id }}
 
       - name: "End deployment - failure"

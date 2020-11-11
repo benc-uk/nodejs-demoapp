@@ -65,13 +65,13 @@ This will require a API key from Dark Sky, you can [sign up for free and get one
 However, the `geolocation.getCurrentPosition()` browser API will only work when the site is served via HTTPS or from localhost. As a fallback, weather for London, UK will be show if the current position can not be obtained
 
 ### User Authentication with Azure AD
-Enable this by setting `AAD_APP_ID`, `AAD_APP_SECRET` and `AAD_REDIRECT_URL_BASE`
+Enable this by setting `AAD_APP_ID`, `AAD_APP_SECRET`
 
-This uses [Passport.js and the Azure AD plug-in](https://github.com/AzureAD/passport-azure-ad) to authenticate via OIDC. In addition the user account page shows details & photo retrieved from the Microsoft Graph API
+This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-node) to authenticate via MSAL with OIDC and OAuth 2.0. The flow it uses is the "OAuth 2.0 Authorization Code Grant", which is standard for server side (confidential) apps. 
 
-You will need to register an app in your Azure AD tennant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Make sure you enable the options for "Access Tokens" and "ID Tokens" in the Authentication settings. Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`
+In addition the user account page shows details & photo retrieved from the Microsoft Graph API
 
-`AAD_REDIRECT_URL_BASE` should be the base URL of where your app is running, e.g. `http://localhost:3000` or `https://example.com`. It should start with `http://` or `https://`. This is used by the login flow to redirect back to the app, the path `/auth/openid/return` will be appended to this value to form the complete redirect URL
+You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`
 
 ### Todo App
 Enable this by setting `TODO_MONGO_CONNSTR`
@@ -96,7 +96,6 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | WEATHER_API_KEY                | *none*  | DarkSky weather API key. [Info here](https://darksky.net/dev)                                    |
 | AAD_APP_ID                     | *none*  | Application ID of app registered in Azure AD                                                     |
 | AAD_APP_SECRET                 | *none*  | Secret / password of app registered in Azure AD                                                  |
-| AAD_REDIRECT_URL_BASE          | *none*  | Hostname/domain where app is running                                                             |
  
 ## Running in Azure App Service (Linux)
 
@@ -109,6 +108,7 @@ az webapp up --sku F1 --name <app-name>
 ```
 
 # Updates
+* Nov 2020 - Switched to MSAL-Node library for authentication
 * Oct 2020 - Added GitHub Actions pipelines and Bicep IaC
 * Jan 2020 - Added monitor page and API
 * Jun 2019 - Added Azure AD login and profile page, cleaned up Todo app MongoDB code

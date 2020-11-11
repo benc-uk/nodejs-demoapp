@@ -60,7 +60,7 @@ jobs:
           --install \
           --namespace ${{ env.HELM_NAMESPACE }} \
           --values ./kubernetes/aks-live.yaml \
-          --set image.tag=${{ github.event.inputs.IMAGE_TAG }},env.AAD_REDIRECT_URL_BASE=https://${{ env.INGRESS_DNS_HOST }},ingress.host=${{ env.INGRESS_DNS_HOST }}
+          --set image.tag=${{ github.event.inputs.IMAGE_TAG }},ingress.host=${{ env.INGRESS_DNS_HOST }}
 
       - name: "End deployment - failure"
         if: ${{ failure() }}
