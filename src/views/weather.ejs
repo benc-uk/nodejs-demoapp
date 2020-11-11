@@ -12,53 +12,72 @@
           <ul id="weather-list"></ul>
         </td>
       </tr>
-    </table>       
+    </table>
   </div>
 </div>
 
 <div>
-<img src="images/darksky.png" height="64px"/>
+  <img src="images/darksky.png" height="64px" />
 </div>
+
+<template id="weather-template">
+
+</template>
 
 <script src='js/skycons.js'></script>
 <script>
+  const errElement = document.getElementById('error')
+
   if (navigator.geolocation) {
-    $('#error').addClass('hide');
-    navigator.geolocation.getCurrentPosition(getWeather, (err) => {  
+    errElement.classList.add('hide')
+    navigator.geolocation.getCurrentPosition(getWeather, (err) => {
       let errMessage = err.message;
-      if(err.message.startsWith("Only secure origins are allowed")) {
+      if (err.message.startsWith("Only secure origins are allowed")) {
         errMessage = "getCurrentPosition API only works on secure (HTTPS) domains";
-      } 
-      $('#error').addClass('show');
-      $('#error').text(errMessage + ". Will fall back to showing weather for London");
-      getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 }})
+      }
+      errElement.classList.add('show')
+      errElement.textContent = errMessage + ". Will fall back to showing weather for London"
+
+      getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 } })
     });
   } else {
-    $('#error').addClass('show');
-    $('#error').text("Geolocation is not supported by this browser. Maybe it's time to upgrade!");
-    getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 }})
+    errElement.classList.add('show')
+    errElement.textContent = "Geolocation is not supported by this browser. Maybe it's time to upgrade!"
+
+    getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 } })
     console.err("Geolocation is not supported by this browser.");
   }
 
-  function getWeather(pos) {
+  async function getWeather(pos) {
     let lat = pos.coords.latitude;    //51.40329 
     let long = pos.coords.longitude;  //0.05619 
-    $.get(`/api/weather/${lat}/${long}`, weather => {
+    try {
+      const resp = await fetch(`/api/weather/${lat}/${long}`)
+      if (!resp.ok) throw `Fetch /api/weather/${lat}/${long} failed with ${resp.statusText}`
+      const weather = await resp.json()
+
       var skycons = new Skycons({ "color": "#3498db" });
       skycons.add("weather_icon", weather.icon);
       skycons.play();
 
-      $('#weather-list').append(`<li>The weather currently is: &nbsp; ${weather.summary}</li>`)
-      $('#weather-list').append(`<li>The temperature is: &nbsp; ${weather.temp}°C</li>`)
-      $('#weather-list').append(`<li>Chance of rain is: &nbsp; ${weather.precip}%</li>`)
-      $('#weather-list').append(`<li>Wind speed is: &nbsp; ${weather.wind}mph</li>`)
-      $('#weather-list').append(`<li>UV index is: &nbsp; ${weather.uv}</li>`)
-      $('#weather-list').append(`<hr/>`)
-      $('#weather-list').append(`<li>Forecast today: &nbsp; ${weather.forecastShort}</li>`)
-      $('#weather-list').append(`<li>Forecast week: &nbsp; ${weather.forecastLong}</li>`)
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-      $('#weather-list').append(`<h3 style="color:#e84640">API Error: ${errorThrown.toString()}</h3>`)
-    });
+      addWeatherDetails(`The weather currently is: &nbsp; ${weather.summary}`)
+      addWeatherDetails(`The temperature is: &nbsp; ${weather.temp}°C`)
+      addWeatherDetails(`Chance of rain is: &nbsp; ${weather.precip}%`)
+      addWeatherDetails(`Wind speed is: &nbsp; ${weather.wind}mph`)
+      addWeatherDetails(`UV index is: &nbsp; ${weather.uv}`)
+      addWeatherDetails(`Forecast today: &nbsp; ${weather.forecastShort}`)
+      addWeatherDetails(`Forecast week: &nbsp; ${weather.forecastLong}`)
+    } catch (err) {
+      errElement.classList.add('show')
+      errElement.textContent = err
+    }
+  }
+
+  function addWeatherDetails(details) {
+    const weatherList = document.getElementById('weather-list')
+    const li = document.createElement("li")
+    li.innerHTML = details
+    weatherList.appendChild(li)
   }
 </script>
 
