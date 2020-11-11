@@ -28,12 +28,15 @@
 <script>
   const errElement = document.getElementById('error')
 
+  // Try to geolocate the user and call getWeather with result
   if (navigator.geolocation) {
     errElement.classList.add('hide')
+    // Note getWeather is the callback which is passed a coords object
     navigator.geolocation.getCurrentPosition(getWeather, (err) => {
       let errMessage = err.message;
+      // API only allowed on localhost and HTTPS domains
       if (err.message.startsWith("Only secure origins are allowed")) {
-        errMessage = "getCurrentPosition API only works on secure (HTTPS) domains";
+        errMessage = "getCurrentPosition API only works on secure (HTTPS) domains"
       }
       errElement.classList.add('show')
       errElement.textContent = errMessage + ". Will fall back to showing weather for London"
@@ -41,24 +44,26 @@
       getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 } })
     });
   } else {
+    // Handle older browsers without geolocation API
     errElement.classList.add('show')
     errElement.textContent = "Geolocation is not supported by this browser. Maybe it's time to upgrade!"
 
     getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 } })
-    console.err("Geolocation is not supported by this browser.");
+    console.err("Geolocation is not supported by this browser.")
   }
 
+  // Call our weather API with the given position
   async function getWeather(pos) {
-    let lat = pos.coords.latitude;    //51.40329 
-    let long = pos.coords.longitude;  //0.05619 
+    let lat = pos.coords.latitude
+    let long = pos.coords.longitude
     try {
       const resp = await fetch(`/api/weather/${lat}/${long}`)
       if (!resp.ok) throw `Fetch /api/weather/${lat}/${long} failed with ${resp.statusText}`
       const weather = await resp.json()
 
-      var skycons = new Skycons({ "color": "#3498db" });
-      skycons.add("weather_icon", weather.icon);
-      skycons.play();
+      var skycons = new Skycons({ "color": "#3498db" })
+      skycons.add("weather_icon", weather.icon)
+      skycons.play()
 
       addWeatherDetails(`The weather currently is: &nbsp; ${weather.summary}`)
       addWeatherDetails(`The temperature is: &nbsp; ${weather.temp}°C`)
