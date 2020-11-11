@@ -31,11 +31,18 @@ const path = require('path')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const app = express()
+const session = require('express-session')
 
-// View engine setup & static content
+// View engine setup, static content & session
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(session({
+  secret: 'Shape without form, shade without colour',
+  cookie: { secure: false },
+  resave: false,
+  saveUninitialized: false
+}))
 
 // Logging
 app.use(logger('dev'))
@@ -44,22 +51,23 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// Initialize Passport and AAD authentication
-if (process.env.AAD_APP_ID) { require('./auth/init')(app) }
-
 // Routes & controllers
 app.use('/', require('./routes/pages'))
 app.use('/', require('./routes/api'))
 
+// Initialize authentication only when configured
+if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
+  app.use('/', require('./routes/auth'))
+}
+
 // Optional routes based on certain settings/features being enabled
 if (process.env.TODO_MONGO_CONNSTR) { app.use('/', require('./todo/routes')) }
-if (process.env.AAD_APP_ID) { app.use('/', require('./auth/routes')) }
 
 // Make package app version a global var, shown in _foot.ejs
 app.locals.version = require('./package.json').version
 
 // Catch all route, generate an error & forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   let err = new Error('Not Found')
   err.status = 404
   if (req.method != 'GET') {
@@ -71,7 +79,7 @@ app.use(function(req, res, next) {
 })
 
 // Error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(`### ERROR: ${err.message}`)
 
   // App Insights
