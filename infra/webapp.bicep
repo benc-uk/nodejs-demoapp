@@ -7,6 +7,7 @@ param webappName string = 'nodejs-demoapp'
 param webappImage string = 'ghcr.io/benc-uk/nodejs-demoapp:latest'
 param weatherKey string = ''
 param releaseInfo string = 'Released on ${utcNow('f')}'
+param aadBaseUrl string = 'https://${webappName}.azurewebsites.net'
 param aadAppId string = ''
 param aadAppSecret string {
   secure: true
@@ -47,7 +48,11 @@ resource webApp 'Microsoft.Web/sites@2018-11-01' = {
         {
           name: 'AAD_APP_SECRET'
           value: aadAppSecret
-        }                 
+        }
+        {
+          name: 'AAD_REDIRECT_URL_BASE'
+          value: aadBaseUrl
+        }                       
       ]
       linuxFxVersion: 'DOCKER|${webappImage}'
     }

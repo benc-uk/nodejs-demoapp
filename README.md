@@ -73,6 +73,9 @@ In addition the user account page shows details & photo retrieved from the Micro
 
 You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`
 
+`AAD_REDIRECT_URL_BASE` should be the base URL of where your app is running, e.g. `http://localhost:3000` or `https://example.com`. It should start with `http://` or `https://`. This is used by the login flow to redirect back to the app, the path `/redirect` will be appended to this value to form the complete redirect URL
+
+
 ### Todo App
 Enable this by setting `TODO_MONGO_CONNSTR`
 
@@ -96,7 +99,8 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | WEATHER_API_KEY                | *none*  | DarkSky weather API key. [Info here](https://darksky.net/dev)                                    |
 | AAD_APP_ID                     | *none*  | Application ID of app registered in Azure AD                                                     |
 | AAD_APP_SECRET                 | *none*  | Secret / password of app registered in Azure AD                                                  |
- 
+| AAD_REDIRECT_URL_BASE          | *none*  | Hostname/domain where app is running                                                             |
+
 ## Running in Azure App Service (Linux)
 
 If you want to deploy to an Azure Web App as a container (aka Linux Web App), a Bicep template is provided in the [infrastructure as code](infra/) directory

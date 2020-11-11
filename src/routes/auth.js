@@ -42,7 +42,7 @@ router.get('/login', async (req, res) => {
   try {
     const authURL = await msalApp.getAuthCodeUrl({
       scopes: AUTH_SCOPES,
-      redirectUri: `${req.protocol}://${req.get('host')}/${AUTH_CALLBACK_PATH}`,
+      redirectUri: `${process.env.AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
     })
     // Now redirect to the oauth2 URL we have been given
     res.redirect(authURL)
@@ -56,7 +56,7 @@ router.get('/redirect', async (req, res) => {
     const tokenResponse = await msalApp.acquireTokenByCode({
       code: req.query.code,
       scopes: AUTH_SCOPES,
-      redirectUri: `${req.protocol}://${req.get('host')}/${AUTH_CALLBACK_PATH}`,
+      redirectUri: `${process.env.AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
     })
     if (!tokenResponse) { throw 'No token returned! that\'s pretty bad' }
 
