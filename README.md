@@ -97,6 +97,16 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | AAD_APP_ID                     | *none*  | Application ID of app registered in Azure AD                                                     |
 | AAD_APP_SECRET                 | *none*  | Secret / password of app registered in Azure AD                                                  |
 | AAD_REDIRECT_URL_BASE          | *none*  | Hostname/domain where app is running                                                             |
+ 
+## Running in Azure App Service (Linux)
+
+If you want to deploy to an Azure Web App as a container (aka Linux Web App), a Bicep template is provided in the [infrastructure as code](infra/) directory
+
+You can also very quickly deploy to Azure App Service directly with the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) and `az webapp up`. Note. `<app-name>` must be globally unique. Change the sku to a larger size, e.g. `P1V2` for a much faster deployment
+```
+cd src
+az webapp up --sku F1 --name <app-name>
+```
 
 # Updates
 * Oct 2020 - Added GitHub Actions pipelines and Bicep IaC
