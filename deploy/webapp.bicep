@@ -9,12 +9,10 @@ param weatherKey string = ''
 param releaseInfo string = 'Released on ${utcNow('f')}'
 param aadBaseUrl string = 'https://${webappName}.azurewebsites.net'
 param aadAppId string = ''
-param aadAppSecret string {
-  secure: true
-  default: ''
-}
+@secure()
+param aadAppSecret string = ''
 
-resource appServicePlan 'Microsoft.Web/serverFarms@2020-06-01' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2020-10-01' = {
   name: planName
   location: location
   kind: 'linux'
@@ -26,7 +24,7 @@ resource appServicePlan 'Microsoft.Web/serverFarms@2020-06-01' = {
   }
 }
 
-resource webApp 'Microsoft.Web/sites@2018-11-01' = {
+resource webApp 'Microsoft.Web/sites@2020-10-01' = {
   name: webappName
   location: location
   properties: {

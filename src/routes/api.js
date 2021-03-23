@@ -38,9 +38,9 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
         wind: weather.data.currently.windSpeed,
         uv: weather.data.currently.uvIndex,
         forecastShort: weather.data.hourly.summary,
-        forecastLong: weather.data.daily.summary
+        forecastLong: weather.data.daily.summary,
       })
-    } else  {
+    } else {
       throw new Error(`Current weather not available for: ${long},${lat}`)
     }
   } catch (e) {
@@ -57,7 +57,7 @@ router.get('/api/monitoringdata', async function (req, res, next) {
     memUsedBytes: 0,
     memTotalBytes: 0,
     memAppUsedBytes: 0,
-    cpuAppPercentage: 0
+    cpuAppPercentage: 0,
   }
 
   // Gather monitoring data
@@ -67,8 +67,8 @@ router.get('/api/monitoringdata', async function (req, res, next) {
       data.container = true
 
       // Read cgroup container memory info
-      data.memUsedBytes = parseInt( fs.readFileSync('/sys/fs/cgroup/memory/memory.usage_in_bytes', 'utf8') )
-      data.memTotalBytes = parseInt( fs.readFileSync('/sys/fs/cgroup/memory/memory.limit_in_bytes', 'utf8') )
+      data.memUsedBytes = parseInt(fs.readFileSync('/sys/fs/cgroup/memory/memory.usage_in_bytes', 'utf8'))
+      data.memTotalBytes = parseInt(fs.readFileSync('/sys/fs/cgroup/memory/memory.limit_in_bytes', 'utf8'))
 
       // limit_in_bytes might not be set, in which case it contains some HUGE number
       // Fall back to using os.totalmem()
@@ -90,7 +90,7 @@ router.get('/api/monitoringdata', async function (req, res, next) {
     await timeout(D_TIME)
     // Get results/delta
     let cpuResult = process.cpuUsage(startUsage)
-    data.cpuAppPercentage = (((cpuResult.user) / 1000) / D_TIME) * 100
+    data.cpuAppPercentage = (cpuResult.user / 1000 / D_TIME) * 100
 
     return res.status(200).send(data)
   } catch (e) {
