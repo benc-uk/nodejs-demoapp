@@ -12,7 +12,8 @@ require('dotenv').config()
 // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as App Setting or env var
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   const appInsights = require('applicationinsights')
-  appInsights.setup()
+  appInsights
+    .setup()
     .setAutoDependencyCorrelation(true)
     .setAutoCollectRequests(true)
     .setAutoCollectPerformance(true)
@@ -37,12 +38,14 @@ const session = require('express-session')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(session({
-  secret: 'Shape without form, shade without colour',
-  cookie: { secure: false },
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(
+  session({
+    secret: 'Shape without form, shade without colour',
+    cookie: { secure: false },
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 // Logging
 app.use(logger('dev'))
@@ -61,7 +64,9 @@ if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
 }
 
 // Optional routes based on certain settings/features being enabled
-if (process.env.TODO_MONGO_CONNSTR) { app.use('/', require('./todo/routes')) }
+if (process.env.TODO_MONGO_CONNSTR) {
+  app.use('/', require('./todo/routes'))
+}
 
 // Make package app version a global var, shown in _foot.ejs
 app.locals.version = require('./package.json').version
@@ -93,7 +98,7 @@ app.use(function (err, req, res, next) {
   res.render('error', {
     title: 'Error',
     message: err.message,
-    error: err
+    error: err,
   })
 })
 

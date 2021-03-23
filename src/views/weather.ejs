@@ -3,11 +3,10 @@
 <div class="card text-white bg-secondary">
   <div class="card-header bg-info h3"><i class="fa fa-globe"></i>&nbsp; Geolocated Weather</div>
   <div class="card-body">
-    <div class="alert alert-warning fade" role="alert" id="error" style="color: #222">
-    </div>
+    <div class="alert alert-warning fade" role="alert" id="error" style="color: #222"></div>
     <table>
       <tr>
-        <td> <canvas id="weather_icon" width="256" height="256"></canvas> </td>
+        <td><canvas id="weather_icon" width="256" height="256"></canvas></td>
         <td class="weather-info">
           <ul id="weather-list"></ul>
         </td>
@@ -20,11 +19,9 @@
   <img src="images/darksky.png" height="64px" />
 </div>
 
-<template id="weather-template">
+<template id="weather-template"> </template>
 
-</template>
-
-<script src='js/skycons.js'></script>
+<script src="js/skycons.js"></script>
 <script>
   const errElement = document.getElementById('error')
 
@@ -33,23 +30,23 @@
     errElement.classList.add('hide')
     // Note getWeather is the callback which is passed a coords object
     navigator.geolocation.getCurrentPosition(getWeather, (err) => {
-      let errMessage = err.message;
+      let errMessage = err.message
       // API only allowed on localhost and HTTPS domains
-      if (err.message.startsWith("Only secure origins are allowed")) {
-        errMessage = "getCurrentPosition API only works on secure (HTTPS) domains"
+      if (err.message.startsWith('Only secure origins are allowed')) {
+        errMessage = 'getCurrentPosition API only works on secure (HTTPS) domains'
       }
       errElement.classList.add('show')
-      errElement.textContent = errMessage + ". Will fall back to showing weather for London"
+      errElement.textContent = errMessage + '. Will fall back to showing weather for London'
 
       getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 } })
-    });
+    })
   } else {
     // Handle older browsers without geolocation API
     errElement.classList.add('show')
     errElement.textContent = "Geolocation is not supported by this browser. Maybe it's time to upgrade!"
 
     getWeather({ coords: { latitude: 51.40329, longitude: 0.05619 } })
-    console.err("Geolocation is not supported by this browser.")
+    console.err('Geolocation is not supported by this browser.')
   }
 
   // Call our weather API with the given position
@@ -61,8 +58,8 @@
       if (!resp.ok) throw `Fetch /api/weather/${lat}/${long} failed with ${resp.statusText}`
       const weather = await resp.json()
 
-      var skycons = new Skycons({ "color": "#3498db" })
-      skycons.add("weather_icon", weather.icon)
+      var skycons = new Skycons({ color: '#3498db' })
+      skycons.add('weather_icon', weather.icon)
       skycons.play()
 
       addWeatherDetails(`The weather currently is: &nbsp; ${weather.summary}`)
@@ -80,7 +77,7 @@
 
   function addWeatherDetails(details) {
     const weatherList = document.getElementById('weather-list')
-    const li = document.createElement("li")
+    const li = document.createElement('li')
     li.innerHTML = details
     weatherList.appendChild(li)
   }

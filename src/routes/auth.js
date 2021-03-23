@@ -12,13 +12,14 @@ const msal = require('@azure/msal-node')
 const AUTH_SCOPES = ['user.read']
 const AUTH_ENDPOINT = 'https://login.microsoftonline.com/common'
 const AUTH_CALLBACK_PATH = 'redirect'
+const AAD_REDIRECT_URL_BASE = process.env.AAD_REDIRECT_URL_BASE || `http://localhost:${process.env.PORT || 3000}`
 
 // Create MSAL application object
 const msalApp = new msal.ConfidentialClientApplication({
   auth: {
     clientId: process.env.AAD_APP_ID,
     authority: AUTH_ENDPOINT,
-    clientSecret: process.env.AAD_APP_SECRET
+    clientSecret: process.env.AAD_APP_SECRET,
   },
   system: {
     loggerOptions: {
@@ -27,8 +28,8 @@ const msalApp = new msal.ConfidentialClientApplication({
       },
       piiLoggingEnabled: false,
       logLevel: msal.LogLevel.Info,
-    }
-  }
+    },
+  },
 })
 
 console.log(`### MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
@@ -42,12 +43,16 @@ router.get('/login', async (req, res) => {
   try {
     const authURL = await msalApp.getAuthCodeUrl({
       scopes: AUTH_SCOPES,
-      redirectUri: `${process.env.AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
+      redirectUri: `${AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
     })
     // Now redirect to the oauth2 URL we have been given
     res.redirect(authURL)
   } catch (err) {
-    res.render('error', { title: 'MSAL authentication failed', message: err, error: err })
+    res.render('error', {
+      title: 'MSAL authentication failed',
+      message: err,
+      error: err,
+    })
   }
 })
 
@@ -56,19 +61,26 @@ router.get('/redirect', async (req, res) => {
     const tokenResponse = await msalApp.acquireTokenByCode({
       code: req.query.code,
       scopes: AUTH_SCOPES,
-      redirectUri: `${process.env.AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
+      redirectUri: `${AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
     })
-    if (!tokenResponse) { throw 'No token returned! that\'s pretty bad' }
+    if (!tokenResponse) {
+      // eslint-disable-next-line quotes
+      throw "No token returned! that's pretty bad"
+    }
 
     // Store user details in session
     req.session.user = {
       account: tokenResponse.account,
-      accessToken: tokenResponse.accessToken
+      accessToken: tokenResponse.accessToken,
     }
 
     res.redirect('/account')
   } catch (err) {
-    res.render('error', { title: 'MSAL authentication failed', message: err, error: err })
+    res.render('error', {
+      title: 'MSAL authentication failed',
+      message: err,
+      error: err,
+    })
   }
 })
 
@@ -79,7 +91,10 @@ router.get('/logout', function (req, res) {
 })
 
 router.get('/account', async function (req, res) {
-  if (!req.session.user) { res.redirect('/login'); return }
+  if (!req.session.user) {
+    res.redirect('/login')
+    return
+  }
   let details = {}
   let photo = null
 
@@ -94,7 +109,7 @@ router.get('/account', async function (req, res) {
   res.render('account', {
     title: 'Node DemoApp: Account',
     details: details,
-    photo: photo
+    photo: photo,
   })
 })
 
@@ -106,7 +121,7 @@ async function getUserDetails(accessToken) {
   try {
     let graphReq = {
       url: 'https://graph.microsoft.com/v1.0/me',
-      headers: { 'Authorization': accessToken, }
+      headers: { Authorization: accessToken },
     }
 
     let resp = await axios(graphReq)
@@ -121,7 +136,7 @@ async function getUserPhoto(accessToken) {
     let graphReq = {
       url: 'https://graph.microsoft.com/v1.0/me/photo/$value',
       responseType: 'arraybuffer',
-      headers: { 'Authorization': accessToken }
+      headers: { Authorization: accessToken },
     }
 
     let resp = await axios(graphReq)

@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       IMAGE_TAG:
-        description: "Image tag to be deployed"
+        description: 'Image tag to be deployed'
         required: true
-        default: "latest"
+        default: 'latest'
 
 # Note. Required secrets: CR_PAT & AZURE_CREDENTIALS
 
@@ -29,31 +29,22 @@ jobs:
   deploy-aks:
     name: Deploy to AKS with Helm
     runs-on: ubuntu-latest
-    outputs:
-      deployment_id: ${{ steps.deploy.outputs.deployment_id }}
+    environment: AKS - nodejs-demoapp
 
     steps:
-      - name: "Checkout"
-        uses: actions/checkout@v1
+      - name: 'Checkout'
+        uses: actions/checkout@v2
 
-      - name: "Start deployment"
-        id: deploy
-        uses: chrnorm/deployment-action@v1.2.0
-        with:
-          ref: ${{ github.event.ref }}
-          token: ${{ github.token }}
-          environment: AKS - ${{ env.HELM_RELEASE }}
-
-      - name: "Login to Azure"
-        uses: azure/login@v1
+      - name: 'Login to Azure'
+        uses: azure/login@v1.3.0
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Get AKS credentials"
+      - name: 'Get AKS credentials'
         run: |
           az aks get-credentials -n $AKS_NAME -g $AKS_RES_GROUP
 
-      - name: "Helm release"
+      - name: 'Helm release'
         run: |
           helm repo add benc-uk https://benc-uk.github.io/helm-charts
           helm upgrade ${{ env.HELM_RELEASE }} benc-uk/webapp \
@@ -62,7 +53,7 @@ jobs:
           --values ./kubernetes/aks-live.yaml \
           --set image.tag=${{ github.event.inputs.IMAGE_TAG }},ingress.host=${{ env.INGRESS_DNS_HOST }},env.AAD_REDIRECT_URL_BASE=https://${{ env.INGRESS_DNS_HOST }}
 
-      - name: "End deployment - failure"
+      - name: 'End deployment - failure'
         if: ${{ failure() }}
         uses: chrnorm/deployment-status@v1.0.0
         with:
@@ -74,34 +65,19 @@ jobs:
   # Post deployment testing stage
   #
   validate-deployment:
-    name: "Run Deployment Tests"
+    name: 'Run Deployment Tests'
     needs: deploy-aks
     runs-on: ubuntu-latest
+    environment: AKS - nodejs-demoapp
+
     steps:
-      - name: "Checkout"
+      - name: 'Checkout'
         uses: actions/checkout@v2
 
-      - name: "Validate site is running"
+      - name: 'Validate site is running'
         run: .github/scripts/url-check.sh -u https://${{ env.INGRESS_DNS_HOST }} -s "Node.js Demo App" -t 200
 
-      - name: "Run API tests"
+      - name: 'Run API tests'
         run: |
           npm install newman --silent
           node_modules/newman/bin/newman.js run src/tests/postman_collection.json --global-var apphost=${{ env.INGRESS_DNS_HOST }}
-
-      - name: "End deployment - success"
-        if: ${{ success() }}
-        uses: chrnorm/deployment-status@v1.0.0
-        with:
-          token: ${{ github.token }}
-          state: success
-          deployment_id: ${{ needs.deploy-aks.outputs.deployment_id }}
-          environment_url: https://${{ env.INGRESS_DNS_HOST }}
-
-      - name: "End deployment - failure"
-        if: ${{ failure() }}
-        uses: chrnorm/deployment-status@v1.0.0
-        with:
-          token: ${{ github.token }}
-          state: failure
-          deployment_id: ${{ needs.deploy-aks.outputs.deployment_id }}

@@ -4,5 +4,5 @@ node_modules/
 src/test-*.xml
 myvalues.yaml
 secrets.sh
-infra/bicep
-infra/*.json
+TEST-RESULTS.xml
+.secrets

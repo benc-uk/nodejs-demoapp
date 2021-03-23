@@ -3,11 +3,11 @@
 <div class="card text-white bg-secondary">
   <div class="card-header bg-info h3"><i class="fa fa-user-cog"></i>&nbsp; User Account</div>
   <div class="card-body h5">
-
     <a class="btn btn-danger btn-lg float-right mr-3" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    <a class="btn btn-info btn-lg float-right mr-3" data-toggle="modal" data-target="#detailsModal"><i
-        class="fas fa-code"></i> Debug</a>
-    <br>
+    <a class="btn btn-info btn-lg float-right mr-3" data-toggle="modal" data-target="#detailsModal"
+      ><i class="fas fa-code"></i> Debug</a
+    >
+    <br />
 
     <h4 class="text-success">Basic Info</h4>
     <table class="table table-striped">
@@ -26,19 +26,15 @@
     </table>
 
     <% if(photo) { %>
-    <hr>
+    <hr />
     <h4 class="text-success">Photo</h4>
-    <img src="data:image/png;base64,<%- photo %>" style="width: 160px; border-radius: 50%;">
-    <% } %>
-
-    <% if(details) { %>
-    <hr>
+    <img src="data:image/png;base64,<%- photo %>" style="width: 160px; border-radius: 50%" />
+    <% } %> <% if(details) { %>
+    <hr />
     <h4 class="text-success">Microsoft Graph Details</h4>
     <table class="table table-striped">
-      <% Object.keys(details).forEach(key => { 
-      if(!key.startsWith("@")) { 
-        let displayKey = key.replace(/([A-Z])/g, ' $1')
-        displayKey = displayKey.replace(/^./, str => { return str.toUpperCase() }) %>
+      <% Object.keys(details).forEach(key => { if(!key.startsWith("@")) { let displayKey = key.replace(/([A-Z])/g, '
+      $1') displayKey = displayKey.replace(/^./, str => { return str.toUpperCase() }) %>
       <tr>
         <td><b><%= displayKey %>: &nbsp;</b></td>
         <td><%= details[key] %></td>
@@ -50,8 +46,14 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="detailsModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">

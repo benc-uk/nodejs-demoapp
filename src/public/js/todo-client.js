@@ -14,7 +14,9 @@ async function loadAllTodos() {
 }
 
 function clickTodoDone(id) {
-  let todo = todos.find((t) => { return t._id == id })
+  let todo = todos.find((t) => {
+    return t._id == id
+  })
   todo.done = !todo.done
   updateTodo(todo, (success) => {
     const todoRow = document.getElementById(id)
@@ -40,7 +42,7 @@ function addNewTodo() {
   let todo = {
     title: document.getElementById('newTitle').value,
     done: false,
-    type: document.getElementById('newType').value
+    type: document.getElementById('newType').value,
   }
 
   createTodo(todo)
@@ -51,8 +53,17 @@ function addTodoToTable(todo) {
   const row = document.createElement('tr')
   row.id = `${todo._id}`
 
-  row.innerHTML = `<td><i class="todo-check far ${todo.done ? 'fa-check-square' : 'fa-square'}" onclick="clickTodoDone('${todo._id}')"></i></td>
-    <td><div contentEditable="${todo.done ? 'false' : 'true'}" onkeydown="keyFilter(event)" class="todo-title ${todo.done ? 'todo-done' : ''}" onfocusout="editTodo('${todo._id}', this)">${todo.title}</div></td>
+  // prettier-ignore
+  row.innerHTML = `
+    <td>
+      <i class="todo-check far ${todo.done ? 'fa-check-square' : 'fa-square'}" onclick="clickTodoDone('${todo._id}')"></i>
+    </td>
+    <td>
+      <div contentEditable="${todo.done ? 'false' : 'true'}" onkeydown="keyFilter(event)" 
+           class="todo-title ${todo.done ? 'todo-done' : ''}" onfocusout="editTodo('${todo._id}', this)">
+           ${todo.title}
+      </div>
+    </td>
     <td>${todo.type}</td>
     <td><button class="btn btn-danger" onClick="deleteTodo('${todo._id}')"><i class="fa fa-trash"></i></button></td>`
 
@@ -65,14 +76,16 @@ function deleteTodoFromTable(id) {
 }
 
 function editTodo(id, e) {
-  let todo = todos.find((t) => { return t._id == id })
+  let todo = todos.find((t) => {
+    return t._id == id
+  })
   todo.title = e.innerHTML
-  updateTodo(todo, (success) => { })
+  updateTodo(todo, (success) => {})
 }
 
 async function deleteTodo(id) {
   const resp = await fetch(`/api/todo/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
   })
   if (resp.ok) {
     deleteTodoFromTable(id)
@@ -83,7 +96,7 @@ async function createTodo(todo) {
   const resp = await fetch('/api/todo', {
     method: 'POST',
     body: JSON.stringify(todo),
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
   if (resp.ok) {
     const data = await resp.json()
@@ -97,7 +110,7 @@ async function updateTodo(todo, callback) {
   const resp = await fetch(`/api/todo/${todo._id}`, {
     method: 'PUT',
     body: JSON.stringify(todo),
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
   })
   if (resp.ok) {
     const data = await resp.json()
@@ -118,7 +131,9 @@ function makeId(len) {
   let text = ''
   let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-  for (let i = 0; i < len; i++) { text += possible.charAt(Math.floor(Math.random() * possible.length)) }
+  for (let i = 0; i < len; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
+  }
 
   return text
 }

@@ -9,7 +9,6 @@ let memChart, cpuChart
 // START HERE - Called on window load by Monitor.cshtml
 // eslint-disable-next-line no-unused-vars
 function startMonitoring() {
-
   // Initialize working set chart
   /* global Chart:false */
   memChart = new Chart(document.getElementById('memChart'), {
@@ -22,32 +21,33 @@ function startMonitoring() {
           label: 'Used Memory (MiBytes)',
           borderColor: 'rgba(0, 156, 220, 1.0)',
           backgroundColor: 'rgba(0, 156, 220, 0.4)',
-          data: []
+          data: [],
         },
         {
           label: 'App Heap Used (MiBytes)',
           borderColor: 'rgba(220, 20, 20, 1.0)',
           backgroundColor: 'rgba(220, 20, 20, 0.4)',
-          data: []
-        }
-      ]
+          data: [],
+        },
+      ],
     },
     options: {
       elements: {
         line: {
-
           borderWidth: 3,
-          tension: 0
-        }
+          tension: 0,
+        },
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
   })
 
   // Initialize CPU load chart
@@ -55,24 +55,28 @@ function startMonitoring() {
     type: 'line',
     data: {
       labels: [],
-      datasets: [{
-        label: 'Processor Load (%)',
-        data: [],
-        borderColor: 'rgba(19, 185, 85, 1.0)',
-        backgroundColor: 'rgba(19, 185, 85, 0.4)',
-        borderWidth: 3,
-        lineTension: 0
-      }]
+      datasets: [
+        {
+          label: 'Processor Load (%)',
+          data: [],
+          borderColor: 'rgba(19, 185, 85, 1.0)',
+          backgroundColor: 'rgba(19, 185, 85, 0.4)',
+          borderWidth: 3,
+          lineTension: 0,
+        },
+      ],
     },
     options: {
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            },
+          },
+        ],
+      },
+    },
   })
 
   // Initial data load
@@ -108,7 +112,7 @@ function addData(chart, label, data) {
 function getData() {
   fetch('/api/monitoringdata')
     .then((response) => {
-    // fetch handles errors strangely, we need to trap non-200 codes here
+      // fetch handles errors strangely, we need to trap non-200 codes here
       if (!response.ok) {
         throw Error(response.statusText + ' ' + response.status)
       }
@@ -116,7 +120,7 @@ function getData() {
     })
     .then((data) => {
       let d = new Date()
-      let label = d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+      let label = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 
       // Set max on mem chart
       memChart.options.scales.yAxes[0].ticks.max = data.memTotalBytes / MIB
