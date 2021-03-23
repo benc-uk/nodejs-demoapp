@@ -30,7 +30,9 @@ jobs:
   # Deploy Azure infra (App Service) using Bicep
   #
   deploy-infra:
-    environment: App Service - nodejs-demoapp
+    environment:
+      name: App Service - nodejs-demoapp
+      url: https://${{ env.APP_NAME }}.azurewebsites.net/
     name: 'Deploy Infra'
     runs-on: ubuntu-latest
 
@@ -62,7 +64,9 @@ jobs:
   validate-deployment:
     name: 'Run Deployment Tests'
     needs: deploy-infra
-    environment: App Service - nodejs-demoapp
+    environment:
+      name: App Service - nodejs-demoapp
+      url: https://${{ env.APP_NAME }}.azurewebsites.net/
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'

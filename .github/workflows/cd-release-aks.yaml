@@ -29,7 +29,9 @@ jobs:
   deploy-aks:
     name: Deploy to AKS with Helm
     runs-on: ubuntu-latest
-    environment: AKS - nodejs-demoapp
+    environment:
+      name: AKS - nodejs-demoapp
+      url: https://${{ env.INGRESS_DNS_HOST }}/
 
     steps:
       - name: 'Checkout'
@@ -68,7 +70,9 @@ jobs:
     name: 'Run Deployment Tests'
     needs: deploy-aks
     runs-on: ubuntu-latest
-    environment: AKS - nodejs-demoapp
+    environment:
+      name: AKS - nodejs-demoapp
+      url: https://${{ env.INGRESS_DNS_HOST }}/
 
     steps:
       - name: 'Checkout'
