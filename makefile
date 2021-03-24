@@ -60,7 +60,7 @@ test-api: $(SRC_DIR)/node_modules .EXPORT_ALL_VARIABLES  ## 🚦 Run integration
 	cd $(SRC_DIR); npm run test-postman
 	cat $(SRC_DIR)/api-test-results.xml
 
-clean:  ## 🧹 Clean up repo
+clean:  ## 🧹 Clean up project
 	rm -rf $(SRC_DIR)/node_modules
 	rm -rf $(SRC_DIR)/*.xml
 
