@@ -37,7 +37,7 @@ undeploy             💀 Remove from Azure
 test                 🎯 Unit tests with Jest
 test-report          🤡 Unit tests with Jest & Junit output
 test-api             🚦 Run integration API tests, server must be running
-clean                🧹 Clean up repo
+clean                🧹 Clean up project
 ```
 
 Make file variables and default values, pass these in when calling `make`, e.g. `make image IMAGE_REPO=blah/foo`
