@@ -19,9 +19,39 @@ The app has several basic pages accessed from the top navigation menu, some of w
 ![screen](https://user-images.githubusercontent.com/14982936/55620045-dfe96480-5791-11e9-94f3-6d788ed447c1.png)
 ![screen](https://user-images.githubusercontent.com/14982936/58764072-d8102b80-855a-11e9-993f-21ef0344d5e0.png)
 
-# Running Locally
+# Running and Testing Locally
 
-Standard Node.js `npm install` and start with `npm start` from the 'src' directory. Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x and 10.x
+A standard GNU Make file is provided to help with running and building locally.
+
+```txt
+$ make
+
+help                 💬 This help message
+lint                 🔎 Lint & format, will not fix but sets exit code on error
+lint-fix             📜 Lint & format, will try to fix errors and modify code
+image                🔨 Build container image from Dockerfile
+push                 📤 Push container image to registry
+run                  🏃 Run locally using Node.js
+deploy               🚀 Deploy to Azure Web App
+undeploy             💀 Remove from Azure
+test                 🎯 Unit tests with Jest
+test-report          🤡 Unit tests with Jest & Junit output
+test-api             🚦 Run integration API tests, server must be running
+clean                🧹 Clean up repo
+```
+
+Make file variables and default values, pass these in when calling `make`, e.g. `make image IMAGE_REPO=blah/foo`
+
+| Makefile Variable | Default                |
+| ----------------- | ---------------------- |
+| IMAGE_REG         | ghcr<span>.</span>io   |
+| IMAGE_REPO        | benc-uk/nodejs-demoapp |
+| IMAGE_TAG         | latest                 |
+| AZURE_RES_GROUP   | temp-demoapps          |
+| AZURE_REGION      | uksouth                |
+| AZURE_SITE_NAME   | nodeapp-{git-sha}      |
+
+Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x, 10.x, 12.x and 14.x
 
 # Docker
 
@@ -109,7 +139,13 @@ If running in an Azure Web App, all of these values can be injected as applicati
 
 ## Running in Azure App Service (Linux)
 
-If you want to deploy to an Azure Web App as a container (aka Linux Web App), a Bicep template is provided in the [infrastructure as code](infra/) directory
+If you want to deploy to an Azure Web App as a container (aka Linux Web App), a Bicep template is provided in the [deploy](deploy/) directory
+
+For a super quick deployment, use `make deploy` which will deploy to a resource group, temp-demoapps and use the git ref to create a unique site name
+
+```bash
+make deploy
+```
 
 You can also very quickly deploy to Azure App Service directly with the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) and `az webapp up`. Note. `<app-name>` must be globally unique. Change the sku to a larger size, e.g. `P1V2` for a much faster deployment
 

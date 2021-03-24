@@ -1,6 +1,6 @@
 #
-# Deploy to Azure Kubernetes Service using Helm
-# Using Bicep for infrastructure as code
+# Deploy to Azure Kubernetes Service
+# Using Helm for parameterized deployment
 #
 
 name: CD Release - AKS

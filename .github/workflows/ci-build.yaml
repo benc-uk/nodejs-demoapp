@@ -50,15 +50,19 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@v2
 
+      # Nicer than using github runid, I think, will be picked up automatically by make
+      - name: 'Create datestamp image tag'
+        run: echo "IMAGE_TAG=$(date +%d-%m-%Y.%H%M)" >> $GITHUB_ENV
+
       - name: 'Docker build image'
-        run: make image IMAGE_TAG=dev-${{ github.run_id }}
+        run: make image
 
       # Only when pushing to default branch (e.g. master or main), then push image to registry
       - name: Push to container registry
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: |
           echo ${{ secrets.CR_PAT }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
-          make push IMAGE_TAG=dev-${{ github.run_id }}
+          make push
 
       - name: 'Trigger AKS release pipeline'
         if: github.ref == 'refs/heads/master'
@@ -66,7 +70,7 @@ jobs:
         with:
           workflow: 'CD Release - AKS'
           token: ${{ secrets.CR_PAT }}
-          inputs: '{ "IMAGE_TAG": "dev-${{ github.run_id }}" }'
+          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
 
       - name: 'Trigger Azure web app release pipeline'
         if: github.ref == 'refs/heads/master'
@@ -74,4 +78,4 @@ jobs:
         with:
           workflow: 'CD Release - Webapp'
           token: ${{ secrets.CR_PAT }}
-          inputs: '{ "IMAGE_TAG": "dev-${{ github.run_id }}" }'
+          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
