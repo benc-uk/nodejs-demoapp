@@ -21,6 +21,21 @@ The app has several basic pages accessed from the top navigation menu, some of w
 
 # Running and Testing Locally
 
+### Pre-reqs
+
+- Be using Linux, WSL or MacOS, with bash, make etc
+- [Node.js](https://nodejs.org/en/) - for running locally, linting, running tests etc
+- [Docker](https://docs.docker.com/get-docker/) - for running as a container, or image build and push
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux) - for deployment to Azure
+
+Clone the project to any directory where you do development work
+
+```
+git clone https://github.com/benc-uk/vuego-demoapp.git
+```
+
+### Makefile
+
 A standard GNU Make file is provided to help with running and building locally.
 
 ```txt
@@ -53,17 +68,21 @@ Make file variables and default values, pass these in when calling `make`, e.g. 
 
 Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x, 10.x, 12.x and 14.x
 
-# Docker
+# Containers
 
-Public Docker image is [available on GitHub Container Registry](https://github.com/users/benc-uk/packages/container/package/nodejs-demoapp).
+Public container image is [available on GitHub Container Registry](https://github.com/users/benc-uk/packages/container/package/nodejs-demoapp).
 
 Run in a container with:
 
-```
+```bash
 docker run --rm -it -p 3000:3000 ghcr.io/benc-uk/nodejs-demoapp:latest
 ```
 
-Should you want to build your own container, use the `Dockerfile` at the root of the project
+Should you want to build your own container, use `make image` and the above variables to customise the name & tag.
+
+## Kubernetes
+
+The app can easily be deployed to Kubernetes using Helm, see [deploy/kubernetes/readme.md](deploy/kubernetes/readme.md) for details
 
 # GitHub Actions CI/CD
 
