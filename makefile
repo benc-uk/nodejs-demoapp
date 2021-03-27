@@ -14,7 +14,7 @@ TEST_HOST ?= localhost:3000
 # Don't change
 SRC_DIR := src
 
-.PHONY: help lint lint-fix image push run deploy undeploy clean .EXPORT_ALL_VARIABLES
+.PHONY: help lint lint-fix image push run deploy undeploy clean test test-api test-report .EXPORT_ALL_VARIABLES
 .DEFAULT_GOAL := help
 
 help:  ## 💬 This help message
@@ -45,8 +45,8 @@ deploy:  ## 🚀 Deploy to Azure Web App
 	@echo "### 🚀 Web app deployed to https://$(AZURE_SITE_NAME).azurewebsites.net/"
 
 undeploy:  ## 💀 Remove from Azure 
-	@echo "### WARNING! Going to delete $(DEPLOY_RES_GROUP) 😲"
-	az group delete -n $(DEPLOY_RES_GROUP) -o table --no-wait
+	@echo "### WARNING! Going to delete $(AZURE_RES_GROUP) 😲"
+	az group delete -n $(AZURE_RES_GROUP) -o table --no-wait
 
 test: $(SRC_DIR)/node_modules  ## 🎯 Unit tests with Jest 
 	cd $(SRC_DIR); npm run test
