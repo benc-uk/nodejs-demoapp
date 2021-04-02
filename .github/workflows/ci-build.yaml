@@ -61,7 +61,7 @@ jobs:
       - name: Push to container registry
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: |
-          echo ${{ secrets.CR_PAT }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
           make push
 
       - name: 'Trigger AKS release pipeline'
@@ -69,7 +69,7 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: 'CD Release - AKS'
-          token: ${{ secrets.CR_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
 
       - name: 'Trigger Azure web app release pipeline'
@@ -77,5 +77,5 @@ jobs:
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: 'CD Release - Webapp'
-          token: ${{ secrets.CR_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
