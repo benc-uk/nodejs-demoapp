@@ -1,7 +1,7 @@
 {
   "name": "nodejs-demoapp",
   "description": "Simple Node.js Express app for demos",
-  "version": "4.7.1",
+  "version": "4.7.2",
   "author": "Ben Coleman",
   "engines": {
     "node": ">=14.0.0"
