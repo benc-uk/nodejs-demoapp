@@ -13,7 +13,7 @@ on:
         required: true
         default: 'latest'
 
-# Note. Required secrets: CR_PAT & AZURE_CREDENTIALS
+# Note. Required secrets: AZURE_CREDENTIALS, WEATHER_API_KEY, AAD_APP_SECRET
 
 env:
   IMAGE_REG: ghcr.io

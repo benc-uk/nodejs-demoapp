@@ -1,0 +1,12 @@
+{
+  "image": "ghcr.io/benc-uk/devcontainers/node:latest",
+  "forwardPorts": [3000],
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mikestead.dotenv",
+    "ms-azuretools.vscode-bicep",
+    "cschleiden.vscode-github-actions",
+    "github.vscode-pull-request-github"
+  ]
+}
