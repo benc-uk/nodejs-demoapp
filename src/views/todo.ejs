@@ -1,18 +1,18 @@
 <%- include('_head.ejs') %>
 
 <div class="card text-white bg-secondary">
-  <div class="card-header h3 bg-info">   
-    <i class="fas fa-clipboard-check"></i>&nbsp; MongoDB - Todo
-  </div>
+  <div class="card-header h3 bg-info"><i class="fas fa-clipboard-check"></i>&nbsp; MongoDB - Todo</div>
   <div class="card-body">
-    <a class="btn btn-md btn-success btn-lg" data-toggle="modal" data-target="#newModal" onClick="clearForm()"><i class="fa fa-edit"></i> NEW</a>
-    <hr/>
+    <a class="btn btn-md btn-success btn-lg" data-toggle="modal" data-target="#newModal" onClick="clearForm()"
+      ><i class="fa fa-edit"></i> NEW</a
+    >
+    <hr />
     <table class="table table-striped table-hover todo" id="todo-table">
       <tr>
         <th>Done</th>
         <th>Title</th>
         <th>Type</th>
-          <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>
     </table>
   </div>
@@ -56,7 +56,7 @@
 <script src="js/todo-client.js"></script>
 
 <script>
-  loadAllTodos();
+  loadAllTodos()
 </script>
 
 <%- include('_foot.ejs') %>
