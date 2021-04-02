@@ -4,9 +4,9 @@
   <div class="card-header bg-info h3"><i class="fa fa-user-cog"></i>&nbsp; User Account</div>
   <div class="card-body h5">
     <a class="btn btn-danger btn-lg float-right mr-3" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    <a class="btn btn-info btn-lg float-right mr-3" data-toggle="modal" data-target="#detailsModal"
-      ><i class="fas fa-code"></i> Debug</a
-    >
+    <a class="btn btn-info btn-lg float-right mr-3" data-toggle="modal" data-target="#detailsModal">
+      <i class="fas fa-code"></i> Debug
+    </a>
     <br />
 
     <h4 class="text-success">Basic Info</h4>
@@ -33,13 +33,16 @@
     <hr />
     <h4 class="text-success">Microsoft Graph Details</h4>
     <table class="table table-striped">
-      <% Object.keys(details).forEach(key => { if(!key.startsWith("@")) { let displayKey = key.replace(/([A-Z])/g, '
-      $1') displayKey = displayKey.replace(/^./, str => { return str.toUpperCase() }) %>
+      <!-- prettier-ignore -->
+      <% Object.keys(details).forEach(key => { 
+        if(!key.startsWith("@")) { 
+          let displayKey = key.replace(/([A-Z])/g, '$1') 
+          displayKey = displayKey.replace(/^./, str => { return str.toUpperCase() }) %>
       <tr>
         <td><b><%= displayKey %>: &nbsp;</b></td>
         <td><%= details[key] %></td>
       </tr>
-      <% } }) %>
+      <% } } ) %>
     </table>
     <% } %>
   </div>
