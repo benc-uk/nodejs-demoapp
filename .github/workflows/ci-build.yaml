@@ -5,6 +5,7 @@ on:
     branches: [master]
     paths:
       - 'src/**'
+      - '.github/workflows/**'
   pull_request:
 
 env:
@@ -33,14 +34,11 @@ jobs:
           name: test-results
           path: ./src/test-results.xml
 
-      - name: 'Report on test results'
-        uses: ashley-taylor/junit-report-annotations-action@master
-        # Disabled when running locally with the nektos/act tool
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: ${{ always() && !env.ACT }}
         with:
-          access-token: ${{ secrets.GITHUB_TOKEN }}
-          path: ./src/test-results.xml
-          name: Unit test results
+          files: ./src/test-results.xml
 
   build:
     name: 'Build & Push Image'
