@@ -1,5 +1,6 @@
 {
   "image": "ghcr.io/benc-uk/devcontainers/node:latest",
+  "remoteUser": "node",
   "forwardPorts": [3000],
   "extensions": [
     "dbaeumer.vscode-eslint",
