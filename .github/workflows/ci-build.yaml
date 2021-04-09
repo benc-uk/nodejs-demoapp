@@ -34,7 +34,7 @@ jobs:
           name: test-results
           path: ./src/test-results.xml
 
-      - name: Publish Unit Test Results
+      - name: 'Publish test results'
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: ${{ always() && !env.ACT }}
         with:
@@ -56,7 +56,7 @@ jobs:
         run: make image
 
       # Only when pushing to default branch (e.g. master or main), then push image to registry
-      - name: Push to container registry
+      - name: 'Push to container registry'
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
