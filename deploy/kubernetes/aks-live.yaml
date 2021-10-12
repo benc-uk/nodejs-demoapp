@@ -34,7 +34,7 @@ ingress:
   enabled: true
   host: nodejs-demoapp.kube.benco.io
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
   tls:
     enabled: true
-    secretName: kube-benco-io-cert
+    secretName: benco-io-cert

@@ -16,11 +16,16 @@ The `.secrets` file must be created first, see the sample file for a reference.
 ### Run CI
 
 ```bash
-act push --secret-file .github/act/.secrets --platform ubuntu-latest=ghcr.io/benc-uk/devcontainers/node:root
+act push \
+    --secret-file .github/act/.secrets \
+    --platform ubuntu-latest=ghcr.io/benc-uk/devcontainers/node:root
 ```
 
 ### Run a deployment
 
 ```bash
-act workflow_dispatch --eventpath .github/act/workflow_dispatch.json --secret-file .github/act/.secrets --platform ubuntu-latest=ghcr.io/benc-uk/devcontainers/node:root
+act workflow_dispatch \
+    --eventpath .github/act/workflow_dispatch.json \
+    --secret-file .github/act/.secrets \
+    --platform ubuntu-latest=ghcr.io/benc-uk/devcontainers/node:root
 ```
