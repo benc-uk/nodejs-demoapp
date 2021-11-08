@@ -3,7 +3,7 @@ node_modules/
 .env
 src/test-*.xml
 src/test-*.json
+mochawesome-report/
 myvalues.yaml
 secrets.sh
-TEST-RESULTS.xml
 .secrets

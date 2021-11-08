@@ -35,19 +35,7 @@ jobs:
         if: ${{ always() && !env.ACT }}
         with:
           name: test-results
-          path: ./src/test-results.json
-
-      # - name: 'Publish test results'
-      #   uses: dorny/test-reporter@v1
-      #   if: ${{ always() && !env.ACT }}
-      #   with:
-      #     name: Server Tests # Name of the check run which will be created
-      #     path: src/test-results.json # Path to test results
-      #     reporter: mocha-json # Format of test results
-      # uses: EnricoMi/publish-unit-test-result-action@v1
-      # if: ${{ always() && !env.ACT }}
-      # with:
-      #   files: ./src/test-results.xml
+          path: ./src/mochawesome-report
 
   build:
     name: 'Build & Push Image'

@@ -16,8 +16,8 @@
     "start": "node --expose_gc server.js",
     "start-bg": "node server.js &",
     "watch": "nodemon -e ejs",
-    "test-report": "NODE_ENV=test mocha --reporter json --exit ./tests > test-results.json",
-    "test": "NODE_ENV=test mocha --exit ./tests",
+    "test-report": "mocha --reporter mochawesome --exit ./tests > test-results.json",
+    "test": "mocha --exit ./tests",
     "test-postman": "newman run tests/postman_collection.json --timeout 60000 --env-var apphost=$TEST_HOST",
     "lint": "eslint . && prettier --check *.js",
     "lint-fix": "eslint . --fix && prettier --write *.js"
@@ -37,6 +37,7 @@
   "devDependencies": {
     "eslint": "^8.2.0",
     "mocha": "^9.1.3",
+    "mochawesome": "^7.0.1",
     "newman": "^5.3.0",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
