@@ -38,10 +38,16 @@ jobs:
           path: ./src/test-results.xml
 
       - name: 'Publish test results'
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: dorny/test-reporter@v1
         if: ${{ always() && !env.ACT }}
         with:
-          files: ./src/test-results.xml
+          name: JEST Tests # Name of the check run which will be created
+          path: src/test-results.xml # Path to test results
+          reporter: jest-junit # Format of test results
+        # uses: EnricoMi/publish-unit-test-result-action@v1
+        # if: ${{ always() && !env.ACT }}
+        # with:
+        #   files: ./src/test-results.xml
 
   build:
     name: 'Build & Push Image'
