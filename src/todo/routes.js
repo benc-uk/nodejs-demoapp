@@ -16,9 +16,9 @@ const DBNAME = process.env.TODO_MONGO_DB || 'todoDb'
 const COLLECTION = 'todos'
 let db
 
-  //
-  // Connect to MongoDB server
-  //
+//
+// Connect to MongoDB server
+//
 ;(async function () {
   try {
     let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
