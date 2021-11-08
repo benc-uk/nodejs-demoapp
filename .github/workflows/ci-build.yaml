@@ -12,6 +12,9 @@ env:
   IMAGE_REG: ghcr.io
   IMAGE_REPO: benc-uk/nodejs-demoapp
 
+permissions:
+  packages: write
+
 jobs:
   test:
     name: 'Tests & Linting'
@@ -32,13 +35,7 @@ jobs:
         if: ${{ always() && !env.ACT }}
         with:
           name: test-results
-          path: ./src/test-results.xml
-
-      - name: 'Publish test results'
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: ${{ always() && !env.ACT }}
-        with:
-          files: ./src/test-results.xml
+          path: ./src/mochawesome-report
 
   build:
     name: 'Build & Push Image'
@@ -70,10 +67,10 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
 
-      - name: 'Trigger Azure web app release pipeline'
-        if: github.ref == 'refs/heads/master'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: 'CD Release - Webapp'
-          token: ${{ secrets.GH_PAT }}
-          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
+      # - name: 'Trigger Azure web app release pipeline'
+      #   if: github.ref == 'refs/heads/master'
+      #   uses: benc-uk/workflow-dispatch@v1
+      #   with:
+      #     workflow: 'CD Release - Webapp'
+      #     token: ${{ secrets.GH_PAT }}
+      #     inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'

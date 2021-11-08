@@ -1,7 +1,7 @@
 //
 // Main Express server for nodejs-demoapp
 // ---------------------------------------------
-// Ben C, Oct 2017 - Updated: Apr 2019
+// Ben C, Oct 2017 - Updated: Nov 2021
 //
 
 console.log('### Node.js demo app starting...')
@@ -30,7 +30,6 @@ if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
 const express = require('express')
 const path = require('path')
 const logger = require('morgan')
-const bodyParser = require('body-parser')
 const app = express()
 const session = require('express-session')
 
@@ -47,12 +46,14 @@ app.use(
   })
 )
 
-// Logging
-app.use(logger('dev'))
+// Request logging, switch off when running tests
+if (process.env.NODE_ENV !== 'test') {
+  app.use(logger('dev'))
+}
 
 // Parsing middleware
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 // Routes & controllers
 app.use('/', require('./routes/pages'))

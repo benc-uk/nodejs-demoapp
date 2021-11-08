@@ -1,4 +1,6 @@
 #
+# NOTE: No longer maintained!
+#
 # Deploy to Azure App Service as a containerized Web App
 # Using Bicep for infrastructure as code
 #

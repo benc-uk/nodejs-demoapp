@@ -1,12 +1,14 @@
 <%- include('_head.ejs') %>
 
 <div class="card text-white bg-secondary">
-  <div class="card-header bg-info h3"><i class="fa fa-globe"></i>&nbsp; Geolocated Weather</div>
+  <div class="card-header bg-info h3">
+    <i class="fa fa-globe"></i>&nbsp; Geolocated Weather <span id="location"></span>
+  </div>
   <div class="card-body">
     <div class="alert alert-warning fade" role="alert" id="error" style="color: #222"></div>
     <table>
       <tr>
-        <td><canvas id="weather_icon" width="256" height="256"></canvas></td>
+        <td><img src="" id="icon" /></td>
         <td class="weather-info">
           <ul id="weather-list"></ul>
         </td>
@@ -15,13 +17,12 @@
   </div>
 </div>
 
-<div>
-  <img src="images/darksky.png" height="64px" />
+<div style="padding: 1rem">
+  <img src="images/open-weather.png" height="64px" />
 </div>
 
 <template id="weather-template"> </template>
 
-<script src="js/skycons.js"></script>
 <script>
   const errElement = document.getElementById('error')
 
@@ -56,19 +57,17 @@
     try {
       const resp = await fetch(`/api/weather/${lat}/${long}`)
       if (!resp.ok) throw `Fetch /api/weather/${lat}/${long} failed with ${resp.statusText}`
-      const weather = await resp.json()
+      const data = await resp.json()
 
-      var skycons = new Skycons({ color: '#3498db' })
-      skycons.add('weather_icon', weather.icon)
-      skycons.play()
-
-      addWeatherDetails(`The weather currently is: &nbsp; ${weather.summary}`)
-      addWeatherDetails(`The temperature is: &nbsp; ${weather.temp}°C`)
-      addWeatherDetails(`Chance of rain is: &nbsp; ${weather.precip}%`)
-      addWeatherDetails(`Wind speed is: &nbsp; ${weather.wind}mph`)
-      addWeatherDetails(`UV index is: &nbsp; ${weather.uv}`)
-      addWeatherDetails(`Forecast today: &nbsp; ${weather.forecastShort}`)
-      addWeatherDetails(`Forecast week: &nbsp; ${weather.forecastLong}`)
+      const icon = data.weather[0].icon.replace('n', 'd')
+      document.getElementById('icon').src = `images/weather/${icon}.png`
+      document.getElementById('location').textContent = ` - ${data.name}`
+      addWeatherDetails(`The weather currently is: &nbsp; ${data.weather[0].description}`)
+      addWeatherDetails(`Current temperature: &nbsp; ${data.main.temp}°C`)
+      addWeatherDetails(`Temperature feels like: &nbsp; ${data.main.feels_like}°C`)
+      addWeatherDetails(`Cloud cover: &nbsp; ${data.clouds.all}%`)
+      addWeatherDetails(`Volume of rain in last hour: &nbsp; ${data.rain ? data.rain['1h'] : 0}mm`)
+      addWeatherDetails(`Wind speed: &nbsp; ${(data.wind.speed * 2.24).toFixed(1)} mph`)
     } catch (err) {
       errElement.classList.add('show')
       errElement.textContent = err

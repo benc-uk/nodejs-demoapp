@@ -17,7 +17,7 @@ SRC_DIR := src
 .PHONY: help lint lint-fix image push run deploy undeploy clean test test-api test-report .EXPORT_ALL_VARIABLES
 .DEFAULT_GOAL := help
 
-help:  ## 💬 This help message
+help: ## 💬 This help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 lint: $(SRC_DIR)/node_modules  ## 🔎 Lint & format, will not fix but sets exit code on error 
@@ -52,8 +52,8 @@ test: $(SRC_DIR)/node_modules  ## 🎯 Unit tests with Jest
 	cd $(SRC_DIR); npm run test
 
 test-report: $(SRC_DIR)/node_modules  ## 🤡 Unit tests with Jest & Junit output 
-	rm -rf $(SRC_DIR)/test-results.xml
-	cd $(SRC_DIR); npm run test-junit
+	rm -rf $(SRC_DIR)/test-results.*
+	cd $(SRC_DIR); npm run test-report
 
 test-api: $(SRC_DIR)/node_modules .EXPORT_ALL_VARIABLES  ## 🚦 Run integration API tests, server must be running 
 	cd $(SRC_DIR); npm run test-postman

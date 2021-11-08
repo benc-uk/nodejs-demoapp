@@ -18,28 +18,20 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
   let long = req.params.long
   let lat = req.params.lat
 
-  // Call Darksky weather API
+  // Call OpenWeather API
   try {
-    let weather = await axios.get(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`)
+    let weatherResp = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
+    )
 
-    if (weather.data.currently) {
+    if (weatherResp.data) {
       const appInsights = require('applicationinsights')
-      if (appInsights.defaultClient) {
-        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weather.data.currently.temperature })
+      if (appInsights.defaultClient && weatherResp.data.main) {
+        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weatherResp.data.main.temp })
       }
 
-      res.status(200).send({
-        long: long,
-        lat: lat,
-        summary: weather.data.currently.summary,
-        icon: weather.data.currently.icon,
-        temp: weather.data.currently.temperature,
-        precip: weather.data.currently.precipProbability,
-        wind: weather.data.currently.windSpeed,
-        uv: weather.data.currently.uvIndex,
-        forecastShort: weather.data.hourly.summary,
-        forecastLong: weather.data.daily.summary,
-      })
+      // Proxy the OpenWeather response through to the caller
+      res.status(200).send(weatherResp.data)
     } else {
       throw new Error(`Current weather not available for: ${long},${lat}`)
     }

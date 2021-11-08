@@ -14,19 +14,23 @@ const AppInsights = require('applicationinsights')
 
 const DBNAME = process.env.TODO_MONGO_DB || 'todoDb'
 const COLLECTION = 'todos'
-let db;
+let db
 
 //
 // Connect to MongoDB server
 //
-(async function() {
+;(async function () {
   try {
-
-    let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, { useNewUrlParser: true, useUnifiedTopology: true })
+    let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     db = client.db(DBNAME)
     console.log('### Enabled Todo app. Connected to MongoDB!')
   } catch (err) {
-    if (AppInsights.defaultClient) { AppInsights.defaultClient.trackException({ exception: err }) }
+    if (AppInsights.defaultClient) {
+      AppInsights.defaultClient.trackException({ exception: err })
+    }
     console.log(`### ERROR! ${err.toString()}`)
   }
 })()
@@ -36,7 +40,7 @@ let db;
 //
 router.get('/todo', function (req, res, next) {
   res.render('todo', {
-    title: 'Node DemoApp: Todo'
+    title: 'Node DemoApp: Todo',
   })
 })
 
@@ -65,8 +69,10 @@ router.post('/api/todo', async function (req, res, next) {
   let todo = req.body
   try {
     let result = await db.collection(COLLECTION).insertOne(todo)
-    if (result && result.ops) {
-      utils.sendData(res, result.ops[0])
+    if (result) {
+      utils.sendData(res, {
+        newId: result.insertedId,
+      })
     } else {
       throw 'Error POSTing todo'
     }

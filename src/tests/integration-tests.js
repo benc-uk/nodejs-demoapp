@@ -1,3 +1,4 @@
+console.log = function () {}
 const request = require('supertest')
 const app = require('../server')
 
