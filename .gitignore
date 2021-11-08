@@ -2,6 +2,7 @@ node_modules/
 *.log
 .env
 src/test-*.xml
+src/test-*.json
 myvalues.yaml
 secrets.sh
 TEST-RESULTS.xml
