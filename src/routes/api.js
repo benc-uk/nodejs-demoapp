@@ -20,28 +20,18 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
 
   // Call OpenWeather API
   try {
-    let weather = await axios.get(
+    let weatherResp = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
     )
 
-    if (weather.data.weather && weather.data.main) {
+    if (weatherResp.data) {
       const appInsights = require('applicationinsights')
-      if (appInsights.defaultClient) {
-        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weather.data.main.temp })
+      if (appInsights.defaultClient && weatherResp.data.main) {
+        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weatherResp.data.main.temp })
       }
 
-      res.status(200).send({
-        long: long,
-        lat: lat,
-        location: weather.data.name,
-        temp: weather.data.main.temp,
-        tempFeels: weather.data.main.feels_like,
-        summary: weather.data.weather[0].description,
-        icon: weather.data.weather[0].icon.replace('n', 'd'),
-        wind: `${weather.data.wind.speed}m/s ${weather.data.wind.deg}deg`,
-        clouds: weather.data.clouds.all,
-        rain: weather.data.rain ? weather.data.rain['1h'] : 0,
-      })
+      // Proxy the OpenWeather response through to the caller
+      res.status(200).send(weatherResp.data)
     } else {
       throw new Error(`Current weather not available for: ${long},${lat}`)
     }

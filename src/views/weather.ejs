@@ -57,16 +57,17 @@
     try {
       const resp = await fetch(`/api/weather/${lat}/${long}`)
       if (!resp.ok) throw `Fetch /api/weather/${lat}/${long} failed with ${resp.statusText}`
-      const weather = await resp.json()
+      const data = await resp.json()
 
-      document.getElementById('icon').src = `images/weather/${weather.icon}.png`
-      document.getElementById('location').textContent = ` - ${weather.location}`
-      addWeatherDetails(`The weather currently is: &nbsp; ${weather.summary}`)
-      addWeatherDetails(`The temperature is: &nbsp; ${weather.temp}°C`)
-      addWeatherDetails(`The temperature feels like: &nbsp; ${weather.tempFeels}°C`)
-      addWeatherDetails(`Cloud cover: &nbsp; ${weather.clouds}%`)
-      addWeatherDetails(`Volume of rain is: &nbsp; ${weather.rain}mm`)
-      addWeatherDetails(`Wind speed & direction: &nbsp; ${weather.wind}`)
+      const icon = data.weather[0].icon.replace('n', 'd')
+      document.getElementById('icon').src = `images/weather/${icon}.png`
+      document.getElementById('location').textContent = ` - ${data.name}`
+      addWeatherDetails(`The weather currently is: &nbsp; ${data.weather[0].description}`)
+      addWeatherDetails(`Current temperature: &nbsp; ${data.main.temp}°C`)
+      addWeatherDetails(`Temperature feels like: &nbsp; ${data.main.feels_like}°C`)
+      addWeatherDetails(`Cloud cover: &nbsp; ${data.clouds.all}%`)
+      addWeatherDetails(`Volume of rain in last hour: &nbsp; ${data.rain ? data.rain['1h'] : 0}mm`)
+      addWeatherDetails(`Wind speed: &nbsp; ${(data.wind.speed * 2.24).toFixed(1)} mph`)
     } catch (err) {
       errElement.classList.add('show')
       errElement.textContent = err
