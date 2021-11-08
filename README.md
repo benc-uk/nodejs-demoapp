@@ -11,7 +11,7 @@ The app has several basic pages accessed from the top navigation menu, some of w
 - **'Info'** - Will show system & runtime information, and will also display if the app is running from within a Docker container and Kubernetes.
 - **'Tools'** - Some tools useful in demos, such a forcing CPU load (for autoscale demos), and error/exception pages for use with App Insights or other monitoring tool.
 - **'Monitor'** - Display realtime monitoring data, showing memory usage/total and process CPU load.
-- **'Weather'** - (Optional) Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch a weather forecast from the [Dark Sky](http://darksky.net) weather API
+- **'Weather'** - (Optional) Gets the location of the client page (with HTML5 Geolocation). The resulting location is used to fetch weather data from the [OpenWeather](https://openweathermap.org/) API
 - **'Todo'** - (Optional) This is a small todo/task-list app which uses MongoDB as a database.
 - **'User Account'** - (Optional) When configured with Azure AD (application client id and secret) user login button will be enabled, and an user-account details page enabled, which calls the Microsoft Graph API
 
@@ -123,7 +123,7 @@ The app has been instrumented with the Application Insights SDK, it will however
 
 Enable this by setting `WEATHER_API_KEY`
 
-This will require a API key from Dark Sky, you can [sign up for free and get one here](https://darksky.net/dev). The page uses a browser API for geolocation to fetch the user's location.  
+This will require a API key from OpenWeather, you can [sign up for free and get one here](https://openweathermap.org/price). The page uses a browser API for geolocation to fetch the user's location.  
 However, the `geolocation.getCurrentPosition()` browser API will only work when the site is served via HTTPS or from localhost. As a fallback, weather for London, UK will be show if the current position can not be obtained
 
 ### User Authentication with Azure AD
@@ -160,7 +160,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | TODO_MONGO_CONNSTR             | _none_  | Connect to specified MongoDB instance, when set the Todo feature will be enabled in the menu bar |
 | TODO_MONGO_DB                  | todoDb  | Name of the database in MongoDB to use (optional)                                                |
 | APPINSIGHTS_INSTRUMENTATIONKEY | _none_  | Enable Application Insights monitoring                                                           |
-| WEATHER_API_KEY                | _none_  | DarkSky weather API key. [Info here](https://darksky.net/dev)                                    |
+| WEATHER_API_KEY                | _none_  | DarkSky weather API key. [Info here](https://openweathermap.org/api)                             |
 | AAD_APP_ID                     | _none_  | Application ID of app registered in Azure AD                                                     |
 | AAD_APP_SECRET                 | _none_  | Secret / password of app registered in Azure AD                                                  |
 | AAD_REDIRECT_URL_BASE          | _none_  | Hostname/domain where app is running                                                             |
@@ -184,7 +184,8 @@ az webapp up --sku F1 --name <app-name>
 
 # Updates
 
-- Nov 2021 - Refresh packages and added make + bicep
+- Nov 2021 - Replace DarkSky API with OpenWeather
+- Mar 2021 - Refresh packages and added make + bicep
 - Nov 2020 - Switched to MSAL-Node library for authentication
 - Oct 2020 - Added GitHub Actions pipelines and Bicep IaC
 - Jan 2020 - Added monitor page and API
