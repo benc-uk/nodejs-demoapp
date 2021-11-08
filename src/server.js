@@ -46,7 +46,7 @@ app.use(
   })
 )
 
-// Logging, switch off when running tests
+// Request logging, switch off when running tests
 if (process.env.NODE_ENV !== 'test') {
   app.use(logger('dev'))
 }
