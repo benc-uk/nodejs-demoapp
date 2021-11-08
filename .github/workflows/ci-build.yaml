@@ -12,6 +12,9 @@ env:
   IMAGE_REG: ghcr.io
   IMAGE_REPO: benc-uk/nodejs-demoapp
 
+permissions:
+  packages: write
+
 jobs:
   test:
     name: 'Tests & Linting'
@@ -70,10 +73,10 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
 
-      - name: 'Trigger Azure web app release pipeline'
-        if: github.ref == 'refs/heads/master'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: 'CD Release - Webapp'
-          token: ${{ secrets.GH_PAT }}
-          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
+      # - name: 'Trigger Azure web app release pipeline'
+      #   if: github.ref == 'refs/heads/master'
+      #   uses: benc-uk/workflow-dispatch@v1
+      #   with:
+      #     workflow: 'CD Release - Webapp'
+      #     token: ${{ secrets.GH_PAT }}
+      #     inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
