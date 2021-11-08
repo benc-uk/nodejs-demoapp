@@ -52,8 +52,8 @@ test: $(SRC_DIR)/node_modules  ## 🎯 Unit tests with Jest
 	cd $(SRC_DIR); npm run test
 
 test-report: $(SRC_DIR)/node_modules  ## 🤡 Unit tests with Jest & Junit output 
-	rm -rf $(SRC_DIR)/test-results.xml
-	cd $(SRC_DIR); npm run test-junit
+	rm -rf $(SRC_DIR)/test-results.*
+	cd $(SRC_DIR); npm run test-report
 
 test-api: $(SRC_DIR)/node_modules .EXPORT_ALL_VARIABLES  ## 🚦 Run integration API tests, server must be running 
 	cd $(SRC_DIR); npm run test-postman

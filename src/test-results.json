@@ -1,0 +1,126 @@
+{
+  "stats": {
+    "suites": 6,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-11-08T17:05:04.765Z",
+    "end": "2021-11-08T17:05:06.620Z",
+    "duration": 1855
+  },
+  "tests": [
+    {
+      "title": "Responds with 200 & HTML",
+      "fullTitle": "Check home page Responds with 200 & HTML",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 33,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with valid info",
+      "fullTitle": "Check info results Responds with valid info",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 15,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with 200 & HTML",
+      "fullTitle": "Check tools page Responds with 200 & HTML",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 6,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with 404",
+      "fullTitle": "Check error page Responds with 404",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 8,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with 200",
+      "fullTitle": "Weather API Responds with 200",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 781,
+      "currentRetry": 0,
+      "speed": "slow",
+      "err": {}
+    },
+    {
+      "title": "Responds & provides metrics",
+      "fullTitle": "Monitor API returns data Responds & provides metrics",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 1006,
+      "currentRetry": 0,
+      "speed": "slow",
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "Responds with 200 & HTML",
+      "fullTitle": "Check home page Responds with 200 & HTML",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 33,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with valid info",
+      "fullTitle": "Check info results Responds with valid info",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 15,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with 200 & HTML",
+      "fullTitle": "Check tools page Responds with 200 & HTML",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 6,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with 404",
+      "fullTitle": "Check error page Responds with 404",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 8,
+      "currentRetry": 0,
+      "speed": "fast",
+      "err": {}
+    },
+    {
+      "title": "Responds with 200",
+      "fullTitle": "Weather API Responds with 200",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 781,
+      "currentRetry": 0,
+      "speed": "slow",
+      "err": {}
+    },
+    {
+      "title": "Responds & provides metrics",
+      "fullTitle": "Monitor API returns data Responds & provides metrics",
+      "file": "/home/ben/dev/nodejs-demoapp/src/tests/integration-tests.js",
+      "duration": 1006,
+      "currentRetry": 0,
+      "speed": "slow",
+      "err": {}
+    }
+  ]
+}
