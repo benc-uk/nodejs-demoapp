@@ -100,7 +100,7 @@ async function createTodo(todo) {
   })
   if (resp.ok) {
     const data = await resp.json()
-    todo._id = data._id
+    todo._id = data.newId
     addTodoToTable(todo)
     todos.push(todo)
   }

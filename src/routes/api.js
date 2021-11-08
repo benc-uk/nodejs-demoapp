@@ -18,27 +18,29 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
   let long = req.params.long
   let lat = req.params.lat
 
-  // Call Darksky weather API
+  // Call OpenWeather API
   try {
-    let weather = await axios.get(`https://api.darksky.net/forecast/${WEATHER_API_KEY}/${lat},${long}?units=uk2`)
+    let weather = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
+    )
 
-    if (weather.data.currently) {
+    if (weather.data.weather && weather.data.main) {
       const appInsights = require('applicationinsights')
       if (appInsights.defaultClient) {
-        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weather.data.currently.temperature })
+        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weather.data.main.temp })
       }
 
       res.status(200).send({
         long: long,
         lat: lat,
-        summary: weather.data.currently.summary,
-        icon: weather.data.currently.icon,
-        temp: weather.data.currently.temperature,
-        precip: weather.data.currently.precipProbability,
-        wind: weather.data.currently.windSpeed,
-        uv: weather.data.currently.uvIndex,
-        forecastShort: weather.data.hourly.summary,
-        forecastLong: weather.data.daily.summary,
+        location: weather.data.name,
+        temp: weather.data.main.temp,
+        tempFeels: weather.data.main.feels_like,
+        summary: weather.data.weather[0].description,
+        icon: weather.data.weather[0].icon.replace('n', 'd'),
+        wind: `${weather.data.wind.speed}m/s ${weather.data.wind.deg}deg`,
+        clouds: weather.data.clouds.all,
+        rain: weather.data.rain ? weather.data.rain['1h'] : 0,
       })
     } else {
       throw new Error(`Current weather not available for: ${long},${lat}`)
