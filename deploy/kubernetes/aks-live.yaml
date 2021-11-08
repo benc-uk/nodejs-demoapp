@@ -32,6 +32,7 @@ resources:
 
 ingress:
   enabled: true
+  className: nginx
   host: nodejs-demoapp.kube.benco.io
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
