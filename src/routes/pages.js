@@ -47,11 +47,26 @@ router.get('/info', function (req, res, next) {
     uptime: convertSeconds(os.uptime()),
   }
 
+  const isKube = fs.existsSync('/var/run/secrets/kubernetes.io')
+  let isContainer = isKube || fs.existsSync('/.dockerenv')
+
+  // Fallback to try to detect containerd, only works when *NOT* in Kubernetes
+  if (!isContainer) {
+    try {
+      const cgroup = fs.readFileSync('/proc/1/cgroup', 'utf8')
+      if (cgroup.includes('containerd')) {
+        isContainer = true
+      }
+    } catch (err) {
+      isContainer = false
+    }
+  }
+
   res.render('info', {
     title: 'Node DemoApp: Info',
     info: info,
-    isDocker: fs.existsSync('/.dockerenv'),
-    isKube: fs.existsSync('/var/run/secrets/kubernetes.io'),
+    isKube: isKube,
+    isContainer: isContainer,
   })
 })
 
@@ -141,6 +156,6 @@ function convertSeconds(n) {
   n %= 3600
   let mins = Math.floor(n / 60)
   n %= 60
-  let secs = n
+  let secs = Math.round(n)
   return `${days} days, ${hours} hours, ${mins} mins, ${secs} seconds`
 }
