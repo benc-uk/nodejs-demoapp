@@ -160,7 +160,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | TODO_MONGO_CONNSTR             | _none_  | Connect to specified MongoDB instance, when set the Todo feature will be enabled in the menu bar |
 | TODO_MONGO_DB                  | todoDb  | Name of the database in MongoDB to use (optional)                                                |
 | APPINSIGHTS_INSTRUMENTATIONKEY | _none_  | Enable Application Insights monitoring                                                           |
-| WEATHER_API_KEY                | _none_  | DarkSky weather API key. [Info here](https://openweathermap.org/api)                             |
+| WEATHER_API_KEY                | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                             |
 | AAD_APP_ID                     | _none_  | Application ID of app registered in Azure AD                                                     |
 | AAD_APP_SECRET                 | _none_  | Secret / password of app registered in Azure AD                                                  |
 | AAD_REDIRECT_URL_BASE          | _none_  | Hostname/domain where app is running                                                             |
