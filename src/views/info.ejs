@@ -8,9 +8,9 @@
         <td><i class="fa fa-cube"></i></td>
         <td>Containerized</td>
         <% if (isContainer) { %>
-        <td>Looks like we're running in a container! 😁</td>
+          <td>Looks like we're running in a container! 😁</td>
         <% } else { %>
-        <td>Not running as a container 😢</td>
+          <td>Not running as a container 😢</td>
         <% } %>
       </tr>
 
@@ -18,9 +18,9 @@
         <td><i class="fa fa-project-diagram"></i></td>
         <td>Kubernetes</td>
         <% if (isKube) { %>
-        <td>We're also running in a Kubernetes pod! 😃</td>
+          <td>We're also running in a Kubernetes pod! 😃</td>
         <% } else { %>
-        <td>Not running in Kubernetes 😢</td>
+          <td>Not running in Kubernetes 😢</td>
         <% } %>
       </tr>
 
@@ -28,9 +28,9 @@
         <td>&nbsp;<i class="fas fa-lightbulb"></i></td>
         <td>App Insights</td>
         <% if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
-        <td>Reporting data to App Insights, nice job!</td>
+          <td>Reporting data to App Insights, nice job!</td>
         <% } else { %>
-        <td>Not reporting data to App Insights</td>
+          <td>Not reporting data to App Insights</td>
         <% } %>
       </tr>
 
@@ -70,11 +70,11 @@
         <td><%= info.nodever %></td>
       </tr>
       <% if (process.env.RELEASE_INFO) { %>
-      <tr>
-        <td><i class="fa fa-window-restore"></i></td>
-        <td>Release Info</td>
-        <td><%= process.env.RELEASE_INFO %></td>
-      </tr>
+        <tr>
+          <td><i class="fa fa-window-restore"></i></td>
+          <td>Release Info</td>
+          <td><%= process.env.RELEASE_INFO %></td>
+        </tr>
       <% } %>
     </table>
   </div>
@@ -87,14 +87,19 @@
   <div class="card-body">
     <div class="envtable">
       <table class="table table-hover">
-        <% for(let envVar in process.env) { %> <% if (envVar.toUpperCase().includes('SECRET')) continue %> <% if
-        (envVar.toUpperCase().includes('PWD')) continue %> <% if (envVar.toUpperCase().includes('PASSWORD')) continue %>
-        <% if (envVar.toUpperCase().includes('KEY')) continue %> <% if (envVar.toUpperCase().includes('PATH')) continue
-        %> <% if (envVar.toUpperCase().includes('NPM_')) continue %>
-        <tr>
-          <td><%= envVar %></td>
-          <td class="envvars"><%= process.env[envVar] %></td>
-        </tr>
+        <% for(let envVar in process.env) { %> 
+          <% if (envVar.toUpperCase().includes('SECRET')) continue %> 
+          <% if (envVar.toUpperCase().includes('PWD')) continue %> 
+          <% if (envVar.toUpperCase().includes('PASSWORD')) continue %>
+          <% if (envVar.toUpperCase().includes('KEY')) continue %> 
+          <% if (envVar.toUpperCase().includes('CONNSTR')) continue %> 
+          <% if (envVar.toUpperCase().includes('PATH')) continue %> 
+          <% if (envVar.toUpperCase().includes('NPM_')) continue %> 
+          <% if (envVar.toUpperCase().includes('NPM_')) continue %>
+          <tr>
+            <td><%= envVar %></td>
+            <td class="envvars"><%= process.env[envVar] %></td>
+          </tr>
         <% } %>
       </table>
     </div>
