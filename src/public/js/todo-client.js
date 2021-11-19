@@ -7,14 +7,14 @@ async function loadAllTodos() {
   const resp = await fetch('/api/todo')
   if (resp.ok) {
     todos = await resp.json()
-    for (let todo of todos) {
+    for (const todo of todos) {
       addTodoToTable(todo)
     }
   }
 }
 
 function clickTodoDone(id) {
-  let todo = todos.find((t) => {
+  const todo = todos.find((t) => {
     return t._id == id
   })
   todo.done = !todo.done
@@ -39,7 +39,7 @@ function clearForm() {
 }
 
 function addNewTodo() {
-  let todo = {
+  const todo = {
     title: document.getElementById('newTitle').value,
     done: false,
     type: document.getElementById('newType').value,
@@ -60,27 +60,27 @@ function addTodoToTable(todo) {
     </td>
     <td>
       <div contentEditable="${todo.done ? 'false' : 'true'}" onkeydown="keyFilter(event)" 
-           class="todo-title ${todo.done ? 'todo-done' : ''}" onfocusout="editTodo('${todo._id}', this)">
-           ${todo.title}
+        class="todo-title ${todo.done ? 'todo-done' : ''}" onfocusout="editTodo('${todo._id}', this)">
+        ${todo.title}
       </div>
     </td>
     <td>${todo.type}</td>
-    <td><button class="btn btn-danger" onClick="deleteTodo('${todo._id}')"><i class="fa fa-trash"></i></button></td>`
+    <td><button class="btn btn-danger" onClick="deleteTodo('${todo._id}')"><i class="fa fa-trash fa-fw"></i></button></td>`
 
   table.appendChild(row)
 }
 
 function deleteTodoFromTable(id) {
-  let e = document.getElementById(id)
+  const e = document.getElementById(id)
   e.remove()
 }
 
 function editTodo(id, e) {
-  let todo = todos.find((t) => {
+  const todo = todos.find((t) => {
     return t._id == id
   })
   todo.title = e.innerHTML
-  updateTodo(todo, (success) => {})
+  updateTodo(todo, () => {})
 }
 
 async function deleteTodo(id) {
@@ -129,7 +129,7 @@ function keyFilter(e) {
 
 function makeId(len) {
   let text = ''
-  let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
   for (let i = 0; i < len; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))

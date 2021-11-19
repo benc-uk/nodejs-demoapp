@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
   env: {
+    es2020: true,
     node: true,
     es6: true,
     mocha: true,
-    jquery: true,
     browser: true,
   },
   extends: ['eslint:recommended'],
@@ -14,22 +14,15 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-unused-vars': ['error', { argsIgnorePattern: 'next|res|req' }],
-    curly: 'error',
+
+    'prefer-const': 'error',
 
     // ES6
     'arrow-spacing': 'error',
     'arrow-parens': 'error',
-
-    // Spacing
-    'func-call-spacing': 'error',
-    'block-spacing': 'error',
-    'object-curly-spacing': ['error', 'always'],
-    'no-trailing-spaces': 'error',
-    'no-whitespace-before-property': 'error',
-    'comma-spacing': 'error',
-    'keyword-spacing': 'error',
   },
   parserOptions: {
-    ecmaVersion: '2017',
+    ecmaVersion: '2020',
+    sourceType: 'module',
   },
 }

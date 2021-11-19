@@ -4,10 +4,10 @@
 // Ben C, Jan 2020
 //
 
-let express = require('express')
-let router = express.Router()
-const os = require('os')
-const fs = require('fs')
+import express from 'express'
+const router = express.Router()
+import os from 'os'
+import fs from 'fs'
 
 // =======================================================================
 // Middleware to pass user data from session to all views
@@ -32,9 +32,7 @@ router.get('/', function (req, res, next) {
 // Get system & runtime info
 // =======================================================================
 router.get('/info', function (req, res, next) {
-  let packagejson = require('../package.json')
-
-  let info = {
+  const info = {
     release: os.release(),
     type: os.type(),
     cpus: os.cpus(),
@@ -43,7 +41,6 @@ router.get('/info', function (req, res, next) {
     mem: Math.round(os.totalmem() / 1048576),
     env: process.env.WEBSITE_SITE_NAME ? process.env.WEBSITE_SITE_NAME.split('-')[0] : 'Local',
     nodever: process.version,
-    appver: packagejson.version,
     uptime: convertSeconds(os.uptime()),
   }
 
@@ -144,7 +141,7 @@ router.get('/tools/gc', function (req, res, next) {
   })
 })
 
-module.exports = router
+export default router
 
 // ******* UTILS HERE *************************************************************
 

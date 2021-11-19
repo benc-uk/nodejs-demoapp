@@ -119,8 +119,8 @@ function getData() {
       return response.json()
     })
     .then((data) => {
-      let d = new Date()
-      let label = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
+      const d = new Date()
+      const label = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
 
       // Set max on mem chart
       memChart.options.scales.yAxes[0].ticks.max = data.memTotalBytes / MIB

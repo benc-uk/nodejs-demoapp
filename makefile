@@ -35,7 +35,7 @@ push:  ## 📤 Push container image to registry
 
 run: $(SRC_DIR)/node_modules  ## 🏃 Run locally using Node.js
 	cd $(SRC_DIR); npm run watch
-
+	
 deploy:  ## 🚀 Deploy to Azure Web App 
 	az group create --resource-group $(AZURE_RES_GROUP) --location $(AZURE_REGION) -o table
 	az deployment group create --template-file deploy/webapp.bicep \

@@ -5,20 +5,20 @@
 // Updated June, 2019
 //
 
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const utils = require('./utils')
-const MongoClient = require('mongodb').MongoClient
-const ObjectId = require('mongodb').ObjectID
-const AppInsights = require('applicationinsights')
+import { MongoClient, ObjectId } from 'mongodb'
+import appInsights from 'applicationinsights'
+import { Utils } from './utils.mjs'
+const utils = new Utils()
 
 const DBNAME = process.env.TODO_MONGO_DB || 'todoDb'
 const COLLECTION = 'todos'
 let db
 
-//
-// Connect to MongoDB server
-//
+  //
+  // Connect to MongoDB server
+  //
 ;(async function () {
   try {
     let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
@@ -26,12 +26,12 @@ let db
       useUnifiedTopology: true,
     })
     db = client.db(DBNAME)
-    console.log('### Enabled Todo app. Connected to MongoDB!')
+    console.log('### ✅ Enabled Todo app. Connected to MongoDB!')
   } catch (err) {
-    if (AppInsights.defaultClient) {
-      AppInsights.defaultClient.trackException({ exception: err })
+    if (appInsights.defaultClient) {
+      appInsights.defaultClient.trackException({ exception: err })
     }
-    console.log(`### ERROR! ${err.toString()}`)
+    console.log(`### 💥 ERROR! ${err.toString()}`)
   }
 })()
 
@@ -117,4 +117,4 @@ router.delete('/api/todo/:id', async function (req, res, next) {
   }
 })
 
-module.exports = router
+export default router

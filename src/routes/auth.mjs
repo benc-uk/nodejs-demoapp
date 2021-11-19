@@ -4,10 +4,14 @@
 // Ben C, Nov 2020
 //
 
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const axios = require('axios')
-const msal = require('@azure/msal-node')
+import axios from 'axios'
+import msal from '@azure/msal-node'
+
+// For reasons we need to do this here as well
+import { config as dotenvConfig } from 'dotenv'
+dotenvConfig()
 
 const AUTH_SCOPES = ['user.read']
 const AUTH_ENDPOINT = 'https://login.microsoftonline.com/common'
@@ -24,15 +28,15 @@ const msalApp = new msal.ConfidentialClientApplication({
   system: {
     loggerOptions: {
       loggerCallback(level, msg) {
-        console.log('### MSAL: ', msg)
+        if (!msg.includes('redirect?code=')) console.log('### 🕵️‍♀️ MSAL: ', msg)
       },
-      piiLoggingEnabled: false,
-      logLevel: msal.LogLevel.Info,
+      piiLoggingEnabled: true,
+      logLevel: msal.LogLevel.Warning,
     },
   },
 })
 
-console.log(`### MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
+console.log(`### 🔐 MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
 
 // ==============================
 // Routes
@@ -102,8 +106,8 @@ router.get('/account', async function (req, res) {
     details = await getUserDetails(req.session.user.accessToken)
     photo = await getUserPhoto(req.session.user.accessToken)
   } catch (err) {
-    console.log('### ERROR! Problem calling graph API')
-    console.log('### ERROR! ', err)
+    console.log('### 💥 ERROR! Problem calling graph API')
+    console.log('### 💥 ERROR! ', err)
   }
 
   res.render('account', {
@@ -119,31 +123,31 @@ router.get('/account', async function (req, res) {
 
 async function getUserDetails(accessToken) {
   try {
-    let graphReq = {
+    const graphReq = {
       url: 'https://graph.microsoft.com/v1.0/me',
       headers: { Authorization: accessToken },
     }
 
-    let resp = await axios(graphReq)
+    const resp = await axios(graphReq)
     return resp.data
   } catch (err) {
-    console.log(`### ERROR! Failed to get user details ${err.toString()}`)
+    console.log(`### 💥 ERROR! Failed to get user details ${err.toString()}`)
   }
 }
 
 async function getUserPhoto(accessToken) {
   try {
-    let graphReq = {
+    const graphReq = {
       url: 'https://graph.microsoft.com/v1.0/me/photo/$value',
       responseType: 'arraybuffer',
       headers: { Authorization: accessToken },
     }
 
-    let resp = await axios(graphReq)
+    const resp = await axios(graphReq)
     return new Buffer.from(resp.data, 'binary').toString('base64')
   } catch (err) {
-    console.log(`### ERROR! Failed to get user photo ${err.toString()}`)
+    console.log(`### 💥 ERROR! Failed to get user photo ${err.toString()}`)
   }
 }
 
-module.exports = router
+export default router

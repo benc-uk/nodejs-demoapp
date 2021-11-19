@@ -1,13 +1,21 @@
 <%- include('_head.ejs') %>
 
 <div class="card text-white bg-secondary">
-  <div class="card-header bg-info h3"><i class="fa fa-user-cog"></i>&nbsp; User Account</div>
+  <div class="card-header bg-info h3">
+    <i class="fa fa-user-cog"></i>
+    &nbsp; User Account
+  </div>
   <div class="card-body h5">
-    <a class="btn btn-danger btn-lg float-right mr-3" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    <a class="btn btn-info btn-lg float-right mr-3" data-toggle="modal" data-target="#detailsModal">
-      <i class="fas fa-code"></i> Debug
-    </a>
-    <br />
+    <div class="d-flex float-end">
+      <a class="btn btn-info btn-lg mx-1" data-bs-toggle="modal" data-bs-target="#detailsModal">
+        <i class="fas fa-code"></i>
+        Debug
+      </a>
+      <a class="btn btn-danger btn-lg mx-1" href="/logout">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </a>
+    </div>
 
     <h4 class="text-success">Basic Info</h4>
     <table class="table table-striped">
@@ -16,7 +24,7 @@
         <td><%= user.account.name %></td>
       </tr>
       <tr>
-        <td><b>Username: </b></td>
+        <td><b>Username:</b></td>
         <td><%= user.account.username %></td>
       </tr>
       <tr>
@@ -28,7 +36,7 @@
     <% if(photo) { %>
     <hr />
     <h4 class="text-success">Photo</h4>
-    <img src="data:image/png;base64,<%- photo %>" style="width: 160px; border-radius: 50%" />
+    <img src="data:image/png;base64,<%- photo %>" class="profile-photo" />
     <% } %> <% if(details) { %>
     <hr />
     <h4 class="text-success">Microsoft Graph Details</h4>
@@ -49,21 +57,12 @@
 </div>
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="detailsModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true"
->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Raw JWT / Profile Object</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <pre class="code">
@@ -71,7 +70,7 @@
         </pre>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

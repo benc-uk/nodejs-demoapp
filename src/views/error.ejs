@@ -1,12 +1,15 @@
 <%- include('_head.ejs') %>
 
 <div class="card text-white bg-secondary">
-  <div class="card-header bg-danger h3"><i class="fa fa-frown"></i>&nbsp; Error!</div>
+  <div class="card-header bg-danger h3">
+    <i class="fa fa-frown"></i>
+    &nbsp; Error!
+  </div>
   <div class="card-body">
     <h2><%= message %></h2>
     <h3>Status: <%= error.status %></h3>
     <hr />
-    <pre class="text-warning" style="background-color: #222; padding: 1rem"><%= error.stack %></pre>
+    <pre class="text-warning bg-dark p-3"><%= error.stack %></pre>
   </div>
 </div>
 
