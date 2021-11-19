@@ -39,7 +39,7 @@ const app = new express()
 
 // View engine setup, static content & session
 const __dirname = path.resolve()
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'todo')])
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(

@@ -9,17 +9,15 @@ import express from 'express'
 const router = express.Router()
 import { MongoClient, ObjectId } from 'mongodb'
 import appInsights from 'applicationinsights'
-import { Utils } from './utils.mjs'
-const utils = new Utils()
 
 const DBNAME = process.env.TODO_MONGO_DB || 'todoDb'
 const COLLECTION = 'todos'
 let db
 
-  //
-  // Connect to MongoDB server
-  //
-;(async function () {
+//
+// Connect to MongoDB server
+//
+; (async function () {
   try {
     let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
       useNewUrlParser: true,
@@ -48,16 +46,15 @@ router.get('/todo', function (req, res, next) {
 // Todo API: GET  - return array of all todos, probably should have pagination at some point
 //
 router.get('/api/todo', async function (req, res, next) {
-  res.type('application/json')
   try {
     let result = await db.collection(COLLECTION).find({}).toArray()
     if (!result) {
-      utils.sendData(res, [])
+      sendData(res, [])
     } else {
-      utils.sendData(res, result)
+      sendData(res, result)
     }
   } catch (err) {
-    utils.sendError(res, err)
+    sendError(res, err)
   }
 })
 
@@ -65,19 +62,18 @@ router.get('/api/todo', async function (req, res, next) {
 // Todo API: POST - create or edit a new todo
 //
 router.post('/api/todo', async function (req, res, next) {
-  res.type('application/json')
   let todo = req.body
   try {
     let result = await db.collection(COLLECTION).insertOne(todo)
     if (result) {
-      utils.sendData(res, {
+      sendData(res, {
         newId: result.insertedId,
       })
     } else {
       throw 'Error POSTing todo'
     }
   } catch (err) {
-    utils.sendError(res, err)
+    sendError(res, err)
   }
 })
 
@@ -85,18 +81,17 @@ router.post('/api/todo', async function (req, res, next) {
 // Todo API: PUT - update a todo
 //
 router.put('/api/todo/:id', async function (req, res, next) {
-  res.type('application/json')
   let todo = req.body
   delete todo._id
   try {
     let result = await db.collection(COLLECTION).findOneAndReplace({ _id: ObjectId(req.params.id) }, todo)
     if (result) {
-      utils.sendData(res, result)
+      sendData(res, result)
     } else {
       throw 'Error PUTing todo'
     }
   } catch (err) {
-    utils.sendError(res, err)
+    sendError(res, err)
   }
 })
 
@@ -104,17 +99,50 @@ router.put('/api/todo/:id', async function (req, res, next) {
 // Todo API: DELETE - remove a todo from DB
 //
 router.delete('/api/todo/:id', async function (req, res, next) {
-  res.type('application/json')
   try {
     let result = await db.collection(COLLECTION).deleteOne({ _id: ObjectId(req.params.id) })
     if (result && result.deletedCount) {
-      utils.sendData(res, { msg: `Deleted doc ${req.params.id} ok` })
+      sendData(res, { msg: `Deleted doc ${req.params.id} ok` })
     } else {
       throw 'Error DELETEing todo'
     }
   } catch (err) {
-    utils.sendError(res, err)
+    sendError(res, err)
   }
 })
+
+//
+// Helper to send standard error and track it
+//
+function sendError(res, err, code = 500) {
+  console.dir(err)
+  console.log(`### Error with API ${JSON.stringify(err)}`)
+  let statuscode = code
+  if (err.code > 1) {
+    statuscode = err.code
+  }
+
+  // App Insights
+  if (appInsights.defaultClient) {
+    appInsights.defaultClient.trackException({ exception: err })
+  }
+
+  res.status(statuscode).send(err)
+  return
+}
+
+//
+// Helper to send JSON response
+//
+function sendData(res, data) {
+  // App Insights
+  if (appInsights.defaultClient) {
+    appInsights.defaultClient.trackEvent({ name: 'dataEvent', properties: { data: JSON.stringify(data) } })
+  }
+
+  res.type('application/json')
+  res.status(200).send(data)
+  return
+}
 
 export default router

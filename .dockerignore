@@ -9,5 +9,4 @@ README.md
 LICENSE
 .vscode
 .env
-azure-pipelines.yml
 **/node_modules
