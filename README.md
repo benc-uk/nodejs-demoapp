@@ -34,13 +34,13 @@ Live instances:
 
 - Be using Linux, WSL or MacOS, with bash, make etc
 - [Node.js](https://nodejs.org/en/) - for running locally, linting, running tests etc
-- [Docker](https://docs.docker.com/get-docker/) - for running as a container, or image build and push
+- [Docker](https://docs.docker.com/get-docker/) - for running as a container, or building images
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux) - for deployment to Azure
 
 Clone the project to any directory where you do development work
 
-```
-git clone https://github.com/benc-uk/vuego-demoapp.git
+```bash
+git clone https://github.com/benc-uk/nodejs-demoapp.git
 ```
 
 ### Makefile
@@ -73,9 +73,8 @@ Make file variables and default values, pass these in when calling `make`, e.g. 
 | IMAGE_TAG         | latest                 |
 | AZURE_RES_GROUP   | temp-demoapps          |
 | AZURE_REGION      | uksouth                |
-| AZURE_SITE_NAME   | nodeapp-{git-sha}      |
 
-Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x, 10.x, 12.x and 14.x
+Web app will be listening on the standard Express port of 3000, but this can be changed by setting the `PORT` environmental variable.
 
 # Containers
 

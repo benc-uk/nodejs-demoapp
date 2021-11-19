@@ -100,7 +100,6 @@ app.use(function (err, req, res, next) {
   console.error(`### 💥 ERROR: ${err.message}`)
 
   // App Insights
-  //const appInsights = require('applicationinsights')
   if (appInsights.defaultClient) {
     appInsights.defaultClient.trackException({ exception: err })
   }

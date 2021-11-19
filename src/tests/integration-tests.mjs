@@ -1,6 +1,7 @@
 console.log = function () {}
-const request = require('supertest')
-const app = require('../server')
+
+import request from 'supertest'
+import app from '../server.mjs'
 
 describe('Check home page', function () {
   it('Responds with 200 & HTML', function (done) {
@@ -35,8 +36,10 @@ describe('Check error page', function () {
 
 describe('Weather API', function () {
   if (process.env.WEATHER_API_KEY) {
-    it('Responds with 200', function (done) {
-      request(app).get('/api/weather/51.40329/0.05619').expect(200, done)
+    it('Responds with 200 and valid data', function (done) {
+      request(app).get('/api/weather/51.40329/0.05619')
+      .expect(/humidity/)
+      .expect(200, done)
     })
   } else {
     it('Responds with 500', function (done) {
