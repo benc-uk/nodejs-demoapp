@@ -14,12 +14,13 @@ const DBNAME = process.env.TODO_MONGO_DB || 'todoDb'
 const COLLECTION = 'todos'
 let db
 
-//
-// Connect to MongoDB server
-//
-; (async function () {
+  //
+  // Connect to MongoDB server
+  //
+;(async function () {
+  if (!process.env.TODO_MONGO_CONNSTR) return
   try {
-    let client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
+    const client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -47,7 +48,7 @@ router.get('/todo', function (req, res, next) {
 //
 router.get('/api/todo', async function (req, res, next) {
   try {
-    let result = await db.collection(COLLECTION).find({}).toArray()
+    const result = await db.collection(COLLECTION).find({}).toArray()
     if (!result) {
       sendData(res, [])
     } else {
@@ -62,9 +63,9 @@ router.get('/api/todo', async function (req, res, next) {
 // Todo API: POST - create or edit a new todo
 //
 router.post('/api/todo', async function (req, res, next) {
-  let todo = req.body
+  const todo = req.body
   try {
-    let result = await db.collection(COLLECTION).insertOne(todo)
+    const result = await db.collection(COLLECTION).insertOne(todo)
     if (result) {
       sendData(res, {
         newId: result.insertedId,
@@ -81,10 +82,10 @@ router.post('/api/todo', async function (req, res, next) {
 // Todo API: PUT - update a todo
 //
 router.put('/api/todo/:id', async function (req, res, next) {
-  let todo = req.body
+  const todo = req.body
   delete todo._id
   try {
-    let result = await db.collection(COLLECTION).findOneAndReplace({ _id: ObjectId(req.params.id) }, todo)
+    const result = await db.collection(COLLECTION).findOneAndReplace({ _id: ObjectId(req.params.id) }, todo)
     if (result) {
       sendData(res, result)
     } else {
@@ -100,7 +101,7 @@ router.put('/api/todo/:id', async function (req, res, next) {
 //
 router.delete('/api/todo/:id', async function (req, res, next) {
   try {
-    let result = await db.collection(COLLECTION).deleteOne({ _id: ObjectId(req.params.id) })
+    const result = await db.collection(COLLECTION).deleteOne({ _id: ObjectId(req.params.id) })
     if (result && result.deletedCount) {
       sendData(res, { msg: `Deleted doc ${req.params.id} ok` })
     } else {

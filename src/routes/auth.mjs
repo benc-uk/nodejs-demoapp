@@ -15,39 +15,44 @@ dotenvConfig()
 
 const AUTH_SCOPES = ['user.read']
 const AUTH_ENDPOINT = 'https://login.microsoftonline.com/common'
-const AUTH_CALLBACK_PATH = 'redirect'
-const AAD_REDIRECT_URL_BASE = process.env.AAD_REDIRECT_URL_BASE || `http://localhost:${process.env.PORT || 3000}`
+const AUTH_CALLBACK_PATH = 'signin'
 
+let msalApp
 // Create MSAL application object
-const msalApp = new msal.ConfidentialClientApplication({
-  auth: {
-    clientId: process.env.AAD_APP_ID,
-    authority: AUTH_ENDPOINT,
-    clientSecret: process.env.AAD_APP_SECRET,
-  },
-  system: {
-    loggerOptions: {
-      loggerCallback(level, msg) {
-        if (!msg.includes('redirect?code=')) console.log('### 🕵️‍♀️ MSAL: ', msg)
-      },
-      piiLoggingEnabled: true,
-      logLevel: msal.LogLevel.Warning,
+if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
+  msalApp = new msal.ConfidentialClientApplication({
+    auth: {
+      clientId: process.env.AAD_APP_ID,
+      authority: AUTH_ENDPOINT,
+      clientSecret: process.env.AAD_APP_SECRET,
     },
-  },
-})
-
-console.log(`### 🔐 MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
+    system: {
+      loggerOptions: {
+        loggerCallback(level, msg) {
+          if (!msg.includes('redirect?code=')) console.log('### 🕵️‍♀️ MSAL: ', msg)
+        },
+        piiLoggingEnabled: true,
+        logLevel: msal.LogLevel.Warning,
+      },
+    },
+  })
+  console.log(`### 🔐 MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
+}
 
 // ==============================
 // Routes
 // ==============================
 
 router.get('/login', async (req, res) => {
+  const redirectUri = `${req.get('host').indexOf('localhost') == 0 ? 'http' : 'https'}://${req.get(
+    'host'
+  )}/${AUTH_CALLBACK_PATH}`
+  console.log(`### 🔐 MSAL sign in URL is: ${redirectUri}`)
   // Get URL to sign user in and consent to scopes needed for application
   try {
     const authURL = await msalApp.getAuthCodeUrl({
       scopes: AUTH_SCOPES,
-      redirectUri: `${AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
+      redirectUri: redirectUri,
     })
     // Now redirect to the oauth2 URL we have been given
     res.redirect(authURL)
@@ -60,12 +65,15 @@ router.get('/login', async (req, res) => {
   }
 })
 
-router.get('/redirect', async (req, res) => {
+router.get(`/${AUTH_CALLBACK_PATH}`, async (req, res) => {
+  const redirectUri = `${req.get('host').indexOf('localhost') == 0 ? 'http' : 'https'}://${req.get(
+    'host'
+  )}/${AUTH_CALLBACK_PATH}`
   try {
     const tokenResponse = await msalApp.acquireTokenByCode({
       code: req.query.code,
       scopes: AUTH_SCOPES,
-      redirectUri: `${AAD_REDIRECT_URL_BASE}/${AUTH_CALLBACK_PATH}`,
+      redirectUri,
     })
     if (!tokenResponse) {
       // eslint-disable-next-line quotes

@@ -7,3 +7,4 @@ mochawesome-report/
 myvalues.yaml
 secrets.sh
 .secrets
+myparams.json
