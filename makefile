@@ -48,10 +48,10 @@ undeploy: ## 💀 Remove from Azure
 	@echo "### WARNING! Going to delete $(AZURE_RES_GROUP) 😲"
 	az group delete -n $(AZURE_RES_GROUP) -o table --no-wait
 
-test: $(SRC_DIR)/node_modules ## 🎯 Unit tests with Jest 
+test: $(SRC_DIR)/node_modules ## 🎯 Unit tests with Mocha
 	cd $(SRC_DIR); npm run test
 
-test-report: $(SRC_DIR)/node_modules ## 🤡 Unit tests with Jest & Junit output 
+test-report: $(SRC_DIR)/node_modules ## 🤡 Unit tests with Mocha & mochawesome report 
 	rm -rf $(SRC_DIR)/test-results.*
 	cd $(SRC_DIR); npm run test-report
 

@@ -24,8 +24,6 @@ param todoMongoConnstr string = ''
 param aadAppId string = ''
 @description('Optional feature: Enable auth with Azure AD, client secret')
 param aadAppSecret string = ''
-@description('Optional feature: Enable auth with Azure AD, base URL of deployed app')
-param aadRedirectUrlBase string = ''
 
 // ===== Variables ============================================================
 
@@ -92,15 +90,11 @@ resource containerApp 'Microsoft.Web/containerApps@2021-03-01' = {
             {
               name: 'AAD_APP_ID'
               value: aadAppId
-            }                  
+            }
             {
               name: 'AAD_APP_SECRET'
               value: aadAppSecret
-            }                  
-            {
-              name: 'AAD_REDIRECT_URL_BASE'
-              value: aadRedirectUrlBase
-            }                  
+            }
           ]
         }
       ]
