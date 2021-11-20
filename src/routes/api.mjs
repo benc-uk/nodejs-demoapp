@@ -4,11 +4,12 @@
 // Ben C, Jan 2020
 //
 
-const express = require('express')
+import express from 'express'
 const router = express.Router()
-const axios = require('axios')
-const fs = require('fs')
-const os = require('os')
+import os from 'os'
+import fs from 'fs'
+import axios from 'axios'
+import appInsights from 'applicationinsights'
 
 // =======================================================================
 // Get weather data as JSON
@@ -25,7 +26,6 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
     )
 
     if (weatherResp.data) {
-      const appInsights = require('applicationinsights')
       if (appInsights.defaultClient && weatherResp.data.main) {
         appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weatherResp.data.main.temp })
       }
@@ -90,4 +90,5 @@ router.get('/api/monitoringdata', async function (req, res, next) {
   }
 })
 
-module.exports = router
+// module.exports = router
+export default router

@@ -34,13 +34,13 @@ Live instances:
 
 - Be using Linux, WSL or MacOS, with bash, make etc
 - [Node.js](https://nodejs.org/en/) - for running locally, linting, running tests etc
-- [Docker](https://docs.docker.com/get-docker/) - for running as a container, or image build and push
+- [Docker](https://docs.docker.com/get-docker/) - for running as a container, or building images
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux) - for deployment to Azure
 
 Clone the project to any directory where you do development work
 
-```
-git clone https://github.com/benc-uk/vuego-demoapp.git
+```bash
+git clone https://github.com/benc-uk/nodejs-demoapp.git
 ```
 
 ### Makefile
@@ -56,7 +56,7 @@ lint-fix             📜 Lint & format, will try to fix errors and modify code
 image                🔨 Build container image from Dockerfile
 push                 📤 Push container image to registry
 run                  🏃 Run locally using Node.js
-deploy               🚀 Deploy to Azure Web App
+deploy               🚀 Deploy to Azure Container App
 undeploy             💀 Remove from Azure
 test                 🎯 Unit tests with Jest
 test-report          🤡 Unit tests with Jest & Junit output
@@ -71,11 +71,10 @@ Make file variables and default values, pass these in when calling `make`, e.g. 
 | IMAGE_REG         | ghcr<span>.</span>io   |
 | IMAGE_REPO        | benc-uk/nodejs-demoapp |
 | IMAGE_TAG         | latest                 |
-| AZURE_RES_GROUP   | temp-demoapps          |
-| AZURE_REGION      | uksouth                |
-| AZURE_SITE_NAME   | nodeapp-{git-sha}      |
+| AZURE_RES_GROUP   | demoapps               |
+| AZURE_REGION      | northeurope            |
 
-Web app will be listening on the usual Express port of 3000, but this can be changed by setting the `PORT` environmental variable. Tested with Node v8.x, 10.x, 12.x and 14.x
+Web app will be listening on the standard Express port of 3000, but this can be changed by setting the `PORT` environmental variable.
 
 # Containers
 
@@ -134,9 +133,8 @@ This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/
 
 In addition the user account page shows details & photo retrieved from the Microsoft Graph API
 
-You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`
+You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`. When registering the app for authentication the redirect URL will be the host where the app is running with `/signin` as the URL path
 
-`AAD_REDIRECT_URL_BASE` should be the base URL of where your app is running, e.g. `http://localhost:3000` or `https://example.com`. It should start with `http://` or `https://`. This is used by the login flow to redirect back to the app, the path `/redirect` will be appended to this value to form the complete redirect URL
 
 ### Todo App
 
@@ -154,33 +152,20 @@ The following configuration environmental variables are supported, however none 
 
 If running in an Azure Web App, all of these values can be injected as application settings in Azure.
 
-| Environmental Variable         | Default | Description                                                                                      |
-| ------------------------------ | ------- | ------------------------------------------------------------------------------------------------ |
-| PORT                           | 3000    | Port the server will listen on                                                                   |
-| TODO_MONGO_CONNSTR             | _none_  | Connect to specified MongoDB instance, when set the Todo feature will be enabled in the menu bar |
-| TODO_MONGO_DB                  | todoDb  | Name of the database in MongoDB to use (optional)                                                |
-| APPINSIGHTS_INSTRUMENTATIONKEY | _none_  | Enable Application Insights monitoring                                                           |
-| WEATHER_API_KEY                | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                             |
-| AAD_APP_ID                     | _none_  | Application ID of app registered in Azure AD                                                     |
-| AAD_APP_SECRET                 | _none_  | Secret / password of app registered in Azure AD                                                  |
-| AAD_REDIRECT_URL_BASE          | _none_  | Hostname/domain where app is running                                                             |
+| Environmental Variable         | Default | Description                                                                      |
+| ------------------------------ | ------- | -------------------------------------------------------------------------------- |
+| PORT                           | 3000    | Port the server will listen on                                                   |
+| TODO_MONGO_CONNSTR             | _none_  | Connect to specified MongoDB instance, when set the todo feature will be enabled |
+| TODO_MONGO_DB                  | todoDb  | Name of the database in MongoDB to use (optional)                                |
+| APPINSIGHTS_INSTRUMENTATIONKEY | _none_  | Enable Application Insights monitoring                                           |
+| WEATHER_API_KEY                | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
+| AAD_APP_ID                     | _none_  | Application ID of app registered in Azure AD                                     |
+| AAD_APP_SECRET                 | _none_  | Secret / password of app registered in Azure AD                                  |
+| AAD_REDIRECT_URL_BASE          | _none_  | Hostname/domain where app is running                                             |
 
-## Running in Azure App Service (Linux)
+## Deployment
 
-If you want to deploy to an Azure Web App as a container (aka Linux Web App), a Bicep template is provided in the [deploy](deploy/) directory
-
-For a super quick deployment, use `make deploy` which will deploy to a resource group, temp-demoapps and use the git ref to create a unique site name
-
-```bash
-make deploy
-```
-
-You can also very quickly deploy to Azure App Service directly with the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) and `az webapp up`. Note. `<app-name>` must be globally unique. Change the sku to a larger size, e.g. `P1V2` for a much faster deployment
-
-```
-cd src
-az webapp up --sku F1 --name <app-name>
-```
+See [deployment folder](./deploy) for deploying into Kubernetes with Helm or into Azure with Bicep and Container Apps.
 
 # Updates
 

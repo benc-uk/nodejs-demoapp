@@ -8,6 +8,8 @@ docker-compose*
 README.md
 LICENSE
 .vscode
-.env
-azure-pipelines.yml
+**/.env*
+**/.eslintrc.js
+**/mochawesome-report/
 **/node_modules
+**/tests/*

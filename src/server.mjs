@@ -4,14 +4,16 @@
 // Ben C, Oct 2017 - Updated: Nov 2021
 //
 
-console.log('### Node.js demo app starting...')
+console.log('### 🚀 Node.js demo app starting...')
 
 // Dotenv handy for local config & debugging
-require('dotenv').config()
+import { config as dotenvConfig } from 'dotenv'
+dotenvConfig()
+
+import appInsights from 'applicationinsights'
 
 // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as App Setting or env var
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
-  const appInsights = require('applicationinsights')
   appInsights
     .setup()
     .setAutoDependencyCorrelation(true)
@@ -24,17 +26,20 @@ if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     .setSendLiveMetrics(true)
 
   appInsights.start()
+  console.log('### 🩺 Azure App Insights enabled')
 }
 
 // Core Express & logging stuff
-const express = require('express')
-const path = require('path')
-const logger = require('morgan')
-const app = express()
-const session = require('express-session')
+import express from 'express'
+import path from 'path'
+import logger from 'morgan'
+import session from 'express-session'
+
+const app = new express()
 
 // View engine setup, static content & session
-app.set('views', path.join(__dirname, 'views'))
+const __dirname = path.resolve()
+app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'todo')])
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(
@@ -56,21 +61,27 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes & controllers
-app.use('/', require('./routes/pages'))
-app.use('/', require('./routes/api'))
+import pageRoutes from './routes/pages.mjs'
+import apiRoutes from './routes/api.mjs'
+import authRoutes from './routes/auth.mjs'
+import todoRoutes from './todo/routes.mjs'
+app.use('/', pageRoutes)
+app.use('/', apiRoutes)
 
 // Initialize authentication only when configured
 if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
-  app.use('/', require('./routes/auth'))
+  app.use('/', authRoutes)
 }
 
 // Optional routes based on certain settings/features being enabled
 if (process.env.TODO_MONGO_CONNSTR) {
-  app.use('/', require('./todo/routes'))
+  app.use('/', todoRoutes)
 }
 
 // Make package app version a global var, shown in _foot.ejs
-app.locals.version = require('./package.json').version
+import { readFileSync } from 'fs'
+const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
+app.locals.version = packageJson.version
 
 // Catch all route, generate an error & forward to error handler
 app.use(function (req, res, next) {
@@ -86,10 +97,9 @@ app.use(function (req, res, next) {
 
 // Error handler
 app.use(function (err, req, res, next) {
-  console.error(`### ERROR: ${err.message}`)
+  console.error(`### 💥 ERROR: ${err.message}`)
 
   // App Insights
-  const appInsights = require('applicationinsights')
   if (appInsights.defaultClient) {
     appInsights.defaultClient.trackException({ exception: err })
   }
@@ -108,6 +118,6 @@ let port = process.env.PORT || 3000
 
 // Start the server
 app.listen(port)
-console.log(`### Server listening on port ${port}`)
+console.log(`### 🌐 Server listening on port ${port}`)
 
-module.exports = app
+export default app

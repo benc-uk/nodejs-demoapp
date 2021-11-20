@@ -1,10 +1,10 @@
 {
   "name": "nodejs-demoapp",
   "description": "Node.js Express app for demos",
-  "version": "4.8.2",
+  "version": "4.8.5",
   "author": "Ben Coleman",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "license": "MIT",
   "repository": {
@@ -13,9 +13,9 @@
   },
   "private": true,
   "scripts": {
-    "start": "node --expose_gc server.js",
-    "start-bg": "node server.js &",
-    "watch": "nodemon -e ejs",
+    "start": "node --expose_gc server.mjs",
+    "start-bg": "node server.mjs &",
+    "watch": "nodemon --experimental-modules",
     "test-report": "mocha --reporter mochawesome --exit ./tests > test-results.json",
     "test": "mocha --exit ./tests",
     "test-postman": "newman run tests/postman_collection.json --timeout 60000 --env-var apphost=$TEST_HOST",
