@@ -1,7 +1,7 @@
 //
 // Routes used by login and account screen
 // ---------------------------------------------
-// Ben C, Nov 2020
+// Ben C, Nov 2020 - Updated Nov 2021
 //
 
 import express from 'express'
@@ -44,16 +44,16 @@ if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
 // ==============================
 
 router.get('/login', async (req, res) => {
-  const redirectUri = `${req.get('host').indexOf('localhost') == 0 ? 'http' : 'https'}://${req.get(
-    'host'
-  )}/${AUTH_CALLBACK_PATH}`
-  console.log(`### 🔐 MSAL sign in URL is: ${redirectUri}`)
+  const host = req.get('host')
+  const redirectUri = `${host.indexOf('localhost') == 0 ? 'http' : 'https'}://${host}/${AUTH_CALLBACK_PATH}`
+  console.log(`### 🔐 MSAL login request started, sign in redirect URL is: ${redirectUri}`)
   // Get URL to sign user in and consent to scopes needed for application
   try {
     const authURL = await msalApp.getAuthCodeUrl({
       scopes: AUTH_SCOPES,
       redirectUri: redirectUri,
     })
+
     // Now redirect to the oauth2 URL we have been given
     res.redirect(authURL)
   } catch (err) {
@@ -66,9 +66,8 @@ router.get('/login', async (req, res) => {
 })
 
 router.get(`/${AUTH_CALLBACK_PATH}`, async (req, res) => {
-  const redirectUri = `${req.get('host').indexOf('localhost') == 0 ? 'http' : 'https'}://${req.get(
-    'host'
-  )}/${AUTH_CALLBACK_PATH}`
+  const host = req.get('host')
+  const redirectUri = `${host.indexOf('localhost') == 0 ? 'http' : 'https'}://${host}/${AUTH_CALLBACK_PATH}`
   try {
     const tokenResponse = await msalApp.acquireTokenByCode({
       code: req.query.code,
