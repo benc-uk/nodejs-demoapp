@@ -14,19 +14,20 @@
     "github.vscode-pull-request-github"
   ],
 
-  // Optional features
+  // Optional features, uncomment to enable.
+  // See https://code.visualstudio.com/docs/remote/containers#_dev-container-features-preview
   "features": {
-    "github": "latest",
-    "azure-cli": "latest",
-    "kubectl-helm-minikube": {
-      "version": "latest",
-      "helm": "latest",
-      "minikube": "none"
-    },
-    "docker-from-docker": {
-      "version": "latest",
-      "moby": true
-    }
+    // "github": "latest"
+    // "azure-cli": "latest",
+    // "kubectl-helm-minikube": {
+    //   "version": "latest",
+    //   "helm": "latest",
+    //   "minikube": "none"
+    // },
+    // "docker-from-docker": {
+    //   "version": "latest",
+    //   "moby": true
+    // }
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
