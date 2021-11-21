@@ -15,13 +15,13 @@ import appInsights from 'applicationinsights'
 // Get weather data as JSON
 // =======================================================================
 router.get('/api/weather/:lat/:long', async function (req, res, next) {
-  let WEATHER_API_KEY = process.env.WEATHER_API_KEY || '123456'
-  let long = req.params.long
-  let lat = req.params.lat
+  const WEATHER_API_KEY = process.env.WEATHER_API_KEY || '123456'
+  const long = req.params.long
+  const lat = req.params.lat
 
   // Call OpenWeather API
   try {
-    let weatherResp = await axios.get(
+    const weatherResp = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
     )
 
@@ -44,7 +44,7 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
 // API for live monitoring (CPU and memory) data
 // =======================================================================
 router.get('/api/monitoringdata', async function (req, res, next) {
-  let data = {
+  const data = {
     container: false,
     memUsedBytes: 0,
     memTotalBytes: 0,
@@ -81,7 +81,7 @@ router.get('/api/monitoringdata', async function (req, res, next) {
     const timeout = (ms) => new Promise((res) => setTimeout(res, ms))
     await timeout(D_TIME)
     // Get results/delta
-    let cpuResult = process.cpuUsage(startUsage)
+    const cpuResult = process.cpuUsage(startUsage)
     data.cpuAppPercentage = (cpuResult.user / 1000 / D_TIME) * 100
 
     return res.status(200).send(data)

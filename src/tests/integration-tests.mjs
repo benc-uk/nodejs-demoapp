@@ -37,9 +37,10 @@ describe('Check error page', function () {
 describe('Weather API', function () {
   if (process.env.WEATHER_API_KEY) {
     it('Responds with 200 and valid data', function (done) {
-      request(app).get('/api/weather/51.40329/0.05619')
-      .expect(/humidity/)
-      .expect(200, done)
+      request(app)
+        .get('/api/weather/51.40329/0.05619')
+        .expect(/humidity/)
+        .expect(200, done)
     })
   } else {
     it('Responds with 500', function (done) {

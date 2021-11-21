@@ -98,12 +98,12 @@ router.get('/tools', function (req, res, next) {
 // Page to generate CPU load
 // =======================================================================
 router.get('/tools/load', function (req, res, next) {
-  let start = new Date().getTime()
+  const start = new Date().getTime()
   for (let i = 0; i < 499900000.0; i++) {
     Math.pow(9000.0, 9000.0)
   }
 
-  let time = new Date().getTime() - start
+  const time = new Date().getTime() - start
 
   res.render('tools', {
     title: 'Node DemoApp: Tools',
@@ -147,12 +147,12 @@ export default router
 
 // Util to convert seconds to DD:HH:MM:SS
 function convertSeconds(n) {
-  let days = Math.floor(n / (24 * 3600))
+  const days = Math.floor(n / (24 * 3600))
   n = n % (24 * 3600)
-  let hours = Math.floor(n / 3600)
+  const hours = Math.floor(n / 3600)
   n %= 3600
-  let mins = Math.floor(n / 60)
+  const mins = Math.floor(n / 60)
   n %= 60
-  let secs = Math.round(n)
+  const secs = Math.round(n)
   return `${days} days, ${hours} hours, ${mins} mins, ${secs} seconds`
 }

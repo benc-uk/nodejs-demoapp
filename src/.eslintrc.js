@@ -8,6 +8,7 @@ module.exports = {
     browser: true,
   },
   extends: ['eslint:recommended'],
+  ignorePatterns: ['mochawesome-report/**'],
   rules: {
     // Errors & best practices
     'no-var': 'error',
