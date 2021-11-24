@@ -11,7 +11,6 @@ image:
 service:
   targetPort: 3000
   type: LoadBalancer
-
 #
 # Create these secrets & envs vars if you want to enable optional features
 #
@@ -22,10 +21,10 @@ service:
 #   AAD_APP_SECRET:
 #     secretName: nodejs-secrets
 #     secretKey: aadAppSecret
-#   TODO_MONGO_CONNSTR: 
+#   TODO_MONGO_CONNSTR:
 #     secretName: nodejs-secrets
 #     secretKey: mongoConnString
-# env: 
+# env:
 #   APPINSIGHTS_INSTRUMENTATIONKEY: __CHANGE_ME__
 #   AAD_APP_ID: __CHANGE_ME__
 #   TODO_MONGO_DB: __CHANGE_ME__
@@ -35,6 +34,7 @@ service:
 #
 # ingress:
 #   enabled: true
+#   className: nginx
 #   host: changeme.example.net
 #   tls:
 #     enabled: true

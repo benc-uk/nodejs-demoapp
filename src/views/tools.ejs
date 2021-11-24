@@ -7,8 +7,13 @@
   </div>
 
   <% if(typeof message !== "undefined" && message) { %>
-  <div class="alert alert-light alert-dismissible text-dark m-2" role="alert" data-bs-dismiss="alert" aria-label="Close">
-    <p class="h4"><%= message %></div>
+  <div
+    class="alert alert-light alert-dismissible text-dark m-2"
+    role="alert"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  >
+    <h4><%= message %></h4>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   <% } %>
