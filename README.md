@@ -95,7 +95,7 @@ The app can easily be deployed to Kubernetes using Helm, see [deploy/kubernetes/
 
 A set of GitHub Actions workflows are included for CI / CD. Automated builds for PRs are run in GitHub hosted runners validating the code (linting and tests) and building dev images. When code is merged into master, then automated deployment to AKS is done using Helm.
 
-[![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CI%20Build%20App)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CI+Build+App%22) [![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20AKS?label=release-kubernetes)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CD+Release+-+AKS%22) 
+[![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CI%20Build%20App)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CI+Build+App%22) [![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20AKS?label=release-kubernetes)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CD+Release+-+AKS%22)
 
 # Optional Features
 
@@ -103,7 +103,7 @@ The app will start up and run with zero configuration, however the only features
 
 ### Application Insights
 
-Enable this by setting `APPINSIGHTS_INSTRUMENTATIONKEY`
+Enable this by setting `APPLICATIONINSIGHTS_CONNECTION_STRING`
 
 The app has been instrumented with the Application Insights SDK, it will however need to be configured to point to your App Insights instance/workspace. All requests will be tracked, as well as dependant calls to MongoDB or other APIs (if configured), exceptions & error will also be logged
 
@@ -126,7 +126,6 @@ In addition the user account page shows details & photo retrieved from the Micro
 
 You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`. When registering the app for authentication the redirect URL will be the host where the app is running with `/signin` as the URL path
 
-
 ### Todo App
 
 Enable this by setting `TODO_MONGO_CONNSTR`
@@ -143,16 +142,16 @@ The following configuration environmental variables are supported, however none 
 
 If running in an Azure Web App, all of these values can be injected as application settings in Azure.
 
-| Environmental Variable         | Default | Description                                                                      |
-| ------------------------------ | ------- | -------------------------------------------------------------------------------- |
-| PORT                           | 3000    | Port the server will listen on                                                   |
-| TODO_MONGO_CONNSTR             | _none_  | Connect to specified MongoDB instance, when set the todo feature will be enabled |
-| TODO_MONGO_DB                  | todoDb  | Name of the database in MongoDB to use (optional)                                |
-| APPINSIGHTS_INSTRUMENTATIONKEY | _none_  | Enable Application Insights monitoring                                           |
-| WEATHER_API_KEY                | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
-| AAD_APP_ID                     | _none_  | Application ID of app registered in Azure AD                                     |
-| AAD_APP_SECRET                 | _none_  | Secret / password of app registered in Azure AD                                  |
-| AAD_REDIRECT_URL_BASE          | _none_  | Hostname/domain where app is running                                             |
+| Environmental Variable                | Default | Description                                                                      |
+| ------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| PORT                                  | 3000    | Port the server will listen on                                                   |
+| TODO_MONGO_CONNSTR                    | _none_  | Connect to specified MongoDB instance, when set the todo feature will be enabled |
+| TODO_MONGO_DB                         | todoDb  | Name of the database in MongoDB to use (optional)                                |
+| APPLICATIONINSIGHTS_CONNECTION_STRING | _none_  | Enable Application Insights monitoring                                           |
+| WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
+| AAD_APP_ID                            | _none_  | Application ID of app registered in Azure AD                                     |
+| AAD_APP_SECRET                        | _none_  | Secret / password of app registered in Azure AD                                  |
+| AAD_REDIRECT_URL_BASE                 | _none_  | Hostname/domain where app is running                                             |
 
 ## Deployment
 

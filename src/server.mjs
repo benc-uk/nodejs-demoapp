@@ -12,18 +12,20 @@ dotenvConfig()
 
 import appInsights from 'applicationinsights'
 
-// App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as App Setting or env var
-if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+// // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as App Setting or env var
+if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
   appInsights
-    .setup()
+    .setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING)
     .setAutoDependencyCorrelation(true)
     .setAutoCollectRequests(true)
-    .setAutoCollectPerformance(true)
+    .setAutoCollectPerformance(true, true)
     .setAutoCollectExceptions(true)
     .setAutoCollectDependencies(true)
-    .setAutoCollectConsole(true, true)
+    .setAutoCollectConsole(true)
     .setUseDiskRetryCaching(true)
-    .setSendLiveMetrics(true)
+    .setSendLiveMetrics(false)
+    .setDistributedTracingMode(appInsights.DistributedTracingModes.AI)
+    .start()
 
   appInsights.start()
   console.log('### 🩺 Azure App Insights enabled')

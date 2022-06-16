@@ -27,7 +27,7 @@
       <tr>
         <td>&nbsp;<i class="fas fa-lightbulb"></i></td>
         <td>App Insights</td>
-        <% if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) { %>
+        <% if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) { %>
           <td>Reporting data to App Insights, nice job!</td>
         <% } else { %>
           <td>Not reporting data to App Insights</td>
