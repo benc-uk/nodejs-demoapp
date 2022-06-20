@@ -124,7 +124,7 @@ This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/
 
 In addition the user account page shows details & photo retrieved from the Microsoft Graph API
 
-You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`. When registering the app for authentication the redirect URL will be the host where the app is running with `/signin` as the URL path
+You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`. When registering the app for authentication the redirect URL will be the host where the app is running with `/signin` as the URL path, e.g. "https://myapp.azurewebsites.net/signin"
 
 ### Todo App
 
@@ -151,7 +151,6 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
 | AAD_APP_ID                            | _none_  | Application ID of app registered in Azure AD                                     |
 | AAD_APP_SECRET                        | _none_  | Secret / password of app registered in Azure AD                                  |
-| AAD_REDIRECT_URL_BASE                 | _none_  | Hostname/domain where app is running                                             |
 
 ## Deployment
 
