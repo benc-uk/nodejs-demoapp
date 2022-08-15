@@ -44,9 +44,11 @@ const __dirname = path.resolve()
 app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'todo')])
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
+
+// Session required for auth and MSAL signin flow
 app.use(
   session({
-    secret: 'Shape without form, shade without colour',
+    secret: '5Dyw14E3fEGHBWGPgw2X2dcEl8MVYhokBm1Ww5s2e0pe2wEryC8v3llGnGDm',
     cookie: { secure: false },
     resave: false,
     saveUninitialized: false,
@@ -71,7 +73,7 @@ app.use('/', pageRoutes)
 app.use('/', apiRoutes)
 
 // Initialize authentication only when configured
-if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
+if (process.env.AAD_APP_ID) {
   app.use('/', authRoutes)
 }
 
