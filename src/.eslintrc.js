@@ -7,7 +7,7 @@ module.exports = {
     mocha: true,
     browser: true,
   },
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['eslint:recommended'],
   ignorePatterns: ['mochawesome-report/**'],
   rules: {
     // Errors & best practices
