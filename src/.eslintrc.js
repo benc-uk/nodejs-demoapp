@@ -17,10 +17,6 @@ module.exports = {
     'no-unused-vars': ['error', { argsIgnorePattern: 'next|res|req' }],
 
     'prefer-const': 'error',
-
-    // ES6
-    'arrow-spacing': 'error',
-    'arrow-parens': 'error',
   },
   parserOptions: {
     ecmaVersion: '2020',

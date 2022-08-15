@@ -9,11 +9,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.1.3/darkly/bootstrap.min.css"
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"/>
+      referrerpolicy="no-referrer"
+    />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"></script>
+      referrerpolicy="no-referrer"
+    ></script>
 
     <!-- Fontawesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" crossorigin="anonymous" />
@@ -63,7 +65,8 @@
           data-bs-target="#navbarMain"
           aria-controls="navbarMain"
           aria-expanded="false"
-          aria-label="Toggle navigation">
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -104,7 +107,7 @@
             <% } %>
           </ul>
 
-          <%if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) { %>
+          <%if (process.env.AAD_APP_ID) { %>
           <ul class="navbar-nav d-flex">
             &nbsp; <%if (typeof user === 'undefined') { %>
             <li class="nav-item">
@@ -129,3 +132,5 @@
 
     <!-- prettier-ignore -->
     <div class="container pt-4">
+  </body>
+</html>

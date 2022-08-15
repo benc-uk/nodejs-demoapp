@@ -1,7 +1,7 @@
 //
 // Routes used by login and account screen
 // ---------------------------------------------
-// Ben C, Nov 2020 - Updated Nov 2021
+// Ben C, Nov 2020 - Updated Aug 2022
 //
 
 import express from 'express'
@@ -18,24 +18,26 @@ const AUTH_ENDPOINT = 'https://login.microsoftonline.com/common'
 const AUTH_CALLBACK_PATH = 'signin'
 
 let msalApp
-// Create MSAL application object
-if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
-  msalApp = new msal.ConfidentialClientApplication({
+
+// Create MSAL public application object, only if AAD_APP_ID enabled
+if (process.env.AAD_APP_ID) {
+  msalApp = new msal.PublicClientApplication({
     auth: {
       clientId: process.env.AAD_APP_ID,
       authority: AUTH_ENDPOINT,
-      clientSecret: process.env.AAD_APP_SECRET,
     },
+
     system: {
       loggerOptions: {
         loggerCallback(level, msg) {
           if (!msg.includes('redirect?code=')) console.log('### 🕵️‍♀️ MSAL: ', msg)
         },
-        piiLoggingEnabled: true,
+        piiLoggingEnabled: false,
         logLevel: msal.LogLevel.Warning,
       },
     },
   })
+
   console.log(`### 🔐 MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
 }
 
@@ -43,40 +45,73 @@ if (process.env.AAD_APP_ID && process.env.AAD_APP_SECRET) {
 // Routes
 // ==============================
 
+// This login route will redirect to Azure AD start the PKCE auth flow
 router.get('/login', async (req, res) => {
+  console.log('### 🔐 MSAL login, start PKCE flow...')
   const host = req.get('host')
   const redirectUri = `${host.indexOf('localhost') == 0 ? 'http' : 'https'}://${host}/${AUTH_CALLBACK_PATH}`
-  console.log(`### 🔐 MSAL login request started, sign in redirect URL is: ${redirectUri}`)
-  // Get URL to sign user in and consent to scopes needed for application
+
   try {
-    const authURL = await msalApp.getAuthCodeUrl({
+    // Generate PKCE Codes before starting the authorization flow
+    const cryptoProvider = new msal.CryptoProvider()
+    const { verifier, challenge } = await cryptoProvider.generatePkceCodes()
+
+    // create session object if does not exist
+    if (!req.session.pkceCodes) {
+      req.session.pkceCodes = {
+        challengeMethod: 'S256',
+      }
+    }
+
+    // Set generated PKCE Codes as session vars
+    req.session.pkceCodes.verifier = verifier
+    req.session.pkceCodes.challenge = challenge
+
+    // Add PKCE code challenge and challenge method to authCodeUrl request object
+    const authCodeUrlParameters = {
       scopes: AUTH_SCOPES,
       redirectUri: redirectUri,
-    })
+      codeChallenge: req.session.pkceCodes.challenge, // PKCE Code Challenge
+      codeChallengeMethod: req.session.pkceCodes.challengeMethod, // PKCE Code Challenge Method
+    }
 
-    // Now redirect to the oauth2 URL we have been given
-    res.redirect(authURL)
+    // Get url to sign user in and consent to scopes needed for application
+    const authCodeUrl = await msalApp.getAuthCodeUrl(authCodeUrlParameters)
+    if (!authCodeUrl) {
+      throw new Error('ERROR! Failed to get auth code url')
+    }
+    // Redirect user to auth code url to sign in
+    res.redirect(authCodeUrl)
   } catch (err) {
     res.render('error', {
-      title: 'MSAL authentication failed',
+      title: 'PKCE redirect error',
       message: err,
       error: err,
     })
   }
 })
 
+// This route is called by Azure AD after the user has logged in
+// It will exchange the auth code for an access token
 router.get(`/${AUTH_CALLBACK_PATH}`, async (req, res) => {
+  console.log('### 🔐 MSAL login, code received...')
+
   const host = req.get('host')
   const redirectUri = `${host.indexOf('localhost') == 0 ? 'http' : 'https'}://${host}/${AUTH_CALLBACK_PATH}`
+
+  // Add PKCE code verifier to token request object
+  const tokenRequest = {
+    code: req.query.code,
+    scopes: AUTH_SCOPES,
+    redirectUri: redirectUri,
+    codeVerifier: req.session.pkceCodes.verifier, // PKCE Code Verifier
+    clientInfo: req.query.client_info,
+  }
+
   try {
-    const tokenResponse = await msalApp.acquireTokenByCode({
-      code: req.query.code,
-      scopes: AUTH_SCOPES,
-      redirectUri,
-    })
+    const tokenResponse = await msalApp.acquireTokenByCode(tokenRequest)
     if (!tokenResponse) {
-      // eslint-disable-next-line quotes
-      throw "No token returned! that's pretty bad"
+      throw 'ERROR! Failed to acquire token by code'
     }
 
     // Store user details in session

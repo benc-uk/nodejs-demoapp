@@ -118,13 +118,33 @@ However, the `geolocation.getCurrentPosition()` browser API will only work when 
 
 ### User Authentication with Azure AD
 
-Enable this by setting `AAD_APP_ID`, `AAD_APP_SECRET`
+Enable this by setting `AAD_APP_ID`
 
-This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-node) to authenticate via MSAL with OIDC and OAuth 2.0. The flow it uses is the "OAuth 2.0 Authorization Code Grant", which is standard for server side (confidential) apps.
+This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-node) to authenticate via MSAL with OIDC and OAuth 2.0. The flow it uses is the "Authorization Code Grant (PKCE)", which means we can sign in users without needing client secrets
 
 In addition the user account page shows details & photo retrieved from the Microsoft Graph API
 
-You will need to register an app in your Azure AD tenant. [See this guide](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). Add a secret to your app and use the app's ID & secret value in `AAD_APP_ID` & `AAD_APP_SECRET`. When registering the app for authentication the redirect URL will be the host where the app is running with `/signin` as the URL path, e.g. "https://myapp.azurewebsites.net/signin"
+You will need to register an app in your Azure AD tenant. The app should be configured for the PKCE flow, if creating the app via the portal select ***Public client/native (mobile & desktop)*** (ignore the fact this doesn't seem the right option for a web app)
+
+When configuring authentication the redirect URL will be the host where the app is running with `/signin` as the URL path, e.g. `https://myapp.azurewebsites.net/signin`, for local testing use `http://localhost:3000/signin`
+
+For the signin audience select ***Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)***
+
+To simplify the registration, the Azure CLI can be used with the following bash snippet:
+
+```bash
+baseUrl="http://localhost:3000"
+name="NodeJS Demo"
+# Create app registration and get client ID
+clientId=$(az ad app create \
+--public-client-redirect-uris "$baseUrl/signin" \
+--display-name "$name" \
+--sign-in-audience AzureADandPersonalMicrosoftAccount \
+--query appId -o tsv)
+# Create a service principal for the application
+az ad sp create --id $clientId -o json
+echo -e "\n### Set env var AAD_APP_ID to '$clientId'"
+```
 
 ### Todo App
 
@@ -149,8 +169,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | TODO_MONGO_DB                         | todoDb  | Name of the database in MongoDB to use (optional)                                |
 | APPLICATIONINSIGHTS_CONNECTION_STRING | _none_  | Enable Application Insights monitoring                                           |
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
-| AAD_APP_ID                            | _none_  | Application ID of app registered in Azure AD                                     |
-| AAD_APP_SECRET                        | _none_  | Secret / password of app registered in Azure AD                                  |
+| AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                     |
 
 ## Deployment
 
@@ -158,6 +177,7 @@ See [deployment folder](./deploy) for deploying into Kubernetes with Helm or int
 
 # Updates
 
+- Aug 2022 - Switch to PKCE for auth & login flow
 - Nov 2021 - Replace DarkSky API with OpenWeather
 - Mar 2021 - Refresh packages and added make + bicep
 - Nov 2020 - Switched to MSAL-Node library for authentication
