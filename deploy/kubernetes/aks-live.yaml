@@ -1,5 +1,6 @@
 image:
   repository: ghcr.io/benc-uk/nodejs-demoapp
+  tag: latest
   pullPolicy: Always
 
 service:
@@ -9,24 +10,17 @@ secretEnv:
   WEATHER_API_KEY:
     secretName: nodejs-demoapp
     secretKey: weatherKey
-  AAD_APP_SECRET:
-    secretName: nodejs-demoapp
-    secretKey: aadAppSecret
-  # TODO_MONGO_CONNSTR:
-  #   secretName: nodejs-demoapp
-  #   secretKey: mongoConnString
 
 env:
+  AAD_APP_ID: 129e29d2-6c0a-4dbf-849e-320a3aa93d52
 #   APPINSIGHTS_INSTRUMENTATIONKEY: 45f5a949-518c-4216-80bd-6c5632a9342c
-  AAD_APP_ID: 1166f1b5-d851-4b71-9c5c-89bf6b43b6e3
-#   TODO_MONGO_DB: shared
 
 resources:
   limits:
     cpu: 500m
     memory: 128Mi
   requests:
-    cpu: 200m
+    cpu: 100m
     memory: 64Mi
 
 ingress:

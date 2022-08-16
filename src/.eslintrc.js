@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+
   env: {
     es2020: true,
     node: true,
@@ -7,8 +8,11 @@ module.exports = {
     mocha: true,
     browser: true,
   },
-  extends: ['eslint:recommended'],
+
+  extends: ['eslint:recommended', 'prettier'],
+
   ignorePatterns: ['mochawesome-report/**'],
+
   rules: {
     // Errors & best practices
     'no-var': 'error',
@@ -18,6 +22,7 @@ module.exports = {
 
     'prefer-const': 'error',
   },
+
   parserOptions: {
     ecmaVersion: '2020',
     sourceType: 'module',
