@@ -25,6 +25,10 @@ import express from 'express'
 import path from 'path'
 import logger from 'morgan'
 import session from 'express-session'
+import { createClient as createRedisClient } from 'redis'
+import connectRedis from 'connect-redis'
+import { readFileSync } from 'fs'
+const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
 
 const app = new express()
 
@@ -35,14 +39,28 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Session required for auth and MSAL signin flow
-app.use(
-  session({
-    secret: '5Dyw14E3fEGHBWGPgw2X2dcEl8MVYhokBm1Ww5s2e0pe2wEryC8v3llGnGDm',
-    cookie: { secure: false },
-    resave: false,
-    saveUninitialized: false,
+const sessionConfig = {
+  secret: packageJson.name,
+  cookie: { secure: false },
+  resave: false,
+  saveUninitialized: false,
+}
+
+// Very optional Redis session store - only really needed when running multiple instances
+if (process.env.REDIS_SESSION_HOST) {
+  const RedisStore = connectRedis(session)
+  const redisClient = createRedisClient({ legacyMode: true, url: `redis://${process.env.REDIS_SESSION_HOST}` })
+  redisClient.connect().catch((err) => {
+    console.error('### 🚨 Redis session store error:', err.message)
+    process.exit(1)
   })
-)
+  sessionConfig.store = new RedisStore({ client: redisClient })
+  console.log('### 📚 Session store configured using Redis')
+} else {
+  console.log('### 🎈 Session store not configured, sessions will not persist')
+}
+
+app.use(session(sessionConfig))
 
 // Request logging, switch off when running tests
 if (process.env.NODE_ENV !== 'test') {
@@ -81,8 +99,7 @@ if (process.env.TODO_MONGO_CONNSTR) {
 }
 
 // Make package app version a global var, shown in _foot.ejs
-import { readFileSync } from 'fs'
-const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
+
 app.locals.version = packageJson.version
 
 // Catch all route, generate an error & forward to error handler
