@@ -16,7 +16,7 @@ on:
 # Note. Required secrets: CLUSTER_KUBECONFIG
 
 env:
-  CLUSTER_NAME: benc
+  CLUSTER_NAME: sandbox
   HELM_RELEASE: nodejs
   HELM_NAMESPACE: demoapps
   INGRESS_DNS_HOST: nodejs-demoapp.kube.benco.io

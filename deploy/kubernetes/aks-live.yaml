@@ -3,6 +3,8 @@ image:
   tag: latest
   pullPolicy: Always
 
+replicaCount: 3
+
 service:
   targetPort: 3000
 
@@ -13,7 +15,7 @@ secretEnv:
 
 env:
   AAD_APP_ID: 129e29d2-6c0a-4dbf-849e-320a3aa93d52
-#   APPINSIGHTS_INSTRUMENTATIONKEY: 45f5a949-518c-4216-80bd-6c5632a9342c
+  APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=76ae0e4d-5b1f-4081-915a-34cd49c8c4c2;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/"
 
 resources:
   limits:

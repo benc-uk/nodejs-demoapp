@@ -171,6 +171,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
 | AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                          |
 | DISABLE_METRICS                       | _none_  | Set to truthy value if you want to switch off Prometheus metrics                 |
+| REDIS_SESSION_HOST                    | _none_  | Point to a Redis host to hold/persist session cache                              |
 
 ## Deployment
 
