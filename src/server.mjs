@@ -1,7 +1,7 @@
 //
 // Main Express server for nodejs-demoapp
 // ---------------------------------------------
-// Ben C, Oct 2017 - Updated: Nov 2021
+// Ben C, Oct 2017 - Updated: Sept 2022
 //
 
 console.log('### 🚀 Node.js demo app starting...')
@@ -12,21 +12,10 @@ dotenvConfig()
 
 import appInsights from 'applicationinsights'
 
-// // App Insights. Set APPINSIGHTS_INSTRUMENTATIONKEY as App Setting or env var
+// App Insights.
+// Enable by setting APPLICATIONINSIGHTS_CONNECTION_STRING env var
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-  appInsights
-    .setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING)
-    .setAutoDependencyCorrelation(true)
-    .setAutoCollectRequests(true)
-    .setAutoCollectPerformance(true, true)
-    .setAutoCollectExceptions(true)
-    .setAutoCollectDependencies(true)
-    .setAutoCollectConsole(true)
-    .setUseDiskRetryCaching(true)
-    .setSendLiveMetrics(false)
-    .setDistributedTracingMode(appInsights.DistributedTracingModes.AI)
-    .start()
-
+  appInsights.setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING).setSendLiveMetrics(true).start()
   appInsights.start()
   console.log('### 🩺 Azure App Insights enabled')
 }
@@ -69,6 +58,15 @@ import pageRoutes from './routes/pages.mjs'
 import apiRoutes from './routes/api.mjs'
 import authRoutes from './routes/auth.mjs'
 import todoRoutes from './todo/routes.mjs'
+import addMetrics from './routes/metrics.mjs'
+
+// Prometheus metrics, enabled by default
+if (process.env.DISABLE_METRICS !== 'true') {
+  // Can't use app.use() here due to how the metrics middleware wants to be registered
+  addMetrics(app)
+}
+
+// Core routes we always want
 app.use('/', pageRoutes)
 app.use('/', apiRoutes)
 

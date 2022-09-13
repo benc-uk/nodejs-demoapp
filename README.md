@@ -124,11 +124,11 @@ This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/
 
 In addition the user account page shows details & photo retrieved from the Microsoft Graph API
 
-You will need to register an app in your Azure AD tenant. The app should be configured for the PKCE flow, if creating the app via the portal select ***Public client/native (mobile & desktop)*** (ignore the fact this doesn't seem the right option for a web app)
+You will need to register an app in your Azure AD tenant. The app should be configured for the PKCE flow, if creating the app via the portal select **_Public client/native (mobile & desktop)_** (ignore the fact this doesn't seem the right option for a web app)
 
 When configuring authentication the redirect URL will be the host where the app is running with `/signin` as the URL path, e.g. `https://myapp.azurewebsites.net/signin`, for local testing use `http://localhost:3000/signin`
 
-For the signin audience select ***Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)***
+For the signin audience select **_Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)_**
 
 To simplify the registration, the Azure CLI can be used with the following bash snippet:
 
@@ -169,7 +169,8 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | TODO_MONGO_DB                         | todoDb  | Name of the database in MongoDB to use (optional)                                |
 | APPLICATIONINSIGHTS_CONNECTION_STRING | _none_  | Enable Application Insights monitoring                                           |
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
-| AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                     |
+| AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                          |
+| DISABLE_METRICS                       | _none_  | Set to truthy value if you want to switch off Prometheus metrics                 |
 
 ## Deployment
 
@@ -177,6 +178,7 @@ See [deployment folder](./deploy) for deploying into Kubernetes with Helm or int
 
 # Updates
 
+- Sept 2022 - Add Prometheus metrics
 - Aug 2022 - Switch to PKCE for auth & login flow
 - Nov 2021 - Replace DarkSky API with OpenWeather
 - Mar 2021 - Refresh packages and added make + bicep
