@@ -1,7 +1,7 @@
 {
   "name": "nodejs-demoapp",
   "description": "Node.js Express app for demos",
-  "version": "4.9.0",
+  "version": "4.9.5",
   "author": "Ben Coleman",
   "engines": {
     "node": ">=16.0.0"
@@ -23,19 +23,20 @@
     "lint-fix": "eslint . --ext mjs --fix && prettier --write **/*.mjs"
   },
   "dependencies": {
-    "@azure/msal-node": "^1.12.1",
+    "@azure/msal-node": "^1.14.0",
     "applicationinsights": "^2.3.4",
     "axios": "^0.27.2",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "ejs": "^3.1.8",
     "express": "~4.18.1",
+    "express-prometheus-middleware": "^1.2.0",
     "express-session": "^1.17.3",
-    "mongodb": "^4.8.1",
+    "mongodb": "^4.9.1",
     "morgan": "~1.10.0"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
+    "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "mocha": "^10.0.0",
     "mochawesome": "^7.1.3",
