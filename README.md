@@ -167,7 +167,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | PORT                                  | 3000    | Port the server will listen on                                                   |
 | TODO_MONGO_CONNSTR                    | _none_  | Connect to specified MongoDB instance, when set the todo feature will be enabled |
 | TODO_MONGO_DB                         | todoDb  | Name of the database in MongoDB to use (optional)                                |
-| APPLICATIONINSIGHTS_CONNECTION_STRING | _none_  | Enable Application Insights monitoring                                           |
+| APPINSIGHTS_CONNECTION_STRING         | _none_  | Enable AZure Application Insights monitoring                                     |
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
 | AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                          |
 | DISABLE_METRICS                       | _none_  | Set to truthy value if you want to switch off Prometheus metrics                 |
@@ -179,6 +179,7 @@ See [deployment folder](./deploy) for deploying into Kubernetes with Helm or int
 
 # Updates
 
+- Oct 2022 - Update App Insights, track custom events
 - Sept 2022 - Add Prometheus metrics
 - Aug 2022 - Switch to PKCE for auth & login flow
 - Nov 2021 - Replace DarkSky API with OpenWeather

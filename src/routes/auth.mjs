@@ -6,8 +6,10 @@
 
 import express from 'express'
 const router = express.Router()
-import axios from 'axios'
 import msal from '@azure/msal-node'
+import appInsights from 'applicationinsights'
+
+import { getUserDetails, getUserPhoto } from '../graph.mjs'
 
 // For reasons we need to do this here as well
 import { config as dotenvConfig } from 'dotenv'
@@ -120,6 +122,16 @@ router.get(`/${AUTH_CALLBACK_PATH}`, async (req, res) => {
       accessToken: tokenResponse.accessToken,
     }
 
+    // Track user login as an App Insights custom event
+    appInsights.defaultClient.trackEvent({
+      name: 'userLogin',
+      properties: {
+        user: tokenResponse.account.username,
+        tenantId: tokenResponse.account.tenantId,
+        userId: tokenResponse.uniqueId,
+      },
+    })
+
     res.redirect('/account')
   } catch (err) {
     res.render('error', {
@@ -137,10 +149,12 @@ router.get('/logout', function (req, res) {
 })
 
 router.get('/account', async function (req, res) {
+  // Protect this route by checking if user is logged in
   if (!req.session.user) {
     res.redirect('/login')
     return
   }
+
   let details = {}
   let photo = null
 
@@ -158,38 +172,5 @@ router.get('/account', async function (req, res) {
     photo: photo,
   })
 })
-
-// ==============================
-// MS Graph calls
-// ==============================
-
-async function getUserDetails(accessToken) {
-  try {
-    const graphReq = {
-      url: 'https://graph.microsoft.com/v1.0/me',
-      headers: { Authorization: accessToken },
-    }
-
-    const resp = await axios(graphReq)
-    return resp.data
-  } catch (err) {
-    console.log(`### 💥 ERROR! Failed to get user details ${err.toString()}`)
-  }
-}
-
-async function getUserPhoto(accessToken) {
-  try {
-    const graphReq = {
-      url: 'https://graph.microsoft.com/v1.0/me/photo/$value',
-      responseType: 'arraybuffer',
-      headers: { Authorization: accessToken },
-    }
-
-    const resp = await axios(graphReq)
-    return new Buffer.from(resp.data, 'binary').toString('base64')
-  } catch (err) {
-    console.log(`### 💥 ERROR! Failed to get user photo ${err.toString()}`)
-  }
-}
 
 export default router

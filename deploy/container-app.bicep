@@ -15,15 +15,13 @@ param image string = 'ghcr.io/benc-uk/nodejs-demoapp:latest'
 param weatherApiKey string = ''
 
 @description('Optional feature: Enable Azure App Insights')
-param appInsightsInstrumentationKey string = ''
+param appInsightsConnString string = ''
 
 @description('Optional feature: Enable todo app with MongoDB')
 param todoMongoConnstr string = ''
 
 @description('Optional feature: Enable auth with Azure AD, client id')
 param aadAppId string = ''
-@description('Optional feature: Enable auth with Azure AD, client secret')
-param aadAppSecret string = ''
 
 // ===== Variables ============================================================
 
@@ -35,8 +33,8 @@ var environmentName = '${resourceGroup().name}-environment'
 resource logWorkspace 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
   location: location
   name: logWorkspaceName
-  properties:{
-    sku:{
+  properties: {
+    sku: {
       name: 'Free'
     }
   }
@@ -46,13 +44,13 @@ resource kubeEnv 'Microsoft.Web/kubeEnvironments@2021-02-01' = {
   location: location
   name: environmentName
   kind: 'containerenvironment'
-  
+
   properties: {
     type: 'Managed'
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
-        customerId: logWorkspace.properties.customerId 
+        customerId: logWorkspace.properties.customerId
         sharedKey: logWorkspace.listKeys().primarySharedKey
       }
     }
@@ -80,8 +78,8 @@ resource containerApp 'Microsoft.Web/containerApps@2021-03-01' = {
               value: weatherApiKey
             }
             {
-              name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-              value: appInsightsInstrumentationKey
+              name: 'APPINSIGHTS_CONNECTION_STRING'
+              value: appInsightsConnString
             }
             {
               name: 'TODO_MONGO_CONNSTR'
@@ -90,10 +88,6 @@ resource containerApp 'Microsoft.Web/containerApps@2021-03-01' = {
             {
               name: 'AAD_APP_ID'
               value: aadAppId
-            }
-            {
-              name: 'AAD_APP_SECRET'
-              value: aadAppSecret
             }
           ]
         }

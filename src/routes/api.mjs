@@ -19,15 +19,21 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
   const long = req.params.long
   const lat = req.params.lat
 
-  // Call OpenWeather API
   try {
+    // Call external OpenWeather API
     const weatherResp = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
     )
 
     if (weatherResp.data) {
+      // Send custom metric over to App Insights - 'weatherTemp' with the temperature
       if (appInsights.defaultClient && weatherResp.data.main) {
-        appInsights.defaultClient.trackMetric({ name: 'weatherTemp', value: weatherResp.data.main.temp })
+        appInsights.defaultClient.trackMetric({
+          name: 'weatherTemp',
+          value: weatherResp.data.main.temp,
+          // Extra meta data
+          properties: { city: weatherResp.data.name, country: weatherResp.data.sys.country },
+        })
       }
 
       // Proxy the OpenWeather response through to the caller

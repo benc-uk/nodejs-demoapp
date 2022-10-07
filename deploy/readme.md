@@ -24,7 +24,6 @@ az deployment group create --template-file container-app.bicep --resource-group 
 Optional deployment parameters, each one maps to an environment variable (see [main docs](../#configuration) for details):
 
 - **weatherApiKey**
-- **appInsightsInstrumentationKey**
+- **appInsightsConnString**
 - **todoMongoConnstr**
 - **aadAppId**
-- **aadAppSecret**

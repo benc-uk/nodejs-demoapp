@@ -25,7 +25,7 @@ service:
 #     secretName: nodejs-secrets
 #     secretKey: mongoConnString
 # env:
-#   APPINSIGHTS_INSTRUMENTATIONKEY: __CHANGE_ME__
+#   APPINSIGHTS_CONNECTION_STRING: __CHANGE_ME__
 #   AAD_APP_ID: __CHANGE_ME__
 #   TODO_MONGO_DB: __CHANGE_ME__
 
