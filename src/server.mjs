@@ -4,7 +4,8 @@
 // Ben C, Oct 2017 - Updated: Sept 2022
 //
 
-console.log('### 🚀 Node.js demo app starting...')
+const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
+console.log(`### 🚀 Node.js demo app v${packageJson.version} starting...`)
 
 // Dotenv handy for local config & debugging
 import { config as dotenvConfig } from 'dotenv'
@@ -12,11 +13,11 @@ dotenvConfig()
 
 import appInsights from 'applicationinsights'
 
-// App Insights.
-// Enable by setting APPLICATIONINSIGHTS_CONNECTION_STRING env var
-if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-  appInsights.setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING).setSendLiveMetrics(true).start()
-  appInsights.start()
+// Configure App Insights
+// Enable by setting APPINSIGHTS_CONNECTION_STRING environmental var
+if (process.env.APPINSIGHTS_CONNECTION_STRING) {
+  appInsights.setup(process.env.APPINSIGHTS_CONNECTION_STRING).setSendLiveMetrics(true).start()
+
   console.log('### 🩺 Azure App Insights enabled')
 }
 
@@ -28,7 +29,6 @@ import session from 'express-session'
 import { createClient as createRedisClient } from 'redis'
 import connectRedis from 'connect-redis'
 import { readFileSync } from 'fs'
-const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
 
 const app = new express()
 
@@ -64,7 +64,14 @@ app.use(session(sessionConfig))
 
 // Request logging, switch off when running tests
 if (process.env.NODE_ENV !== 'test') {
-  app.use(logger('dev'))
+  app.use(
+    logger('dev', {
+      skip: function (req, res) {
+        // Don't log the signin code PKCE redirect
+        return req.path.indexOf('/signin') == 0
+      },
+    })
+  )
 }
 
 // Parsing middleware

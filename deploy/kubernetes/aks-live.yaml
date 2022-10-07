@@ -15,7 +15,7 @@ secretEnv:
 
 env:
   AAD_APP_ID: 129e29d2-6c0a-4dbf-849e-320a3aa93d52
-  APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=76ae0e4d-5b1f-4081-915a-34cd49c8c4c2;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/"
+  APPINSIGHTS_CONNECTION_STRING: 'InstrumentationKey=76ae0e4d-5b1f-4081-915a-34cd49c8c4c2;IngestionEndpoint=https://uksouth-1.in.applicationinsights.azure.com/;LiveEndpoint=https://uksouth.livediagnostics.monitor.azure.com/'
   REDIS_SESSION_HOST: redis
   
 resources:
@@ -35,3 +35,7 @@ ingress:
   tls:
     enabled: true
     secretName: benco-io-cert
+
+podAnnotations:
+  prometheus.io/scrape: 'true'
+  prometheus.io/port: '3000'
