@@ -23,7 +23,7 @@
     "lint-fix": "eslint . --ext mjs --fix && prettier --write **/*.mjs"
   },
   "dependencies": {
-    "@azure/msal-node": "^1.14.1",
+    "@azure/msal-node": "^1.14.6",
     "applicationinsights": "^2.3.5",
     "axios": "^0.27.2",
     "connect-redis": "^6.1.3",
