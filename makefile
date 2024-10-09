@@ -64,7 +64,7 @@ clean: ## 🧹 Clean up project
 # ============================================================================
 
 $(SRC_DIR)/node_modules: $(SRC_DIR)/package.json
-	cd $(SRC_DIR); npm install --silent
+	cd $(SRC_DIR); npm install
 	touch -m $(SRC_DIR)/node_modules
 
 $(SRC_DIR)/package.json: 
