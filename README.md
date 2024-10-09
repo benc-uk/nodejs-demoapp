@@ -53,9 +53,8 @@ push                 📤 Push container image to registry
 run                  🏃 Run locally using Node.js
 deploy               🚀 Deploy to Azure Container App
 undeploy             💀 Remove from Azure
-test                 🎯 Unit tests with Jest
-test-report          🤡 Unit tests with Jest & Junit output
-test-api             🚦 Run integration API tests, server must be running
+test                 🚦 Run integration tests, server must be running
+test-report          🤡 Tests but with JUnit output, server must be running
 clean                🧹 Clean up project
 ```
 
@@ -92,6 +91,23 @@ The app can easily be deployed to Kubernetes using Helm, see [deploy/kubernetes/
 A set of GitHub Actions workflows are included for CI / CD. Automated builds for PRs are run in GitHub hosted runners validating the code (linting and tests) and building dev images. When code is merged into master, then automated deployment to AKS is done using Helm.
 
 [![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CI%20Build%20App)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CI+Build+App%22) [![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20AKS?label=release-kubernetes)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CD+Release+-+AKS%22)
+
+# Testing
+
+This project uses a HTTP files located in `src/tests/` that can be used a few different ways, you can instal the [VSCode REST CLient](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) or [httpYac](https://marketplace.visualstudio.com/items?itemName=anweber.vscode-httpyac), [httpYac](https://httpyac.github.io/) is preferred as it supports many more features.
+
+You can interactively run & send the requests in the `src/tests` file using these extensions, but the main reason to use _httpYac_, is it has a much richer language & the support of assertions which can turn the request files into integration tests too 👌
+
+For example:
+
+```http
+GET http://localhost:8000/info
+
+?? status == 200
+?? body contains Memory
+```
+
+_httpYac_ has a command line tool for running tests and .http files which forms the basis of the `make test` and `make test-report` makefile targets. It also natively supports .env files, so will load variables from a .env file if one is found.
 
 # Optional Features
 
