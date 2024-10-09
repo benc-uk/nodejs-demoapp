@@ -20,10 +20,7 @@ let db
 ;(async function () {
   if (!process.env.TODO_MONGO_CONNSTR) return
   try {
-    const client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    const client = await MongoClient.connect(process.env.TODO_MONGO_CONNSTR, {})
     db = client.db(DBNAME)
     console.log('### ✅ Enabled Todo app. Connected to MongoDB!')
   } catch (err) {
@@ -85,7 +82,7 @@ router.put('/api/todo/:id', async function (req, res, next) {
   const todo = req.body
   delete todo._id
   try {
-    const result = await db.collection(COLLECTION).findOneAndReplace({ _id: ObjectId(req.params.id) }, todo)
+    const result = await db.collection(COLLECTION).findOneAndReplace({ _id: new ObjectId(req.params.id) }, todo)
     if (result) {
       sendData(res, result)
     } else {
@@ -101,7 +98,7 @@ router.put('/api/todo/:id', async function (req, res, next) {
 //
 router.delete('/api/todo/:id', async function (req, res, next) {
   try {
-    const result = await db.collection(COLLECTION).deleteOne({ _id: ObjectId(req.params.id) })
+    const result = await db.collection(COLLECTION).deleteOne({ _id: new ObjectId(req.params.id) })
     if (result && result.deletedCount) {
       sendData(res, { msg: `Deleted doc ${req.params.id} ok` })
     } else {

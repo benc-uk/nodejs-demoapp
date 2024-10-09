@@ -23,10 +23,6 @@ The app has several basic pages accessed from the top navigation menu, some of w
 
 ![](https://img.shields.io/github/last-commit/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/release-date/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/v/release/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/commit-activity/y/benc-uk/nodejs-demoapp)
 
-Live instance:
-
-[![](https://img.shields.io/website?label=Hosted%3A%20Kubernetes&up_message=online&url=https%3A%2F%2Fnodejs-demoapp.kube.benco.io%2F)](https://nodejs-demoapp.kube.benco.io/)
-
 # Running and Testing Locally
 
 ### Pre-reqs
@@ -73,7 +69,7 @@ Make file variables and default values, pass these in when calling `make`, e.g. 
 | AZURE_RES_GROUP   | demoapps               |
 | AZURE_REGION      | northeurope            |
 
-Web app will be listening on the standard Express port of 3000, but this can be changed by setting the `PORT` environmental variable.
+The web app will be listening on the standard Express port of 3000, but this can be changed by setting the `PORT` environmental variable.
 
 # Containers
 
@@ -167,7 +163,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | PORT                                  | 3000    | Port the server will listen on                                                   |
 | TODO_MONGO_CONNSTR                    | _none_  | Connect to specified MongoDB instance, when set the todo feature will be enabled |
 | TODO_MONGO_DB                         | todoDb  | Name of the database in MongoDB to use (optional)                                |
-| APPINSIGHTS_CONNECTION_STRING         | _none_  | Enable AZure Application Insights monitoring                                     |
+| APPLICATIONINSIGHTS_CONNECTION_STRING | _none_  | Enable Azure Application Insights monitoring                                     |
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
 | AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                          |
 | DISABLE_METRICS                       | _none_  | Set to truthy value if you want to switch off Prometheus metrics                 |
@@ -179,6 +175,7 @@ See [deployment folder](./deploy) for deploying into Kubernetes with Helm or int
 
 # Updates
 
+- Oct 2024 - Major package refresh & compatibility updates
 - Oct 2022 - Update App Insights, track custom events
 - Sept 2022 - Add Prometheus metrics
 - Aug 2022 - Switch to PKCE for auth & login flow
