@@ -10,7 +10,7 @@ AZURE_APP_NAME ?= nodejs-demoapp
 
 # Used by test targets
 TEST_BASE_URL ?= http://localhost:3000
-TESTS_GLOB ?= base-tests.http
+TEST_FILES ?= base-tests.http
 
 # Don't change
 SRC_DIR := src
@@ -52,10 +52,10 @@ undeploy: ## 💀 Remove from Azure
 	az group delete -n $(AZURE_RES_GROUP) -o table --no-wait
 
 test: $(SRC_DIR)/node_modules ## 🚦 Run integration tests, server must be running 
-	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --output short --var baseUrl=$(TEST_BASE_URL)
+	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TEST_FILES) --all --output short --var baseUrl=$(TEST_BASE_URL)
 
 test-report: $(SRC_DIR)/node_modules ## 🤡 Tests but with JUnit output, server must be running 
-	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --junit --var baseUrl=$(TEST_BASE_URL) > test-results.xml
+	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TEST_FILES) --all --junit --var baseUrl=$(TEST_BASE_URL) > test-results.xml
 
 clean: ## 🧹 Clean up project
 	rm -rf $(SRC_DIR)/node_modules

@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 'Set kubeconfig'
         uses: azure/k8s-set-context@v1
@@ -49,7 +49,7 @@ jobs:
           helm upgrade ${{ env.HELM_RELEASE }} benc-uk/webapp \
           --install \
           --namespace ${{ env.HELM_NAMESPACE }} \
-          --values deploy/kubernetes/aks-live.yaml \
+          --values deploy/kubernetes/aks-mine.yaml \
           --set image.tag=${{ github.event.inputs.IMAGE_TAG }},ingress.host=${{ env.INGRESS_DNS_HOST }},env.AAD_REDIRECT_URL_BASE=https://${{ env.INGRESS_DNS_HOST }}
 
   #
@@ -65,12 +65,11 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 'Validate site is running'
         run: .github/scripts/url-check.sh -u https://${{ env.INGRESS_DNS_HOST }} -s "Node.js Demo App" -t 200
 
-      - name: 'Run API tests'
+      - name: 'Integration tests'
         run: |
-          npm install newman --silent
-          node_modules/newman/bin/newman.js run src/tests/postman_collection.json --global-var apphost=${{ env.INGRESS_DNS_HOST }}
+          make test TEST_BASE_URL=https://${{ env.INGRESS_DNS_HOST }} "TEST_FILES={base-tests,weather-tests}.http"
