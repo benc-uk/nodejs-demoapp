@@ -44,6 +44,7 @@ deploy: ## 🚀 Deploy to Azure Container App
 		--resource-group $(AZURE_RES_GROUP) \
 		--parameters appName=$(AZURE_APP_NAME) \
 		--parameters image=$(IMAGE_REG)/$(IMAGE_REPO):$(IMAGE_TAG) -o table 
+	@sleep 5
 	@echo "### 🚀 App deployed & available here: $(shell az deployment group show --resource-group $(AZURE_RES_GROUP) --name container-app --query "properties.outputs.appURL.value" -o tsv)/"
 
 undeploy: ## 💀 Remove from Azure 
@@ -54,7 +55,7 @@ test: $(SRC_DIR)/node_modules ## 🚦 Run integration tests, server must be runn
 	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --output short --var baseUrl=$(TEST_BASE_URL)
 
 test-report: $(SRC_DIR)/node_modules ## 🤡 Tests but with JUnit output, server must be running 
-	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --junit > test-results.xml
+	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --junit --var baseUrl=$(TEST_BASE_URL) > test-results.xml
 
 clean: ## 🧹 Clean up project
 	rm -rf $(SRC_DIR)/node_modules

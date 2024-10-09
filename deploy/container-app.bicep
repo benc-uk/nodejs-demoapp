@@ -35,18 +35,16 @@ resource logWorkspace 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
   name: logWorkspaceName
   properties: {
     sku: {
-      name: 'Free'
+      name: 'PerGB2018'
     }
   }
 }
 
-resource kubeEnv 'Microsoft.Web/kubeEnvironments@2021-02-01' = {
+resource appEnv 'Microsoft.App/managedEnvironments@2024-03-01' = {
   location: location
   name: environmentName
-  kind: 'containerenvironment'
 
   properties: {
-    type: 'Managed'
     appLogsConfiguration: {
       destination: 'log-analytics'
       logAnalyticsConfiguration: {
@@ -57,12 +55,13 @@ resource kubeEnv 'Microsoft.Web/kubeEnvironments@2021-02-01' = {
   }
 }
 
-resource containerApp 'Microsoft.Web/containerApps@2021-03-01' = {
+resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
   location: location
   name: appName
 
   properties: {
-    kubeEnvironmentId: kubeEnv.id
+    environmentId: appEnv.id
+
     template: {
       containers: [
         {
