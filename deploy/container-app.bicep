@@ -20,8 +20,8 @@ param appInsightsConnString string = ''
 @description('Optional feature: Enable todo app with MongoDB')
 param todoMongoConnstr string = ''
 
-@description('Optional feature: Enable auth with Azure AD, client id')
-param aadAppId string = ''
+@description('Optional feature: Enable auth with EntraID, and a client id')
+param entraAppId string = ''
 
 // ===== Variables ============================================================
 
@@ -86,8 +86,8 @@ resource containerApp 'Microsoft.Web/containerApps@2021-03-01' = {
               value: todoMongoConnstr
             }
             {
-              name: 'AAD_APP_ID'
-              value: aadAppId
+              name: 'ENTRA_APP_ID'
+              value: entraAppId
             }
           ]
         }

@@ -112,19 +112,19 @@ Enable this by setting `WEATHER_API_KEY`
 This will require a API key from OpenWeather, you can [sign up for free and get one here](https://openweathermap.org/price). The page uses a browser API for geolocation to fetch the user's location.  
 However, the `geolocation.getCurrentPosition()` browser API will only work when the site is served via HTTPS or from localhost. As a fallback, weather for London, UK will be show if the current position can not be obtained
 
-### User Authentication with Azure AD
+### User Authentication with Microsoft Entra ID (was Azure AD)
 
-Enable this by setting `AAD_APP_ID`
+Enable this by setting `ENTRA_APP_ID`
 
 This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-node) to authenticate via MSAL with OIDC and OAuth 2.0. The flow it uses is the "Authorization Code Grant (PKCE)", which means we can sign in users without needing client secrets
 
 In addition the user account page shows details & photo retrieved from the Microsoft Graph API
 
-You will need to register an app in your Azure AD tenant. The app should be configured for the PKCE flow, if creating the app via the portal select **_Public client/native (mobile & desktop)_** (ignore the fact this doesn't seem the right option for a web app)
+You will need to register an app in your Entra ID tenant. The app should be configured for the PKCE flow, if creating the app via the portal select **_Public client/native (mobile & desktop)_** (ignore the fact this doesn't seem the right option for a web app)
 
 When configuring authentication the redirect URL will be the host where the app is running with `/signin` as the URL path, e.g. `https://myapp.azurewebsites.net/signin`, for local testing use `http://localhost:3000/signin`
 
-For the signin audience select **_Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)_**
+For the sign-in audience (also called account types) select **_Accounts in any organizational directory (Any Microsoft Entra ID tenant - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)_**
 
 To simplify the registration, the Azure CLI can be used with the following bash snippet:
 
@@ -139,7 +139,7 @@ clientId=$(az ad app create \
 --query appId -o tsv)
 # Create a service principal for the application
 az ad sp create --id $clientId -o json
-echo -e "\n### Set env var AAD_APP_ID to '$clientId'"
+echo -e "\n### Set env var ENTRA_APP_ID to '$clientId'"
 ```
 
 ### Todo App
@@ -165,7 +165,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 | TODO_MONGO_DB                         | todoDb  | Name of the database in MongoDB to use (optional)                                |
 | APPLICATIONINSIGHTS_CONNECTION_STRING | _none_  | Enable Azure Application Insights monitoring                                     |
 | WEATHER_API_KEY                       | _none_  | OpenWeather API key. [Info here](https://openweathermap.org/api)                 |
-| AAD_APP_ID                            | _none_  | Client ID of app registered in Azure AD                                          |
+| ENTRA_APP_ID                          | _none_  | Client ID of app registered in Microsoft Entra                                   |
 | DISABLE_METRICS                       | _none_  | Set to truthy value if you want to switch off Prometheus metrics                 |
 | REDIS_SESSION_HOST                    | _none_  | Point to a Redis host to hold/persist session cache                              |
 

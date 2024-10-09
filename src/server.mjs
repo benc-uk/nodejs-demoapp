@@ -101,7 +101,7 @@ app.use('/', pageRoutes)
 app.use('/', apiRoutes)
 
 // Initialize authentication only when configured
-if (process.env.AAD_APP_ID) {
+if (process.env.ENTRA_APP_ID) {
   app.use('/', authRoutes)
 }
 
