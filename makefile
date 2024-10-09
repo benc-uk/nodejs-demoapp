@@ -54,12 +54,12 @@ test: $(SRC_DIR)/node_modules ## 🚦 Run integration tests, server must be runn
 	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --output short --var baseUrl=$(TEST_BASE_URL)
 
 test-report: $(SRC_DIR)/node_modules ## 🤡 Tests but with JUnit output, server must be running 
-	rm -rf $(SRC_DIR)/test-results.*
 	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --junit > test-results.xml
 
 clean: ## 🧹 Clean up project
 	rm -rf $(SRC_DIR)/node_modules
-	rm -rf $(SRC_DIR)/*.xml
+	rm -rf src/*.xml
+	rm -rf *.xml
 
 # ============================================================================
 

@@ -14,6 +14,8 @@ env:
 
 permissions:
   packages: write
+  statuses: write
+  checks: write
 
 jobs:
   test:
@@ -40,7 +42,7 @@ jobs:
         if: success() || failure()
         with:
           name: Unit Test Report
-          path: src/test-results.xml
+          path: test-results.xml
           reporter: java-junit
           fail-on-error: false
 
