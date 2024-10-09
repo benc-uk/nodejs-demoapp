@@ -26,19 +26,26 @@ jobs:
       - name: 'Run linting'
         run: make lint
 
-      - name: 'Run tests'
-        run: make test-report
+      - name: 'Run service'
+        run: make run &
 
-      - name: 'Upload test results'
-        uses: actions/upload-artifact@v2
-        # Disabled when running locally with the nektos/act tool
-        if: ${{ always() }}
+      - name: 'Run tests'
+        run: |
+          sleep 10
+          make test-report
+
+      - name: 'Test reporting'
+        uses: phoenix-actions/test-reporting@v8
+        id: test-report
+        if: success() || failure()
         with:
-          name: test-results
-          path: ./src/mochawesome-report
+          name: Unit Test Report
+          path: src/test-results.xml
+          reporter: java-junit
+          fail-on-error: false
 
   build:
-    name: 'Build & Push Image'
+    name: 'Build & push image'
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -59,10 +66,10 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
           make push
 
-      - name: 'Trigger AKS release pipeline'
-        if: github.ref == 'refs/heads/master'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: 'CD Release - AKS'
-          token: ${{ secrets.GH_PAT }}
-          inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'
+      # - name: 'Trigger AKS release pipeline'
+      #   if: github.ref == 'refs/heads/master'
+      #   uses: benc-uk/workflow-dispatch@v1
+      #   with:
+      #     workflow: 'CD Release - AKS'
+      #     token: ${{ secrets.GH_PAT }}
+      #     inputs: '{ "IMAGE_TAG": "${{ env.IMAGE_TAG }}" }'

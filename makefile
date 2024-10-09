@@ -8,12 +8,14 @@ AZURE_RES_GROUP ?= demoapps
 AZURE_REGION ?= northeurope
 AZURE_APP_NAME ?= nodejs-demoapp
 
-# Used by `test-api` target
-TEST_HOST ?= localhost:3000
+# Used by test targets
+TEST_BASE_URL ?= http://localhost:3000
+TESTS_GLOB ?= base-tests.http
 
 # Don't change
 SRC_DIR := src
 
+.EXPORT_ALL_VARIABLES:
 .PHONY: help lint lint-fix image push run deploy undeploy clean test test-api test-report .EXPORT_ALL_VARIABLES
 .DEFAULT_GOAL := help
 
@@ -48,15 +50,12 @@ undeploy: ## 💀 Remove from Azure
 	@echo "### WARNING! Going to delete $(AZURE_RES_GROUP) 😲"
 	az group delete -n $(AZURE_RES_GROUP) -o table --no-wait
 
-test: $(SRC_DIR)/node_modules ## 🎯 Unit tests with Mocha
-	cd $(SRC_DIR); npm run test
+test: $(SRC_DIR)/node_modules ## 🚦 Run integration tests, server must be running 
+	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --output short --var baseUrl=$(TEST_BASE_URL)
 
-test-report: $(SRC_DIR)/node_modules ## 🤡 Unit tests with Mocha & mochawesome report 
+test-report: $(SRC_DIR)/node_modules ## 🤡 Tests but with JUnit output, server must be running 
 	rm -rf $(SRC_DIR)/test-results.*
-	cd $(SRC_DIR); npm run test-report
-
-test-api: $(SRC_DIR)/node_modules .EXPORT_ALL_VARIABLES ## 🚦 Run integration API tests, server must be running 
-	cd $(SRC_DIR); npm run test-postman
+	$(SRC_DIR)/node_modules/.bin/httpyac $(SRC_DIR)/tests/$(TESTS_GLOB) --all --junit > test-results.xml
 
 clean: ## 🧹 Clean up project
 	rm -rf $(SRC_DIR)/node_modules
