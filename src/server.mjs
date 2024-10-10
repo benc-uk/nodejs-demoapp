@@ -14,7 +14,7 @@ dotenvConfig()
 import appInsights from 'applicationinsights'
 
 // Configure App Insights
-if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+      if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
   // Note we are keeping on the old v2.x SDK for now as the v3.x SDK doesn't work very well
   appInsights
     .setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING)
