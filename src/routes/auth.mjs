@@ -6,7 +6,7 @@
 
 import express from 'express'
 const router = express.Router()
-import msal from '@azure/msal-node'
+import * as msal from '@azure/msal-node'
 import appInsights from 'applicationinsights'
 
 import { getUserDetails, getUserPhoto } from '../graph.mjs'
@@ -21,11 +21,11 @@ const AUTH_CALLBACK_PATH = 'signin'
 
 let msalApp
 
-// Create MSAL public application object, only if AAD_APP_ID enabled
-if (process.env.AAD_APP_ID) {
+// Create MSAL public application object, only if ENTRA_APP_ID enabled
+if (process.env.ENTRA_APP_ID) {
   msalApp = new msal.PublicClientApplication({
     auth: {
-      clientId: process.env.AAD_APP_ID,
+      clientId: process.env.ENTRA_APP_ID,
       authority: AUTH_ENDPOINT,
     },
 
@@ -40,7 +40,7 @@ if (process.env.AAD_APP_ID) {
     },
   })
 
-  console.log(`### 🔐 MSAL configured using client ID: ${process.env.AAD_APP_ID}`)
+  console.log(`### 🔐 MSAL configured using client ID: ${process.env.ENTRA_APP_ID}`)
 }
 
 // ==============================

@@ -26,7 +26,7 @@ service:
 #     secretKey: mongoConnString
 # env:
 #   APPINSIGHTS_CONNECTION_STRING: __CHANGE_ME__
-#   AAD_APP_ID: __CHANGE_ME__
+#   ENTRA_APP_ID: __CHANGE_ME__
 #   TODO_MONGO_DB: __CHANGE_ME__
 
 #

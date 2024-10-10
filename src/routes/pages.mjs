@@ -54,6 +54,7 @@ router.get('/info', function (req, res, next) {
       if (cgroup.includes('containerd')) {
         isContainer = true
       }
+      // eslint-disable-next-line
     } catch (err) {
       isContainer = false
     }
@@ -114,7 +115,6 @@ router.get('/tools/load', function (req, res, next) {
 // =======================================================================
 // Page to generate server side errors, good for App Insights demos
 // =======================================================================
-// eslint-disable-next-line no-unused-vars
 router.get('/tools/error', function (req, res, next) {
   // Call some gibberish (object doesn't exist) which should trigger an exception
   // eslint-disable-next-line no-undef
@@ -131,6 +131,7 @@ router.get('/tools/gc', function (req, res, next) {
       global.gc()
       message = 'Garbage collector was run'
     }
+    // eslint-disable-next-line
   } catch (e) {
     // DO nothing
   }

@@ -22,12 +22,13 @@ router.get('/api/weather/:lat/:long', async function (req, res, next) {
   try {
     // Call external OpenWeather API
     const weatherResp = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${long}&appid=${WEATHER_API_KEY}`,
     )
 
     if (weatherResp.data) {
       // Send custom metric over to App Insights - 'weatherTemp' with the temperature
       if (appInsights.defaultClient && weatherResp.data.main) {
+        console.log(`----- ${weatherResp.data.main.temp}`)
         appInsights.defaultClient.trackMetric({
           name: 'weatherTemp',
           value: weatherResp.data.main.temp,
@@ -96,5 +97,4 @@ router.get('/api/monitoringdata', async function (req, res, next) {
   }
 })
 
-// module.exports = router
 export default router

@@ -26,4 +26,4 @@ Optional deployment parameters, each one maps to an environment variable (see [m
 - **weatherApiKey**
 - **appInsightsConnString**
 - **todoMongoConnstr**
-- **aadAppId**
+- **entraAppId**

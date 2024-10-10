@@ -1,3 +1,8 @@
+#
+# If you want a very simple and quick Redis deployment, you can use the following YAML file.
+# It's not recommended for anything other than testing or development.
+#
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,11 +11,10 @@ spec:
   selector:
     app: redis
   ports:
-  - port: 6379
-    targetPort: 6379
+    - port: 6379
+      targetPort: 6379
 
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,14 +29,14 @@ spec:
         app: redis
     spec:
       containers:
-      - name: redis
-        image: redis:6
-        ports:
-        - containerPort: 6379
-        resources:
-          requests:
-            cpu: 10m
-            memory: 64Mi
-          limits:
-            cpu: 50m
-            memory: 128Mi
+        - name: redis
+          image: redis:6
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 50m
+              memory: 128Mi

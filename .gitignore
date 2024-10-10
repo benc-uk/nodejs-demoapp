@@ -1,8 +1,7 @@
 node_modules/
 *.log
 .env
-src/test-*.xml
-src/test-*.json
+**/test-*.xml
 mochawesome-report/
 myvalues.yaml
 secrets.sh

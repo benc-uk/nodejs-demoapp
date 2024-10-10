@@ -1,0 +1,20 @@
+@baseUrl={{ this.baseUrl ?? 'http://localhost:3000' }}
+
+# ===========================================================================================
+# Weather tests, only run these when the weather feature is enabled
+# ===========================================================================================
+
+### Weather - Page
+GET {{baseUrl}}/weather
+
+?? status == 200
+?? body contains Geolocated
+
+
+### Weather - API (Bromley)
+GET {{baseUrl}}/api/weather/51.4030325/0.05599
+
+?? status == 200
+?? body weather isArray
+?? body main.temp isNumber
+?? body name == Bromley

@@ -1,0 +1,34 @@
+@baseUrl={{ this.baseUrl ?? 'http://localhost:3000' }}
+
+# ===========================================================================================
+# Base tests, can be run against the server without any optional features enabled
+# ===========================================================================================
+
+### Base - Root URL
+GET {{baseUrl}}/
+
+?? status == 200
+?? body contains Ben Coleman
+
+
+### Base - Info page
+GET {{baseUrl}}/info
+
+?? status == 200
+?? body contains Memory
+?? body contains class="envvars"
+
+
+### Base - Tools page
+GET {{baseUrl}}/tools
+
+?? status == 200
+?? body contains garbage collector
+
+
+### Base - Monitor API
+GET {{baseUrl}}/api/monitoringdata
+
+?? status == 200
+?? body memUsedBytes isNumber
+?? body cpuAppPercentage isNumber

@@ -1,0 +1,45 @@
+@baseUrl={{ this.baseUrl ?? 'http://localhost:3000' }}
+
+# ===========================================================================================
+# Todo tests, only run these when the TODO feature is enabled
+# ===========================================================================================
+
+### Todo API - Add a todo
+# @name createTodo
+POST {{baseUrl}}/api/todo
+Content-Type: application/json
+
+{
+  "title": "API Test Todo {{ $randomInt 0 1000000 }}",
+  "done": false,
+  "type": "Reminder"
+}
+
+?? status == 200
+?? body newId exists 
+
+
+### Todo API - Update a todos
+PUT {{baseUrl}}/api/todo/{{createTodo.newId}}
+Content-Type: application/json
+
+{
+  "title": "This is an updated todo",
+  "done": true,
+  "type": "Reminder"
+}
+
+
+### Todo API - Get all todos
+GET {{baseUrl}}/api/todo
+
+?? status == 200
+?? body includes {{createTodo.newId}}
+?? body includes "This is an updated todo"
+
+
+### Todo API - Delete a todo
+DELETE {{baseUrl}}/api/todo/{{createTodo.newId}}
+
+?? status == 200
+?? body msg exists

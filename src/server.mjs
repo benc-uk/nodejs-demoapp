@@ -1,7 +1,7 @@
 //
 // Main Express server for nodejs-demoapp
 // ---------------------------------------------
-// Ben C, Oct 2017 - Updated: Sept 2022
+// Ben C, Oct 2017 - Updated: Oct 2024
 //
 
 const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)))
@@ -14,9 +14,13 @@ dotenvConfig()
 import appInsights from 'applicationinsights'
 
 // Configure App Insights
-// Enable by setting APPINSIGHTS_CONNECTION_STRING environmental var
-if (process.env.APPINSIGHTS_CONNECTION_STRING) {
-  appInsights.setup(process.env.APPINSIGHTS_CONNECTION_STRING).setSendLiveMetrics(true).start()
+if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+  // Note we are keeping on the old v2.x SDK for now as the v3.x SDK doesn't work very well
+  appInsights
+    .setup(process.env.APPLICATIONINSIGHTS_CONNECTION_STRING)
+    .setSendLiveMetrics(true)
+    .setAutoCollectConsole(true, true)
+    .start()
 
   console.log('### 🩺 Azure App Insights enabled')
 }
@@ -27,7 +31,7 @@ import path from 'path'
 import logger from 'morgan'
 import session from 'express-session'
 import { createClient as createRedisClient } from 'redis'
-import connectRedis from 'connect-redis'
+import RedisStore from 'connect-redis'
 import { readFileSync } from 'fs'
 
 const app = new express()
@@ -48,12 +52,13 @@ const sessionConfig = {
 
 // Very optional Redis session store - only really needed when running multiple instances
 if (process.env.REDIS_SESSION_HOST) {
-  const RedisStore = connectRedis(session)
   const redisClient = createRedisClient({ legacyMode: true, url: `redis://${process.env.REDIS_SESSION_HOST}` })
+
   redisClient.connect().catch((err) => {
     console.error('### 🚨 Redis session store error:', err.message)
     process.exit(1)
   })
+
   sessionConfig.store = new RedisStore({ client: redisClient })
   console.log('### 📚 Session store configured using Redis')
 } else {
@@ -70,7 +75,7 @@ if (process.env.NODE_ENV !== 'test') {
         // Don't log the signin code PKCE redirect
         return req.path.indexOf('/signin') == 0
       },
-    })
+    }),
   )
 }
 
@@ -96,7 +101,7 @@ app.use('/', pageRoutes)
 app.use('/', apiRoutes)
 
 // Initialize authentication only when configured
-if (process.env.AAD_APP_ID) {
+if (process.env.ENTRA_APP_ID) {
   app.use('/', authRoutes)
 }
 
@@ -106,7 +111,6 @@ if (process.env.TODO_MONGO_CONNSTR) {
 }
 
 // Make package app version a global var, shown in _foot.ejs
-
 app.locals.version = packageJson.version
 
 // Catch all route, generate an error & forward to error handler
