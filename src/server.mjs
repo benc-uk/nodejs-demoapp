@@ -75,7 +75,7 @@ if (process.env.NODE_ENV !== 'test') {
         // Don't log the signin code PKCE redirect
         return req.path.indexOf('/signin') == 0
       },
-    })
+    }),
   )
 }
 

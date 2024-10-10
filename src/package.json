@@ -18,8 +18,8 @@
     "watch": "nodemon",
     "test-report": "httpyac tests/base-tests.http --all --junit > test-results.xml",
     "test": "httpyac tests/base-tests.http --all --output short",
-    "lint": "eslint . && prettier --check **/*.mjs",
-    "lint-fix": "eslint . --fix && prettier --write **/*.mjs"
+    "lint": "prettier --check **/*.mjs *.mjs",
+    "lint-fix": "eslint . --fix && prettier --write **/*.mjs *.mjs"
   },
   "dependencies": {
     "@azure/msal-node": "^2.15.0",

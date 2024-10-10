@@ -16,7 +16,7 @@ TEST_FILES ?= base-tests.http
 SRC_DIR := src
 
 .EXPORT_ALL_VARIABLES:
-.PHONY: help lint lint-fix image push run deploy undeploy clean test test-api test-report .EXPORT_ALL_VARIABLES
+.PHONY: help lint lint-fix image push run deploy undeploy clean test test-report .EXPORT_ALL_VARIABLES
 .DEFAULT_GOAL := help
 
 help: ## 💬 This help message
