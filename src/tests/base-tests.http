@@ -1,5 +1,9 @@
 @baseUrl={{ this.baseUrl ?? 'http://localhost:3000' }}
 
+# ===========================================================================================
+# Base tests, can be run against the server without any optional features enabled
+# ===========================================================================================
+
 ### Base - Root URL
 GET {{baseUrl}}/
 

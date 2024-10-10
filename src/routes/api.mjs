@@ -97,5 +97,4 @@ router.get('/api/monitoringdata', async function (req, res, next) {
   }
 })
 
-// module.exports = router
 export default router

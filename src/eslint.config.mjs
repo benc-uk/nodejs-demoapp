@@ -6,13 +6,9 @@ export default [
   js.configs.recommended,
   eslintConfigPrettier,
   {
-    ignores: ['mochawesome-report/**/*'],
-  },
-  {
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.mocha,
         ...globals.browser,
       },
 

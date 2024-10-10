@@ -1,6 +1,6 @@
-# Node.js - Demo Web Application
+# Node.js - Sample Web Application
 
-This is a simple Node.js web app using the Express framework and EJS templates.
+This is a sample Node.js web app using the Express framework and EJS templates.
 
 The app has been designed with cloud native demos & containers in mind, in order to provide a real working application for deployment, something more than "hello-world" but with the minimum of pre-reqs. It is not intended as a complete example of a fully functioning architecture or complex software design.
 
@@ -15,15 +15,15 @@ The app has several basic pages accessed from the top navigation menu, some of w
 - **'Todo'** - (Optional) This is a small todo/task-list app which uses MongoDB as a database.
 - **'User Account'** - (Optional) When configured with Azure AD (application client id) user login button will be enabled, and an user-account details page enabled, which calls the Microsoft Graph API
 
+![](https://img.shields.io/github/last-commit/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/release-date/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/v/release/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/commit-activity/y/benc-uk/nodejs-demoapp)
+
+## Screens
+
 ![screen](https://user-images.githubusercontent.com/14982936/55620043-dfe96480-5791-11e9-9746-3b42a3a41e5f.png)
 ![screen](https://user-images.githubusercontent.com/14982936/55620045-dfe96480-5791-11e9-94f3-6d788ed447c1.png)
 ![screen](https://user-images.githubusercontent.com/14982936/58764072-d8102b80-855a-11e9-993f-21ef0344d5e0.png)
 
-# Status
-
-![](https://img.shields.io/github/last-commit/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/release-date/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/v/release/benc-uk/nodejs-demoapp) ![](https://img.shields.io/github/commit-activity/y/benc-uk/nodejs-demoapp)
-
-# Running and Testing Locally
+# 🧑‍💻 Running and Testing Locally
 
 ### Pre-reqs
 
@@ -70,7 +70,7 @@ Make file variables and default values, pass these in when calling `make`, e.g. 
 
 The web app will be listening on the standard Express port of 3000, but this can be changed by setting the `PORT` environmental variable.
 
-# Containers
+# 📦 Containers
 
 Public container image is [available on GitHub Container Registry](https://github.com/users/benc-uk/packages/container/package/nodejs-demoapp).
 
@@ -86,15 +86,15 @@ Should you want to build your own container, use `make image` and the above vari
 
 The app can easily be deployed to Kubernetes using Helm, see [deploy/kubernetes/readme.md](deploy/kubernetes/readme.md) for details
 
-# GitHub Actions CI/CD
+# 🏗️ GitHub Actions CI/CD
 
-A set of GitHub Actions workflows are included for CI / CD. Automated builds for PRs are run in GitHub hosted runners validating the code (linting and tests) and building dev images. When code is merged into master, then automated deployment to AKS is done using Helm.
+A set of GitHub Actions workflows are included for CI / CD. Automated builds for PRs are run in GitHub hosted runners validating the code (linting and tests) and building dev images. When code is merged into main, then automated deployment to AKS is done using Helm.
 
-[![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CI%20Build%20App)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CI+Build+App%22) [![](https://img.shields.io/github/workflow/status/benc-uk/nodejs-demoapp/CD%20Release%20-%20AKS?label=release-kubernetes)](https://github.com/benc-uk/nodejs-demoapp/actions?query=workflow%3A%22CD+Release+-+AKS%22)
+[![CD Release - AKS](https://github.com/benc-uk/nodejs-demoapp/actions/workflows/cd-release-aks.yaml/badge.svg)](https://github.com/benc-uk/nodejs-demoapp/actions/workflows/cd-release-aks.yaml)
 
-# Testing
+# 🧪 Testing
 
-This project uses a HTTP files located in `src/tests/` that can be used a few different ways, you can instal the [VSCode REST CLient](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) or [httpYac](https://marketplace.visualstudio.com/items?itemName=anweber.vscode-httpyac), [httpYac](https://httpyac.github.io/) is preferred as it supports many more features.
+This project uses a HTTP files located in `src/tests/` that can be used a few different ways, you can install the [VSCode REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) or [httpYac](https://marketplace.visualstudio.com/items?itemName=anweber.vscode-httpyac) allowing you to interactively run requests from VSCode
 
 You can interactively run & send the requests in the `src/tests` file using these extensions, but the main reason to use _httpYac_, is it has a much richer language & the support of assertions which can turn the request files into integration tests too 👌
 
@@ -107,17 +107,21 @@ GET http://localhost:8000/info
 ?? body contains Memory
 ```
 
-_httpYac_ has a command line tool for running tests and .http files which forms the basis of the `make test` and `make test-report` makefile targets. It also natively supports .env files, so will load variables from a .env file if one is found.
+_httpYac_ has a command line tool for running tests and .http files which forms the basis of the `make test` and `make test-report` makefile targets.
 
-# Optional Features
+## Running Tests
 
-The app will start up and run with zero configuration, however the only features that will be available will be the INFO and TOOLS views. The following optional features can be enabled:
+To run the tests, in one shell session run `make run` and open a second separate shell run `make test`. You can set `TEST_BASE_URL` to point the tests at a different and `TEST_FILES`
 
-### Application Insights
+# 🎂 Optional Features
+
+The app will start up and run with zero configuration, however the following optional features can be enabled with various settings
+
+### Monitoring - Azure Application Insights
 
 Enable this by setting `APPLICATIONINSIGHTS_CONNECTION_STRING`
 
-The app has been instrumented with the Application Insights SDK, it will however need to be configured to point to your App Insights instance/workspace. All requests will be tracked, as well as dependant calls to MongoDB or other APIs (if configured), exceptions & error will also be logged
+The app has been instrumented with the Application Insights SDK, it will however need to be configured to point to your App Insights instance/workspace. All requests will be tracked, as well as dependant calls to MongoDB or other APIs (if configured), exceptions & error will also be logged.
 
 [This article](https://docs.microsoft.com/azure/application-insights/app-insights-nodejs) has more information on monitoring Node.js with App Insights
 
@@ -128,13 +132,13 @@ Enable this by setting `WEATHER_API_KEY`
 This will require a API key from OpenWeather, you can [sign up for free and get one here](https://openweathermap.org/price). The page uses a browser API for geolocation to fetch the user's location.  
 However, the `geolocation.getCurrentPosition()` browser API will only work when the site is served via HTTPS or from localhost. As a fallback, weather for London, UK will be show if the current position can not be obtained
 
-### User Authentication with Microsoft Entra ID (was Azure AD)
+### Authentication with Microsoft Entra ID (was Azure AD)
 
 Enable this by setting `ENTRA_APP_ID`
 
 This uses [Microsoft Authentication Library (MSAL) for Node](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-node) to authenticate via MSAL with OIDC and OAuth 2.0. The flow it uses is the "Authorization Code Grant (PKCE)", which means we can sign in users without needing client secrets
 
-In addition the user account page shows details & photo retrieved from the Microsoft Graph API
+When enabled a user account page becomes available in the UI, this shows logged in user details & photo retrieved from the Microsoft Graph API.
 
 You will need to register an app in your Entra ID tenant. The app should be configured for the PKCE flow, if creating the app via the portal select **_Public client/native (mobile & desktop)_** (ignore the fact this doesn't seem the right option for a web app)
 
@@ -166,13 +170,14 @@ A mini todo & task tracking app can be enabled if a MongoDB backend is provided 
 
 The default database name is `todoDb` but you can change this by setting `TODO_MONGO_DB`
 
-You can stand up MongoDB in a container instance or in Cosmos DB (using the Mongo API). Note. When using Cosmos DB and the _per database provisioned RU/s_ option, you must manually create the collection called `todos` in the relevant database and set the shard key to `_id`
+When working locally and if you have Docker, you can easily run MongoDB with `docker run --network host mongo`  
+You can also use Azure Cosmos DB (using the Mongo API). Note. When using Cosmos DB and the _per database provisioned RU/s_ option, you must manually create the collection called `todos` in the relevant database and set the shard key to `_id`
 
-# Configuration
+# 🛠️ Configuration
 
 The following configuration environmental variables are supported, however none are mandatory. These can be set directly or when running locally will be picked up from an `.env` file if it is present. A sample `.env` file called `.env.sample` is provided for you to copy
 
-If running in an Azure Web App, all of these values can be injected as application settings in Azure.
+If running in an Azure Web App or Azure Container App, all of these values can be injected as application settings in Azure.
 
 | Environmental Variable                | Default | Description                                                                      |
 | ------------------------------------- | ------- | -------------------------------------------------------------------------------- |
@@ -189,7 +194,7 @@ If running in an Azure Web App, all of these values can be injected as applicati
 
 See [deployment folder](./deploy) for deploying into Kubernetes with Helm or into Azure with Bicep and Container Apps.
 
-# Updates
+# 📆 Updates
 
 - Oct 2024 - Major package refresh & compatibility updates
 - Oct 2022 - Update App Insights, track custom events

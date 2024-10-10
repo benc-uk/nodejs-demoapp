@@ -1,5 +1,9 @@
 @baseUrl={{ this.baseUrl ?? 'http://localhost:3000' }}
 
+# ===========================================================================================
+# Weather tests, only run these when the weather feature is enabled
+# ===========================================================================================
+
 ### Weather - Page
 GET {{baseUrl}}/weather
 

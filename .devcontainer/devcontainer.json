@@ -1,18 +1,19 @@
 {
   "name": "Node.js",
-  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:16-bullseye",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:20-bullseye",
 
-  // Set *default* container specific settings.json values on container create.
-  "settings": {},
-
-  // Add the IDs of extensions you want installed when the container is created.
-  "extensions": [
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "mikestead.dotenv",
-    "ms-azuretools.vscode-bicep",
-    "github.vscode-pull-request-github"
-  ],
+  "customizations": {
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-bicep",
+        "github.vscode-pull-request-github"
+      ]
+    }
+  },
 
   // Optional features, uncomment to enable.
   // See https://code.visualstudio.com/docs/remote/containers#_dev-container-features-preview
