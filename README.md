@@ -60,13 +60,15 @@ clean                🧹 Clean up project
 
 Make file variables and default values, pass these in when calling `make`, e.g. `make image IMAGE_REPO=blah/foo`
 
-| Makefile Variable | Default                |
-| ----------------- | ---------------------- |
-| IMAGE_REG         | ghcr<span>.</span>io   |
-| IMAGE_REPO        | benc-uk/nodejs-demoapp |
-| IMAGE_TAG         | latest                 |
-| AZURE_RES_GROUP   | demoapps               |
-| AZURE_REGION      | northeurope            |
+| Makefile Variable | Default                            |
+| ----------------- | ---------------------------------- |
+| IMAGE_REG         | ghcr<span>.</span>io               |
+| IMAGE_REPO        | benc-uk/nodejs-demoapp             |
+| IMAGE_TAG         | latest                             |
+| AZURE_RES_GROUP   | demoapps                           |
+| AZURE_REGION      | northeurope                        |
+| TEST_BASE_URL     | http://<span>localhost</span>:3000 |
+| TEST_FILES        | base-tests.http                    |
 
 The web app will be listening on the standard Express port of 3000, but this can be changed by setting the `PORT` environmental variable.
 
@@ -98,20 +100,11 @@ This project uses a HTTP files located in `src/tests/` that can be used a few di
 
 You can interactively run & send the requests in the `src/tests` file using these extensions, but the main reason to use _httpYac_, is it has a much richer language & the support of assertions which can turn the request files into integration tests too 👌
 
-For example:
-
-```http
-GET http://localhost:8000/info
-
-?? status == 200
-?? body contains Memory
-```
-
 _httpYac_ has a command line tool for running tests and .http files which forms the basis of the `make test` and `make test-report` makefile targets.
 
 ## Running Tests
 
-To run the tests, in one shell session run `make run` and open a second separate shell run `make test`. You can set `TEST_BASE_URL` to point the tests at a different and `TEST_FILES`
+To run the tests, in one shell session run `make run` and open a second separate shell run `make test`. You can set `TEST_BASE_URL` to point the tests at a different URL, host or port, and set `TEST_FILES` to a glob that matches the files you want to run from the src/tests/ directory.
 
 # 🎂 Optional Features
 
