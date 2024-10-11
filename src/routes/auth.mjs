@@ -123,14 +123,16 @@ router.get(`/${AUTH_CALLBACK_PATH}`, async (req, res) => {
     }
 
     // Track user login as an App Insights custom event
-    appInsights.defaultClient.trackEvent({
-      name: 'userLogin',
-      properties: {
-        user: tokenResponse.account.username,
-        tenantId: tokenResponse.account.tenantId,
-        userId: tokenResponse.uniqueId,
-      },
-    })
+    if (appInsights && appInsights.defaultClient) {
+      appInsights.defaultClient.trackEvent({
+        name: 'userLogin',
+        properties: {
+          user: tokenResponse.account.username,
+          tenantId: tokenResponse.account.tenantId,
+          userId: tokenResponse.uniqueId,
+        },
+      })
+    }
 
     res.redirect('/account')
   } catch (err) {

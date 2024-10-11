@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/benc-uk/nodejs-demoapp
-  tag: dev
+  tag: latest
   pullPolicy: Always
 
 replicaCount: 3
