@@ -10,13 +10,12 @@
         "esbenp.prettier-vscode",
         "mikestead.dotenv",
         "ms-azuretools.vscode-bicep",
-        "github.vscode-pull-request-github"
+        "github.vscode-pull-request-github",
+        "anweber.vscode-httpyac"
       ]
     }
   },
 
-  // Optional features, uncomment to enable.
-  // See https://code.visualstudio.com/docs/remote/containers#_dev-container-features-preview
   "features": {
     "azure-cli": "latest"
   },
