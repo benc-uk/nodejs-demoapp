@@ -52,7 +52,7 @@ const sessionConfig = {
 
 // Very optional Redis session store - only really needed when running multiple instances
 if (process.env.REDIS_SESSION_HOST) {
-  const redisClient = createRedisClient({ legacyMode: true, url: `redis://${process.env.REDIS_SESSION_HOST}` })
+  const redisClient = createRedisClient({ url: `redis://${process.env.REDIS_SESSION_HOST}` })
 
   redisClient.connect().catch((err) => {
     console.error('### 🚨 Redis session store error:', err.message)
