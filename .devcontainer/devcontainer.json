@@ -1,6 +1,8 @@
 {
   "name": "Node.js",
-  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:20-bullseye",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
   "customizations": {
     "vscode": {
@@ -9,15 +11,10 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "mikestead.dotenv",
-        "ms-azuretools.vscode-bicep",
         "github.vscode-pull-request-github",
         "anweber.vscode-httpyac"
       ]
     }
-  },
-
-  "features": {
-    "azure-cli": "latest"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
