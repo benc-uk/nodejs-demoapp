@@ -2,7 +2,7 @@ resource "aws_lb_target_group" "demo_tg" {
   name     = "demo-tg"
   port     = 3000
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.default.id
+  vpc_id   = aws_vpc.demo-vpc.id
 
   health_check {
     path                = "/"
@@ -19,7 +19,7 @@ resource "aws_lb" "demo_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.demo_alb_sg.id]
-  subnets            = data.aws_subnets.default.ids
+  subnets            = aws_subnet.demo-public-subnet[*].id
 }
 
 resource "aws_lb_listener" "demo_listener" {

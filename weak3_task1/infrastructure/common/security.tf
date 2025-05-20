@@ -1,6 +1,6 @@
 resource "aws_security_group" "demo_alb_sg" {
   name   = "demo_alb_sg"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = aws_vpc.demo-vpc.id
 
   ingress {
     from_port = 80
@@ -19,7 +19,7 @@ resource "aws_security_group" "demo_alb_sg" {
 
 resource "aws_security_group" "demo_ec2_sg" {
   name   = "demo_ec2_sg"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = aws_vpc.demo-vpc.id
 
   ingress {
     from_port = 3000
