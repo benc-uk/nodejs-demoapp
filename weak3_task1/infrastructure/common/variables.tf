@@ -1,3 +1,8 @@
+variable "region" {
+  type    = string
+  default = "eu-north-1"
+}
+
 variable "desired_capacity_alb" {
   type = number
 }
