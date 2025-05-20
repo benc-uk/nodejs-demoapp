@@ -1,8 +1,8 @@
 region = "eu-north-1"
 
-desired_capacity_alb = 2
+desired_capacity_alb = 1
 min_capacity_alb     = 1
-max_capacity_alb     = 3
+max_capacity_alb     = 2
 
 threshold_cloudwatch = 60
 
