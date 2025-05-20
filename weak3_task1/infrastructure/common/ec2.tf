@@ -1,7 +1,7 @@
 resource "aws_launch_template" "demo_lt" {
   name_prefix   = "demo-lt-"
-  image_id      = "ami-0c1ac8a41498c1a9c"
-  instance_type = "t3.micro"
+  image_id      = var.ec2_ami_id
+  instance_type = var.ec2_instance_type
 
   user_data = base64encode(file("../../user_data/user-data.sh"))
 
