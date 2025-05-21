@@ -36,11 +36,16 @@ variable "demo_public_subnet_cidr_blocks" {
 }
 
 variable "ec2_ami_id" {
-  type = string
+  type    = string
   default = "ami-0c1ac8a41498c1a9c"
 }
 
 variable "ec2_instance_type" {
-  type = string
+  type    = string
   default = "t3.micro"
+}
+
+variable "alert_email" {
+  description = "Pull of emails for scaling up alarms"
+  type = list(string)
 }
