@@ -31,9 +31,9 @@
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "express-prometheus-middleware": "^1.2.0",
-    "express-session": "^1.18.0",
+    "express-session": "^1.18.2",
     "mongodb": "^6.9.0",
-    "morgan": "^1.10.0",
+    "morgan": "^1.10.1",
     "redis": "^4.7.0"
   },
   "devDependencies": {
