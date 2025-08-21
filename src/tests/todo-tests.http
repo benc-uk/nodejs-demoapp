@@ -1,7 +1,7 @@
 @baseUrl={{ this.baseUrl ?? 'http://localhost:3000' }}
 
 # ===========================================================================================
-# Todo tests, only run these when the TODO feature is enabled
+# Todo API tests, only run these when the TODO feature is enabled
 # ===========================================================================================
 
 ### Todo API - Add a todo
