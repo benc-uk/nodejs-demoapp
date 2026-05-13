@@ -1,0 +1,72 @@
+name: Nuclei - Vulnerability Scan
+
+on:
+  # schedule:
+  #   - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  security-events: write
+  contents: read
+  actions: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  nuclei-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nuclei - Vulnerability Scan
+        id: nuclei_scan
+        uses: projectdiscovery/nuclei-action@v3
+        with:
+          version: latest
+          args: >-
+            -u https://jubilant-engine-9r6r4qqjppqcr-3000.app.github.dev/
+            -severity critical,high,medium
+            -se nuclei.sarif
+
+      # Garante que o arquivo SARIF sempre exista (Nuclei não cria se não há findings)
+      - name: Ensure SARIF file exists
+        if: always()
+        run: |
+          if [ ! -f nuclei.sarif ]; then
+            echo "Nenhuma vulnerabilidade encontrada. Criando SARIF vazio..."
+            cat > nuclei.sarif << 'EOF'
+          {
+            "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+            "version": "2.1.0",
+            "runs": [
+              {
+                "tool": {
+                  "driver": {
+                    "name": "Nuclei",
+                    "version": "latest",
+                    "rules": []
+                  }
+                },
+                "results": []
+              }
+            ]
+          }
+          EOF
+          fi
+
+      - name: Upload nuclei SARIF artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nuclei-sarif
+          path: nuclei.sarif
+
+      - name: GitHub Security Dashboard Alerts update
+        uses: github/codeql-action/upload-sarif@v4
+        if: always()
+        with:
+          sarif_file: nuclei.sarif
+          category: nuclei-results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

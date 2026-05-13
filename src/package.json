@@ -34,7 +34,8 @@
     "express-session": "^1.18.0",
     "mongodb": "^6.9.0",
     "morgan": "^1.10.0",
-    "redis": "^4.7.0"
+    "redis": "^4.7.0",
+    "express-rate-limit": "^8.5.1"
   },
   "devDependencies": {
     "eslint": "^9.12.0",
